@@ -1,0 +1,36 @@
+{
+  "mobileRoutes": [
+    {
+      "key": "inicio",
+      "path": "/",
+      "title": "Inicio"
+    },
+    {
+      "key": "blog",
+      "path": "/blog",
+      "title": "Blog"
+    },
+    {
+      "key": "project",
+      "path": "/project",
+      "title": "Proyectos"
+    },
+    {
+      "key": "login",
+      "path": "/auth/login",
+      "title": "Login"
+    }
+  ],
+  "routes": [
+    {
+      "key": "blog",
+      "path": "/blog",
+      "title": "Blog"
+    },
+    {
+      "key": "project",
+      "path": "/project",
+      "title": "Proyectos"
+    }
+  ]
+}

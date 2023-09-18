@@ -1,0 +1,62 @@
+fragment ProjectFields on Project {
+  id
+  slug
+  title
+  abstract
+  gitHub
+  webSide
+  pictures {
+    id
+    url
+  }
+  skills {
+    id
+    name
+    icon
+  }
+}
+
+query projectBySlug($slug: String!, $stage: Stage!) {
+  project(where: { slug: $slug }, stage: $stage) {
+    ...ProjectFields
+    detail
+  }
+}
+
+query ProjectsSlug {
+  projects(first: 1000) {
+    slug
+  }
+}
+
+query searchProjects(
+  $search: String!
+  $first: Int!
+  $skip: Int!
+  $stage: Stage!
+) {
+  projectsConnection(
+    where: {
+      OR: [
+        { title_contains: $search }
+        { abstract_contains: $search }
+        { detail_contains: $search }
+      ]
+    }
+    orderBy: publishedAt_DESC
+    first: $first
+    skip: $skip
+    stage: $stage
+  ) {
+    edges {
+      node {
+        ...ProjectFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      pageSize
+    }
+  }
+}

@@ -1,0 +1,84 @@
+---
+title: "Cómo configurar eslint con prittier evitando conflictos"
+description: "En este articulo vamos a ver como configurar eslint y prettier en un proyecto de nodejs y evitar conflictos entre ellos."
+banner: "https://media.graphassets.com/zP4gagmrRP6qDKpur7rg"
+date: "2023-08-14"
+tags: ["eslint", "prettier", "nodejs", "javascript", "typescript"]
+categories: ["otros"]
+author:
+  name: "Carlos Castillo Blas"
+  username: "carloscb8080@gmail.com"
+  link: "https://carloscb.com"
+  avatar: "https://media.graphassets.com/otnVAQkeTcGeiio3rUxx"
+---
+
+### 1. Configurar eslint
+
+1. Instalar eslint y configurar de la siguiente manera:
+
+```bash
+npm init @eslint/config
+```
+
+2.  Nos hara una serie de preguntas, las cuales tenemos que responder.
+
+3.  Una vez terminado, nos creara un archivo `.eslintrc.json` en la raiz del proyecto.
+
+4.  En parserOption del `.eslintrc.json` agregamos la siguiente linea:
+
+```json
+"parserOptions": {
+    "project": "./tsconfig.json"
+  },
+```
+
+4.  Creamos el script en el `package.json` para ejecutar eslint:
+
+```json
+"scripts": {
+    "lint": "eslint src/**/*.{ts,js}"
+  },
+```
+
+### 2. Configurar prettier
+
+1.  Instalar prettier y configurar de la siguiente manera:
+
+```bash
+npm install -D prettier
+```
+
+2.  Creamos el script en el `package.json` para ejecutar prettier:
+
+```json
+"scripts": {
+    "format": "prettier --write src/**/*.{ts,js}"
+  },
+
+```
+
+3. Creamos el archivo `.prettierrc` en la raiz del proyecto.
+
+4. Agregamos el siguiente contenido al archivo `.prettierrc`:
+
+```json
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 120
+}
+```
+
+### 3. Corregir conflictos entre eslint y prettier
+
+1.  Instalar las siguientes dependencias:
+
+```bash
+npm install -D eslint-config-prettier
+```
+
+2.  Agregar la siguiente linea en el archivo `.eslintrc.json`:
+
+```json
+"extends": [..., "eslint-config-prettier"],
+```

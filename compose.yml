@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ${NODE_ENV}
+    image: ${FRONT_IMAGE}
+    depends_on:
+      - backend
+    ports:
+      - ${FRONT_PORT}:${FRONT_PORT}
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /backend
+    environment:
+      - TZ=GMT-5
+    env_file:
+      - .env.front
+      - .env
+    networks:
+      - cb-net
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: ${NODE_ENV}
+    image: ${BACK_IMAGE}
+    hostname: ${BACK_HOST}
+    ports:
+      - ${BACK_PORT}:${BACK_PORT}
+    volumes:
+      - ./backend:/app
+    environment:
+      - TZ=GMT-5
+      - GIN_MODE=release
+    env_file:
+      - .env.back
+      - .env
+    networks:
+      - cb-net
+
+networks:
+  cb-net:
+    driver: bridge

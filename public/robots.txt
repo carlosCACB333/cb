@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://carloscb.com
+
+# Sitemaps
+Sitemap: https://carloscb.com/sitemap.xml

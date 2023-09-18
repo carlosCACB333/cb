@@ -1,0 +1,48 @@
+query getCertifications($first: Int!, $skip: Int!, $stage: Stage!) {
+  certifications(
+    orderBy: priority_DESC
+    first: $first
+    skip: $skip
+    stage: $stage
+  ) {
+    id
+    name
+    picture {
+      url
+    }
+  }
+}
+
+query searchCertifications(
+  $search: String!
+  $first: Int!
+  $skip: Int!
+  $stage: Stage!
+) {
+  certificationsConnection(
+    orderBy: priority_DESC
+    first: $first
+    skip: $skip
+    stage: $stage
+    where: { name_contains: $search }
+  ) {
+    edges {
+      node {
+        id
+        name
+        picture {
+          url
+        }
+      }
+      cursor
+    }
+
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+      pageSize
+    }
+  }
+}

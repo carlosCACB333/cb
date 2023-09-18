@@ -1,0 +1,89 @@
+fragment ProjectFields on Project {
+  id
+  slug
+  title
+  abstract
+  gitHub
+  webSide
+  pictures {
+    id
+    url
+  }
+  skills {
+    id
+    name
+    icon
+  }
+}
+
+fragment AuthorField on Author {
+  id
+  bio
+  birth
+  email
+  firstName
+  lastName
+  phone
+  profession
+  university
+  cycle
+  detail
+  facebook
+  linkedin
+  github
+  keywords
+  address
+  cv {
+    url
+  }
+  photos {
+    url
+  }
+}
+
+query getHomeData($locales: [Locale!]!, $stage: Stage!) {
+  categories(locales: $locales, stage: $stage) {
+    icon
+    id
+    name
+    detail
+    skills(locales: $locales, first: 1000) {
+      ... on Skill {
+        id
+        name
+        detail
+        icon
+        updatedAt
+      }
+    }
+  }
+  projects(orderBy: priority_DESC, first: 6, stage: $stage) {
+    ...ProjectFields
+  }
+
+  certifications(orderBy: priority_DESC, first: 6, stage: $stage) {
+    id
+    name
+    picture {
+      url
+    }
+  }
+
+  certificationsConnection(stage: $stage) {
+    aggregate {
+      count
+    }
+  }
+
+  projectsConnection(stage: $stage) {
+    aggregate {
+      count
+    }
+  }
+
+  postsConnection(stage: $stage) {
+    aggregate {
+      count
+    }
+  }
+}

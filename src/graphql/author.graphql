@@ -1,0 +1,30 @@
+fragment AuthorField on Author {
+  id
+  bio
+  birth
+  email
+  firstName
+  lastName
+  phone
+  profession
+  university
+  cycle
+  detail
+  facebook
+  linkedin
+  github
+  keywords
+  address
+  cv {
+    url
+  }
+  photos {
+    url
+  }
+}
+
+query getAuthor($email: String!, $locales: [Locale!]!, $stage: Stage!) {
+  author(where: { email: $email }, locales: $locales, stage: $stage) {
+    ...AuthorField
+  }
+}

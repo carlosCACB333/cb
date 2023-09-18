@@ -1,0 +1,15 @@
+query getSearchMeta {
+  projects(first: 1000) {
+    id
+    slug
+    title
+    abstract
+  }
+
+  posts(first: 1000) {
+    id
+    title
+    slug
+    summary
+  }
+}

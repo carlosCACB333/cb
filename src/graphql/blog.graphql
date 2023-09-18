@@ -1,0 +1,100 @@
+fragment PostsField on Post {
+  id
+  title
+  priority
+  slug
+  summary
+  tags {
+    id
+    icon
+    name
+  }
+  categories {
+    id
+    name
+    icon
+  }
+  updatedAt
+  banner {
+    url
+  }
+
+  createdBy {
+    id
+    name
+    picture
+  }
+
+  content
+}
+
+fragment CategoryField on Category {
+  id
+  slug
+  name
+  icon
+  img {
+    url
+  }
+
+  posts {
+    id
+  }
+}
+
+query blogsLayout($stage: Stage!) {
+  firstPosts: posts(orderBy: updatedAt_DESC, first: 4, stage: $stage) {
+    ...PostsField
+  }
+
+  categories {
+    ...CategoryField
+  }
+
+  skills {
+    id
+    name
+  }
+}
+query blogsPage($stage: Stage!) {
+  firstPosts: posts(orderBy: updatedAt_DESC, first: 5, stage: $stage) {
+    ...PostsField
+  }
+
+  categories {
+    ...CategoryField
+  }
+}
+
+query postsSlug {
+  posts(first: 1000) {
+    slug
+  }
+}
+
+query postBySlug($slug: String!, $stage: Stage!) {
+  post(where: { slug: $slug }, stage: $stage) {
+    ...PostsField
+  }
+}
+
+query searchPosts($search: String!, $first: Int!, $skip: Int!, $stage: Stage!) {
+  postsConnection(
+    orderBy: priority_DESC
+    first: $first
+    skip: $skip
+    stage: $stage
+    where: { _search: $search }
+  ) {
+    edges {
+      node {
+        ...PostsField
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      pageSize
+    }
+  }
+}
