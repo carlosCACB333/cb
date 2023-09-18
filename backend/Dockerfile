@@ -16,6 +16,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
 FROM alpine:3.18.3 as production
 RUN apk --no-cache add ca-certificates
+ENV GIN_MODE=release
 WORKDIR /root/
 COPY --from=builder /app/main .
 COPY --from=builder /app/public ./public

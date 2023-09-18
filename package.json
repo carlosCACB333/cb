@@ -41,7 +41,7 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "5.0.0",
+    "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/introspection": "4.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-graphql-request": "^5.0.0",
@@ -74,7 +74,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "codegen": "graphql-codegen -r dotenv/config --config codegen.ts ",
+    "codegen": "env-cmd -f .env.front graphql-codegen -r dotenv/config --config codegen.ts ",
     "dev": "env-cmd -f .env.front next dev",
     "lint": "next lint",
     "postbuild": "next-sitemap",
