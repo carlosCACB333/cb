@@ -149,7 +149,13 @@ export const Navbar: FC<NavbarProps> = ({
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="flex h-full items-center sm:hidden">
-          <Button size="sm" isIconOnly className="bg-transparent">
+          <Button
+            size="sm"
+            isIconOnly
+            className="bg-transparent"
+            aria-label="Buscar"
+            onPress={() => cmdkStore.onOpen()}
+          >
             <AiOutlineSearch className="mt-px text-foreground" size={20} />
           </Button>
         </NavbarItem>

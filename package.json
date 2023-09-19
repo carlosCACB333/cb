@@ -75,7 +75,7 @@
   "scripts": {
     "build": "next build",
     "codegen": "env-cmd -f .env.front graphql-codegen -r dotenv/config --config codegen.ts ",
-    "dev": "env-cmd -f .env.front next dev",
+    "dev": "next dev",
     "lint": "next lint",
     "postbuild": "next-sitemap",
     "start": "next start"

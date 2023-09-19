@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import { SearchResultItem } from "@/interfaces";
 import { getSdk } from "@/utils/sdk";
 import { execSync } from "child_process";
 import { revalidatePath } from "next/cache";
-import { formatDate } from "@/utils";
+import { env, formatDate } from "@/utils";
 
 const defaultSearchResult: SearchResultItem[] = [
   {
@@ -36,9 +36,17 @@ const defaultSearchResult: SearchResultItem[] = [
   },
 ];
 
-export async function POST() {
-  const { posts, projects } = await getSdk().getSearchMeta({});
+export async function POST(req: NextRequest) {
+  const apiKey = req.headers.get("x-api-key");
+  if (apiKey != env.apiKey) {
+    // 401 Unauthorized
+    return NextResponse.json({
+      ok: false,
+      error: "Unauthorized",
+    }, { status: 401 });
+  }
 
+  const { posts, projects } = await getSdk().getSearchMeta({});
   //   Rebuild search.json
   const searchResult: SearchResultItem[] = [...defaultSearchResult];
   posts.forEach((post) => {

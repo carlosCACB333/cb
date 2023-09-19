@@ -1,7 +1,7 @@
 FROM node:18-alpine as development
 WORKDIR /app
-COPY package.json  ./
-RUN yarn install
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 COPY . .
 RUN yarn codegen
 CMD ["yarn", "dev"]
