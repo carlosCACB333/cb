@@ -21,6 +21,8 @@ jobs:
         id: version
         with:
           tag_prefix: "v"
+          bump_each_commit: true
+          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
 
       - name: Create env file with secrets
         run: |

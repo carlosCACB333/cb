@@ -17,8 +17,18 @@
     },
     {
       "key": "login",
-      "path": "/auth/login",
-      "title": "Login"
+      "path": "/auth/sign-in/",
+      "title": "Iniciar sesión"
+    },
+    {
+      "key": "register",
+      "path": "/auth/sign-up/",
+      "title": "Registrarse"
+    },
+    {
+      "key": "profile",
+      "path": "/me/",
+      "title": "Mi perfil"
     }
   ],
   "routes": [
