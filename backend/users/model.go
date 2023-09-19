@@ -4,7 +4,7 @@ import "cb/common"
 
 type User struct {
 	common.Model
-	Username      string `json:"username" gorm:"unique" validate:"required"`
+	Username      string `json:"username" gorm:"" validate:"required"`
 	FirstName     string `json:"firstName" gorm:"" validate:"required"`
 	LastName      string `json:"lastName" gorm:"" validate:"required"`
 	Email         string `json:"email" gorm:"not null;unique" validate:"required,email"`

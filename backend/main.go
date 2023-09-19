@@ -12,6 +12,7 @@ func main() {
 	if os.Getenv("GIN_MODE") == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
+		fmt.Println("Init migrations")
 		InitMigrations()
 		gin.SetMode(gin.DebugMode)
 	}

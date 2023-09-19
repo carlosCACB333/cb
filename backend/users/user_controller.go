@@ -42,7 +42,6 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	// create user
 	if err := libs.DBInit().Create(&user).Error; err != nil {
 		c.JSON(400, utils.Response(
 			"error", "Unable to create user",
