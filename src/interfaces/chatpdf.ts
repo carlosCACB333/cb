@@ -13,7 +13,7 @@ export interface Chatpdf {
 }
 
 export interface User {
-    id: number;
+    id: string;
     username: string | null;
     createdAt: string;
     updatedAt: string;
@@ -24,6 +24,5 @@ export interface User {
     password: string;
     photo: string;
     phone: string;
-    socialAccount: string;
     Status: "active" | "inactive";
 }

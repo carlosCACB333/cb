@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"cb/libs"
-	"cb/users"
 	"cb/utils"
+	"fmt"
 
 	"os"
 	"strings"
@@ -30,8 +30,12 @@ func ApiKeyMiddleware() gin.HandlerFunc {
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := strings.Replace(c.Request.Header.Get("Authorization"), "Bearer ", "", -1)
-		uid, err := libs.ValidateToken(token)
+		sessionToken := c.Request.Header.Get("Authorization")
+		sessionToken = strings.TrimPrefix(sessionToken, "Bearer ")
+		fmt.Println(sessionToken)
+		client := libs.ClerkClient()
+		sessClaims, err := client.VerifyToken(sessionToken)
+
 		if err != nil {
 			c.JSON(401, utils.Response(
 				"error",
@@ -42,9 +46,8 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
-		var user users.User
-		if err := libs.DBInit().Where("id = ?", uid).First(&user).Error; err != nil {
+		ClerkUser, err := client.Users().Read(sessClaims.Claims.Subject)
+		if err != nil {
 			c.JSON(401, utils.Response(
 				"error",
 				"Unauthorized",
@@ -54,8 +57,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
-		c.Set("user", user)
+		c.Set("user", ClerkUser)
 		c.Next()
 
 	}

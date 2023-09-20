@@ -1,18 +1,18 @@
 package chatpdf
 
 import (
+	"cb/common"
 	"cb/libs"
-	"cb/users"
 
 	"cb/utils"
-	"context"
 	"fmt"
 	"io"
 	"os"
 	"time"
 
+	"github.com/clerkinc/clerk-sdk-go/clerk"
 	"github.com/gin-gonic/gin"
-	"github.com/sashabaranov/go-openai"
+	"github.com/google/uuid"
 )
 
 func getUrl() string {
@@ -54,8 +54,10 @@ func CreateChatdf(c *gin.Context) {
 
 		return
 	}
-	user := c.MustGet("user").(users.User)
+	user := c.MustGet("user").(*clerk.User)
+	fmt.Println(user)
 	chat := Chatpdf{
+		Model:  common.Model{ID: uuid.New().String()},
 		Name:   fileName,
 		Key:    fileKey,
 		UserID: user.ID,
@@ -79,8 +81,9 @@ func CreateChatdf(c *gin.Context) {
 }
 
 func GetChatpdfs(c *gin.Context) {
+	user := c.MustGet("user").(*clerk.User)
 	var chats []Chatpdf
-	res := libs.DBInit().Preload("User").Find(&chats)
+	res := libs.DBInit().Preload("User").Where("user_id = ?", user.ID).Find(&chats)
 	if res.Error != nil {
 		c.JSON(400, utils.Response(
 			"error", "Unable to fetch chats",
@@ -98,28 +101,6 @@ func GetChatpdfs(c *gin.Context) {
 }
 
 func GetChatpdf(c *gin.Context) {
-	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
-	resp, err := client.CreateChatCompletion(
-		context.Background(),
-		openai.ChatCompletionRequest{
-			Model: openai.GPT3Dot5Turbo,
-			Messages: []openai.ChatCompletionMessage{
-				{
-					Role:    openai.ChatMessageRoleUser,
-					Content: "Hello!",
-				},
-			},
-		},
-	)
-
-	if err != nil {
-		fmt.Printf("ChatCompletion error: %v\n", err)
-		return
-	}
-
-	fmt.Println(resp.Choices[0].Message.Content)
-}
-func GetChatpdf3(c *gin.Context) {
 	id := c.Param("id")
 	var chat Chatpdf
 	res := libs.DBInit().Preload("User").Where("id = ?", id).First(&chat)
@@ -150,7 +131,7 @@ func GetChatpdf3(c *gin.Context) {
 		))
 		return
 	}
-	utils.ProcessDocPage(doc[0])
+	fmt.Println(doc)
 
 	c.JSON(200, utils.Response(
 		"success", "Chat fetched successfully",

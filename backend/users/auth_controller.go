@@ -4,6 +4,7 @@ import (
 	"cb/libs"
 	"cb/utils"
 
+	"github.com/clerkinc/clerk-sdk-go/clerk"
 	"github.com/gin-gonic/gin"
 )
 
@@ -100,7 +101,7 @@ func AuthLogin(c *gin.Context) {
 }
 
 func ChangePassword(c *gin.Context) {
-	user := c.MustGet("user").(User)
+	clearkUser := c.MustGet("user").(*clerk.User)
 	var reset ChangePasswordDTO
 	c.BindJSON(&reset)
 
@@ -117,6 +118,15 @@ func ChangePassword(c *gin.Context) {
 	if reset.NewPassword != reset.ConfirmPassword {
 		c.JSON(400, utils.Response(
 			"error", "Passwords do not match",
+			nil,
+			nil,
+		))
+		return
+	}
+	var user User
+	if err := libs.DBInit().Where("id = ?", clearkUser.ID).First(&user).Error; err != nil {
+		c.JSON(400, utils.Response(
+			"error", "Unable to fetch user",
 			nil,
 			nil,
 		))
@@ -151,13 +161,4 @@ func ChangePassword(c *gin.Context) {
 		nil,
 	))
 
-}
-
-func ClerkSync(c *gin.Context) {
-
-	c.JSON(200, utils.Response(
-		"success", "Sync successful",
-		nil,
-		nil,
-	))
 }

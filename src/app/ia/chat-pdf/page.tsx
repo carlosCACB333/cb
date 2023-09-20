@@ -1,10 +1,12 @@
 import { DropFile } from "@/components/chatpdf/drop-file";
 import { getAllChatpdf } from "@/services";
 import { formatDate, subtitle } from "@/utils";
+import { auth } from "@clerk/nextjs";
+import { headers } from "next/headers";
 
 export default async function IAPage() {
   const data = await getAllChatpdf();
-  console.log(data);
+
   return (
     <main className="flex h-full">
       <aside className="w-xs bg-content1 rounded-lg p-4">
@@ -12,7 +14,7 @@ export default async function IAPage() {
         <DropFile />
         <br />
         <div className="flex flex-col gap-2">
-          {data.data.map((d) => (
+          {data?.data?.map((d) => (
             <div
               key={d.id}
               className="bg-background rounded-lg p-4 shadow-lg hover:opacity-80 cursor-pointer"

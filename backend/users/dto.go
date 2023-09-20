@@ -12,12 +12,12 @@ type ChangePasswordDTO struct {
 }
 
 type SyncUserDTO struct {
-	Username      string `json:"username"`
-	FirstName     string `json:"firstName"`
-	LastName      string `json:"lastName"`
-	Email         string `json:"email"`
-	Gender        string `json:"gender"`
-	Photo         string `json:"photo"`
-	Phone         string `json:"phone"`
-	SocialAccount string `json:"socialAccount"`
+	Username  string `json:"username"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Email     string `json:"email"`
+	Gender    string `json:"gender"`
+	Photo     string `json:"photo"`
+	Phone     string `json:"phone"`
+	ID        string `json:"id"`
 }

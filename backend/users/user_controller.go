@@ -1,6 +1,7 @@
 package users
 
 import (
+	"cb/common"
 	"cb/libs"
 	"cb/utils"
 
@@ -12,13 +13,13 @@ func CreateUser(c *gin.Context) {
 	c.BindJSON(&userData)
 
 	user := User{
-		Email:         utils.NormalizeEmail(userData.Email),
-		FirstName:     userData.FirstName,
-		LastName:      userData.LastName,
-		Photo:         userData.Photo,
-		Phone:         userData.Phone,
-		SocialAccount: userData.SocialAccount,
-		Status:        "active",
+		Model:     common.Model{ID: userData.ID},
+		Email:     utils.NormalizeEmail(userData.Email),
+		FirstName: userData.FirstName,
+		LastName:  userData.LastName,
+		Photo:     userData.Photo,
+		Phone:     userData.Phone,
+		Status:    "active",
 	}
 
 	// find user
@@ -64,18 +65,18 @@ func UpdateUser(c *gin.Context) {
 	c.BindJSON(&userData)
 
 	newUser := User{
-		Email:         utils.NormalizeEmail(userData.Email),
-		FirstName:     userData.FirstName,
-		LastName:      userData.LastName,
-		Photo:         userData.Photo,
-		Phone:         userData.Phone,
-		SocialAccount: userData.SocialAccount,
-		Status:        "active",
+		Model:     common.Model{ID: userData.ID},
+		Email:     utils.NormalizeEmail(userData.Email),
+		FirstName: userData.FirstName,
+		LastName:  userData.LastName,
+		Photo:     userData.Photo,
+		Phone:     userData.Phone,
+		Status:    "active",
 	}
 
 	// get user
 	var user User
-	if err := libs.DBInit().Where("social_account = ?", newUser.SocialAccount).First(&user).Error; err != nil {
+	if err := libs.DBInit().Where("id = ?", newUser.ID).First(&user).Error; err != nil {
 		c.JSON(400, utils.Response(
 			"error", "Unable to get user",
 			nil,
@@ -103,11 +104,11 @@ func UpdateUser(c *gin.Context) {
 }
 
 func DeleUser(c *gin.Context) {
-	social_account := c.Param("social_account")
+	id := c.Param("id")
 
 	// get user
 	var user User
-	if err := libs.DBInit().Where("social_account = ?", social_account).First(&user).Error; err != nil {
+	if err := libs.DBInit().Where("id = ?", id).First(&user).Error; err != nil {
 		c.JSON(400, utils.Response(
 			"error", "Unable to get user",
 			nil,

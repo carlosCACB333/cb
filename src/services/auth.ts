@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 
 export const createUser = async (user: Partial<User>): Promise<Response<User>> => {
 
-    return axBack.post<Response<User>>("/user", user).then((res) => {
+    return (await axBack()).post<Response<User>>("/user", user).then((res) => {
         const data = res.data;
         return data
     }
@@ -23,7 +23,7 @@ export const createUser = async (user: Partial<User>): Promise<Response<User>> =
 
 export const updateUser = async (user: Partial<User>): Promise<Response<User>> => {
 
-    return axBack.put<Response<User>>("/user", user).then((res) => {
+    return (await axBack()).put<Response<User>>("/user", user).then((res) => {
         const data = res.data;
         return data
     }
@@ -41,9 +41,9 @@ export const updateUser = async (user: Partial<User>): Promise<Response<User>> =
 }
 
 
-export const deleteUser = async (social_account: string): Promise<Response<User>> => {
+export const deleteUser = async (id: string): Promise<Response<User>> => {
 
-    return axBack.delete<Response<User>>("/user/" + social_account).then((res) => {
+    return (await axBack()).delete<Response<User>>("/user/" + id).then((res) => {
         const data = res.data;
         return data
     }

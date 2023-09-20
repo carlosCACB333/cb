@@ -59,7 +59,7 @@ export async function POST(req: Request) {
             lastName: evt.data.last_name,
             phone: evt.data.phone_numbers[0]?.phone_number,
             photo: evt.data.image_url,
-            socialAccount: evt.data.id,
+            id: evt.data.id,
             username: evt.data.username,
             gender: evt.data.gender
 
@@ -72,7 +72,7 @@ export async function POST(req: Request) {
             lastName: evt.data.last_name,
             phone: evt.data.phone_numbers[0]?.phone_number,
             photo: evt.data.image_url,
-            socialAccount: evt.data.id,
+            id: evt.data.id,
             username: evt.data.username,
             gender: evt.data.gender
         })

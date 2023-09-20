@@ -22,6 +22,7 @@ func SetupRouter() *gin.Engine {
 		AllowMethods: []string{"PUT", "PATCH", "POST", "GET", "DELETE"},
 		AllowHeaders: []string{"Origin", "Content-Type", "Authorization", "x-api-key"},
 	}))
+
 	r.Use(middleware.ApiKeyMiddleware())
 	{
 		v1 := r.Group("/api/v1")
@@ -32,9 +33,9 @@ func SetupRouter() *gin.Engine {
 		}
 
 		{
-			//PROTECTED ROUTES
-			v1.Use(middleware.AuthMiddleware())
+			//PRIVATE ROUTES
 			chatpdf.ChatPdfRoutes(v1.Group("/chatpdf"))
+			v1.Use(middleware.AuthMiddleware())
 		}
 	}
 

@@ -1,14 +1,11 @@
-
+'use server'
 import { Chatpdf, Response } from "@/interfaces";
-import { axBack, axFront } from "@/utils";
+import { axBack } from "@/utils";
 import { AxiosError } from "axios";
 
-export const saveChatpdf = async (file: File): Promise<Response<Chatpdf>> => {
+export const saveChatpdf = async (formData: FormData): Promise<Response<Chatpdf>> => {
 
-    const formData = new FormData();
-    formData.append("file", file);
-
-    return axFront.post<Response<Chatpdf>>("/chatpdf", formData).then((res) => {
+    return (await axBack()).post<Response<Chatpdf>>("/chatpdf", formData).then((res) => {
         const data = res.data;
         return data
     }
@@ -27,7 +24,8 @@ export const saveChatpdf = async (file: File): Promise<Response<Chatpdf>> => {
 
 
 export const getAllChatpdf = async (): Promise<Response<Chatpdf[]>> => {
-    return axBack.get<Response<Chatpdf[]>>("/chatpdf").then((res) => {
+
+    return (await axBack()).get<Response<Chatpdf[]>>("/chatpdf").then((res) => {
         const data = res.data;
         return data
     }

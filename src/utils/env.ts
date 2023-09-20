@@ -23,7 +23,8 @@ export const env = {
   apiKey: process.env.API_KEY || "",
   back: {
     publicUrl: process.env.NEXT_PUBLIC_BACK_URL || "",
-    privateUrl: `http://${process.env.BACK_HOST}:${process.env.BACK_PORT}/api/v1`
+    privateUrl: process.env.BACK_URL!,
+    apiKey: process.env.BACK_API_KEY!,
   },
   ckerk: {
     webHookSecret: process.env.WEBHOOK_SECRET!

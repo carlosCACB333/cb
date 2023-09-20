@@ -8,7 +8,9 @@ export const DropFile = () => {
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (!file) return;
-    const res = await saveChatpdf(file);
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await saveChatpdf(formData);
     console.log(res);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

@@ -13,7 +13,7 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
 		fmt.Println("Init migrations")
-		InitMigrations()
+		// InitMigrations()
 		gin.SetMode(gin.DebugMode)
 	}
 	r := SetupRouter()

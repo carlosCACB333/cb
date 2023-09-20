@@ -2,12 +2,16 @@ package utils
 
 import (
 	"context"
+	"fmt"
+
 	"io"
 	"os"
 	"time"
 
 	"github.com/tmc/langchaingo/documentloaders"
+	"github.com/tmc/langchaingo/embeddings"
 	"github.com/tmc/langchaingo/schema"
+	"github.com/tmc/langchaingo/textsplitter"
 )
 
 func GetContentPDF(s3File io.ReadCloser) ([]schema.Document, error) {
@@ -33,9 +37,17 @@ func GetContentPDF(s3File io.ReadCloser) ([]schema.Document, error) {
 	stats, _ := file.Stat()
 	pdf := documentloaders.NewPDF(file, stats.Size())
 
-	doc, err := pdf.Load(context.TODO())
+	doc, err := pdf.LoadAndSplit(context.TODO(), textsplitter.RecursiveCharacter{
+		Separators: []string{"\n\n", "\n", " ", ""},
+		ChunkSize:  100,
+	})
 	if err != nil {
 		return nil, err
 	}
 	return doc, nil
+}
+
+func GetEmbddingsPDF(texts []string) {
+	em := embeddings.BatchTexts(texts, 5)
+	fmt.Println(em)
 }
