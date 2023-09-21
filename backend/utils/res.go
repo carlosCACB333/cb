@@ -14,3 +14,7 @@ func Response(status string, message string, data interface{}, others gin.H) gin
 
 	return res
 }
+
+func ResponseMsg(message string) gin.H {
+	return Response("error", message, nil, nil)
+}

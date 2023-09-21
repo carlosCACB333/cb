@@ -1,10 +1,11 @@
 import { sizes } from "@/assets";
+import { title } from "@/components";
 import { IMG } from "@/components/common/IMG";
 import { TableOfContent } from "@/components/common/TableOfContent";
 import { MDXContent } from "@/components/md/MDXContent";
 import { Stage } from "@/generated/graphql";
 import { PageProps } from "@/interfaces";
-import { env, formatDate, title } from "@/utils";
+import { env, formatDate } from "@/utils";
 import { mdxSerializer } from "@/utils/mdx";
 import { getSdk } from "@/utils/sdk";
 import { Button } from "@nextui-org/button";

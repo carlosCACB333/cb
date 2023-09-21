@@ -34,6 +34,24 @@ const defaultSearchResult: SearchResultItem[] = [
       lvl1: "Home",
     },
   },
+  {
+    content: "IA",
+    objectID: "ia",
+    type: "lvl1",
+    url: "/ia",
+    hierarchy: {
+      lvl1: "IA",
+    },
+  },
+  {
+    content: "Chatpdf",
+    objectID: "chatpdf",
+    type: "lvl1",
+    url: "/ia/chat-pdf",
+    hierarchy: {
+      lvl1: "Chatpdf",
+    },
+  },
 ];
 
 export async function POST(req: NextRequest) {

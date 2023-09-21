@@ -5,7 +5,11 @@ import { AxiosError } from "axios";
 
 export const saveChatpdf = async (formData: FormData): Promise<Response<Chatpdf>> => {
 
-    return (await axBack()).post<Response<Chatpdf>>("/chatpdf", formData).then((res) => {
+    return (await axBack()).post<Response<Chatpdf>>("/chatpdf", formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then((res) => {
         const data = res.data;
         return data
     }
@@ -41,3 +45,5 @@ export const getAllChatpdf = async (): Promise<Response<Chatpdf[]>> => {
         } as any
     })
 }
+
+

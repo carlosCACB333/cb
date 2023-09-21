@@ -9,7 +9,7 @@ import {
   TableColumn,
 } from "@nextui-org/react";
 
-import { title, subtitle, sectionWrapper } from "@/components/primitives";
+import { title, subtitle, sectionWrapper } from "@/components";
 import { useAuthor } from "@/hooks";
 import { MDXContent } from "@/components/md/MDXContent";
 import { AiFillHeart } from "react-icons/ai";

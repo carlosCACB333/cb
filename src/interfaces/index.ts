@@ -47,8 +47,8 @@ export interface Route {
 }
 
 export interface Response<T> {
-  data: T;
-  status: 'completed' | 'error'
+  data?: T;
+  status: 'success' | 'error'
   message?: string
   [key: string]: any
 }

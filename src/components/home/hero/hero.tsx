@@ -4,7 +4,7 @@ import NextLink from "next/link";
 import { Button, Link } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 import { FloatingComponents } from "./floating-components";
-import { title, subtitle } from "@/components/primitives";
+import { title, subtitle } from "@/components";
 import { useAuthor } from "@/hooks";
 import { AiOutlineHeart, AiOutlinePaperClip } from "react-icons/ai";
 import clsx from "clsx";

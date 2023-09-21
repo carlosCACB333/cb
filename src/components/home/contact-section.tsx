@@ -10,12 +10,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 
-import {
-  title,
-  subtitle,
-  titleWrapper,
-  sectionWrapper,
-} from "@/components/primitives";
+import { title, subtitle, titleWrapper, sectionWrapper } from "@/components";
 import { useAuthor } from "@/hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -3,23 +3,23 @@ package chatpdf
 import (
 	"cb/common"
 	"cb/libs"
+	"cb/users"
+	"fmt"
+	"strings"
 
 	"cb/utils"
-	"fmt"
 	"io"
 	"os"
-	"time"
 
-	"github.com/clerkinc/clerk-sdk-go/clerk"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
 func getUrl() string {
-	return "https://" + os.Getenv("AWS_S3_BUCKET") + ".s3.amazonaws.com/" + "https://" + os.Getenv("AWS_S3_BUCKET") + ".s3.amazonaws.com/"
-
+	return "https://" + os.Getenv("AWS_S3_BUCKET") + ".s3.amazonaws.com/"
 }
-func CreateChatdf(c *gin.Context) {
+
+func CreateChat(c *gin.Context) {
 	c.Request.FormFile("file")
 	fileHeader, err := c.FormFile("file")
 	if err != nil {
@@ -31,10 +31,7 @@ func CreateChatdf(c *gin.Context) {
 		return
 	}
 
-	fileName := fileHeader.Filename
-	fileKey := time.Now().Format(time.RFC3339) + "-" + fileName
-
-	if fileHeader.Size > 1025*1024*10 {
+	if fileHeader.Size > 1025*1024*2 {
 		c.JSON(400, utils.Response(
 			"error", "File size too large",
 			nil,
@@ -42,7 +39,10 @@ func CreateChatdf(c *gin.Context) {
 		))
 		return
 	}
-	fmt.Println(fileHeader.Header.Get("Content-Type"))
+	fileName := fileHeader.Filename
+	ID := uuid.New().String()
+	split := strings.Split(fileName, ".")
+	fileKey := ID + "." + split[len(split)-1]
 
 	er := utils.PutObject(fileHeader, os.Getenv("AWS_S3_BUCKET"), fileKey)
 	if er != nil {
@@ -54,22 +54,54 @@ func CreateChatdf(c *gin.Context) {
 
 		return
 	}
-	user := c.MustGet("user").(*clerk.User)
-	fmt.Println(user)
+	user := c.MustGet("user").(*users.User)
+
 	chat := Chatpdf{
-		Model:  common.Model{ID: uuid.New().String()},
+		Model:  common.Model{ID: ID},
 		Name:   fileName,
 		Key:    fileKey,
 		UserID: user.ID,
 	}
-	res := libs.DBInit().Create(&chat)
-	if res.Error != nil {
+
+	if err := libs.DBInit().Create(&chat).Error; err != nil {
 		c.JSON(400, utils.Response(
 			"error", "Unable to create chat",
 			nil,
 			nil,
 		))
 		return
+	}
+	// VECTORIZE AND SAVE ON PINACONE
+	docs, err := utils.GetContentPDF(fileHeader)
+	if err != nil {
+		c.JSON(400, utils.Response(
+			"error", "Unable to process file",
+			nil,
+			nil,
+		))
+		return
+	}
+
+	texts := []string{}
+	for _, d := range docs {
+		texts = append(texts, d.PageContent)
+	}
+	embeddings, err := utils.GetEmbddingsPDF(texts)
+	if err != nil {
+		c.JSON(400, utils.Response(
+			"error", "Unable to create encodings",
+			nil,
+			nil,
+		))
+		return
+	}
+
+	for i := 0; i < len(docs); i += 100 {
+		end := i + 100
+		if end > len(docs) {
+			end = len(docs)
+		}
+		utils.SaveVectorOnPinacone(docs[i:end], embeddings[i:end], fileKey)
 	}
 
 	c.JSON(200, utils.Response(
@@ -80,10 +112,14 @@ func CreateChatdf(c *gin.Context) {
 
 }
 
-func GetChatpdfs(c *gin.Context) {
-	user := c.MustGet("user").(*clerk.User)
+func GetAllChats(c *gin.Context) {
+	user := c.MustGet("user").(*users.User)
 	var chats []Chatpdf
-	res := libs.DBInit().Preload("User").Where("user_id = ?", user.ID).Find(&chats)
+	res := libs.DBInit().
+		Order("created_at desc").
+		Preload("User").
+		Where("user_id = ?", user.ID).
+		Find(&chats)
 	if res.Error != nil {
 		c.JSON(400, utils.Response(
 			"error", "Unable to fetch chats",
@@ -100,11 +136,12 @@ func GetChatpdfs(c *gin.Context) {
 
 }
 
-func GetChatpdf(c *gin.Context) {
+func GetMessagesByChatId(c *gin.Context) {
 	id := c.Param("id")
-	var chat Chatpdf
-	res := libs.DBInit().Preload("User").Where("id = ?", id).First(&chat)
-	if res.Error != nil {
+	user := c.MustGet("user").(*users.User)
+	var chats []Chatpdf
+
+	if err := libs.DBInit().Where("id = ? AND user_id = ?", id, user.ID).Find(&chats).Error; err != nil {
 		c.JSON(400, utils.Response(
 			"error", "Unable to fetch chat",
 			nil,
@@ -113,34 +150,14 @@ func GetChatpdf(c *gin.Context) {
 		return
 	}
 
-	s3Res, err := utils.GetObject(os.Getenv("AWS_S3_BUCKET"), chat.Key)
-	if err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to get file",
-			nil,
-			nil,
-		))
-		return
-	}
-	doc, err := utils.GetContentPDF(s3Res.Body)
-	if err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to process file",
-			nil,
-			nil,
-		))
-		return
-	}
-	fmt.Println(doc)
-
 	c.JSON(200, utils.Response(
 		"success", "Chat fetched successfully",
-		doc,
-		nil,
+		chats,
+		gin.H{"url": getUrl()},
 	))
 
 }
-func GetChatpdfFile(c *gin.Context) {
+func GetChatFile(c *gin.Context) {
 	key := c.Param("key")
 
 	object, err := utils.GetObject(os.Getenv("AWS_S3_BUCKET"), key)
@@ -161,7 +178,34 @@ func GetChatpdfFile(c *gin.Context) {
 		))
 		return
 	}
+	fmt.Println(object.Metadata["Content-Type"])
 
-	c.Data(200, object.Metadata["Content-Type"], fileBytes)
+	c.Data(200, "application/pdf", fileBytes)
 
+}
+
+func GetSimilarity(c *gin.Context) {
+	type Body struct {
+		Query string `json:"query"`
+	}
+	var body Body
+	c.BindJSON(&body)
+	chatID := c.Param("id")
+	user := c.MustGet("user").(*users.User)
+	var chat Chatpdf
+	if err := libs.DBInit().Where("id = ? AND user_id = ?", chatID, user.ID).First(&chat).Error; err != nil {
+		c.JSON(400, utils.ResponseMsg("Unable to fetch chat"))
+		return
+	}
+
+	cxt, err := utils.GetContext(body.Query, chat.Key, 10)
+	if err != nil {
+		c.JSON(400, utils.ResponseMsg("Unable to fetch context"))
+		return
+	}
+	c.JSON(200, utils.Response(
+		"success", "Context fetched successfully",
+		cxt,
+		nil,
+	))
 }

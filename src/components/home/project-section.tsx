@@ -2,7 +2,7 @@
 import { FC } from "react";
 import { Button, Spacer } from "@nextui-org/react";
 import NextLink from "next/link";
-import { sectionWrapper, titleWrapper, title, subtitle } from "../primitives";
+import { sectionWrapper, titleWrapper, title, subtitle } from "..";
 import { Project } from "@/generated/graphql";
 import { FaProjectDiagram } from "react-icons/fa";
 import { ProjectCard } from "../project/ProjectCard";

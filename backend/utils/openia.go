@@ -1,21 +1,20 @@
 package utils
 
 import (
+	"cb/libs"
 	"context"
 
-	"github.com/tmc/langchaingo/llms/openai"
+	openai "github.com/sashabaranov/go-openai"
 )
 
-func getEmbeddings(text []string) [][]float64 {
-	llm, err := openai.New()
+func GetEmbddingsPDF(texts []string) ([]openai.Embedding, error) {
+	oia := libs.OpenIA()
+	emb, err := oia.CreateEmbeddings(context.Background(), openai.EmbeddingRequest{
+		Input: texts,
+		Model: openai.AdaEmbeddingV2,
+	})
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-
-	embeddings, err := llm.CreateEmbedding(context.Background(), text)
-	if err != nil {
-		panic(err)
-	}
-	return embeddings
-
+	return emb.Data, nil
 }

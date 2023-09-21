@@ -4,8 +4,8 @@ import (
 	"cb/libs"
 	"cb/utils"
 
-	"github.com/clerkinc/clerk-sdk-go/clerk"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 func AuthRegister(c *gin.Context) {
@@ -23,6 +23,7 @@ func AuthRegister(c *gin.Context) {
 		return
 	}
 
+	user.ID = uuid.New().String()
 	user.Email = utils.NormalizeEmail(user.Email)
 	user.Password = libs.HashPassword(user.Password)
 	user.Status = "active"
@@ -101,7 +102,7 @@ func AuthLogin(c *gin.Context) {
 }
 
 func ChangePassword(c *gin.Context) {
-	clearkUser := c.MustGet("user").(*clerk.User)
+	clearkUser := c.MustGet("user").(*User)
 	var reset ChangePasswordDTO
 	c.BindJSON(&reset)
 

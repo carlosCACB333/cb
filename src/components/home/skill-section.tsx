@@ -4,12 +4,7 @@ import { Button, Tooltip, Card, CardBody } from "@nextui-org/react";
 
 import { useState } from "react";
 
-import {
-  title,
-  subtitle,
-  titleWrapper,
-  sectionWrapper,
-} from "@/components/primitives";
+import { title, subtitle, sectionWrapper } from "@/components";
 import { Category } from "@/generated/graphql";
 import { Icon } from "../common/icon";
 import { GradientBox } from "../common/gradient-box";

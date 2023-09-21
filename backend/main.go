@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println("🚀 Starting server on port: " + os.Getenv("PORT"))
+
 	if os.Getenv("GIN_MODE") == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
@@ -17,6 +17,7 @@ func main() {
 		gin.SetMode(gin.DebugMode)
 	}
 	r := SetupRouter()
+	fmt.Println("🚀 Starting server on port: " + os.Getenv("PORT"))
 	r.Run(":" + os.Getenv("PORT"))
 
 }

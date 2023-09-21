@@ -1,11 +1,13 @@
-import { title } from "@/utils";
+import { title } from "@/components";
 import { FaRobot } from "react-icons/fa";
 
 export default async function IAPage() {
   return (
-    <>
-      <h1 className={title({ color: "green" })}>
-        Aquí encontrarás la inteligencia artificial que necesitas
+    <main className="max-w-7xl mx-auto h-full flex flex-col justify-center items-center">
+      <h1 className="max-w-2xl">
+        <span className={title({ color: "blue" })}>
+          Aquí encontrarás la inteligencia artificial que necesitas
+        </span>
       </h1>
 
       <section className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-2 xl:grid-cols-3">
@@ -19,7 +21,7 @@ export default async function IAPage() {
 
           <a
             href="/ia/chat-pdf"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-500 hover:bg-green-600"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium bg-primary hover:bg-primary-600 text-primary-foreground"
           >
             <FaRobot size={60} />
             <div className="text-left ml-2">
@@ -31,6 +33,6 @@ export default async function IAPage() {
           </a>
         </div>
       </section>
-    </>
+    </main>
   );
 }

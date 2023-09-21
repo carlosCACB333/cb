@@ -1,35 +1,7 @@
-import { DropFile } from "@/components/chatpdf/drop-file";
-import { getAllChatpdf } from "@/services";
-import { formatDate, subtitle } from "@/utils";
-import { auth } from "@clerk/nextjs";
-import { headers } from "next/headers";
-
 export default async function IAPage() {
-  const data = await getAllChatpdf();
-
   return (
-    <main className="flex h-full">
-      <aside className="w-xs bg-content1 rounded-lg p-4">
-        <h2 className={subtitle({})}>Tus chats</h2>
-        <DropFile />
-        <br />
-        <div className="flex flex-col gap-2">
-          {data?.data?.map((d) => (
-            <div
-              key={d.id}
-              className="bg-background rounded-lg p-4 shadow-lg hover:opacity-80 cursor-pointer"
-            >
-              <h3 className="font-bold">{d.name}</h3>
-              <p className="text-tiny">{formatDate(d.createdAt)}</p>
-            </div>
-          ))}
-        </div>
-      </aside>
-
-      <section className="flex-1 grid grid-cols-2">
-        <div>pdf</div>
-        <div>chat</div>
-      </section>
-    </main>
+    <section className="flex-1 flex justify-center items-center">
+      <h2>Seleccione uno de sus chats o arrastre un nuevo documento</h2>
+    </section>
   );
 }

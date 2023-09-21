@@ -8,7 +8,7 @@ const text = {
 /** @type {import("@nextui-org/theme").ColorScale} */
 const primary = {
   DEFAULT: "#7390f4",
-  foreground: text.title,
+  foreground: "white",
   50: "#0f121a",
   100: "#232a3c",
   200: "#374156",

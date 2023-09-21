@@ -1,7 +1,8 @@
+import { subtitle } from "@/components";
 import { IMG } from "@/components/common/IMG";
 import { Stage } from "@/generated/graphql";
 import { LayoutProps } from "@/interfaces";
-import { formatDate, subtitle } from "@/utils";
+import { formatDate } from "@/utils";
 import { getSdk } from "@/utils/sdk";
 import { Link } from "@nextui-org/link";
 import { Metadata } from "next";

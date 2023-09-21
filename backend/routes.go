@@ -30,12 +30,15 @@ func SetupRouter() *gin.Engine {
 			//PUBLIC ROUTES
 			users.AuthRoutes(v1.Group("/auth"))
 			users.UserRoutes(v1.Group("/user"))
+			v1.POST("/test/:id", chatpdf.Test)
 		}
 
 		{
 			//PRIVATE ROUTES
-			chatpdf.ChatPdfRoutes(v1.Group("/chatpdf"))
 			v1.Use(middleware.AuthMiddleware())
+			chatpdf.ChatPdfRoutes(v1.Group("/chatpdf"))
+			chatpdf.BootRoutesRoutes(v1.Group("/boot"))
+			chatpdf.MessagesRoutes(v1.Group("/message"))
 		}
 	}
 

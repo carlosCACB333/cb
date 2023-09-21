@@ -1,9 +1,10 @@
 "use client";
 import { Category } from "@/generated/graphql";
-import { subtitle, title } from "@/utils";
+
 import { Card, CardFooter } from "@nextui-org/react";
 import Image from "next/image";
 import React, { FC } from "react";
+import { subtitle, title } from "..";
 
 interface Props {
   categories: Category[];

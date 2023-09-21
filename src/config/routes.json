@@ -16,6 +16,11 @@
       "title": "Proyectos"
     },
     {
+      "key": "ia",
+      "path": "/ia",
+      "title": "IA"
+    },
+    {
       "key": "login",
       "path": "/auth/sign-in/",
       "title": "Iniciar sesión"
@@ -41,6 +46,11 @@
       "key": "project",
       "path": "/project",
       "title": "Proyectos"
+    },
+    {
+      "key": "ia",
+      "path": "/ia",
+      "title": "IA"
     }
   ]
 }

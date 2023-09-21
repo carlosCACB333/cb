@@ -4,13 +4,13 @@ import "swiper/css/pagination";
 import { Button } from "@nextui-org/react";
 import { ArrowRightIcon } from "@nextui-org/shared-icons";
 import NextLink from "next/link";
-import { sectionWrapper, subtitle, title } from "@/components/primitives";
 import { Certification } from "@/generated/graphql";
 import { Autoplay, EffectCreative, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { AiFillSafetyCertificate } from "react-icons/ai";
 import { IMG } from "../common/IMG";
 import { sizes } from "@/assets";
+import { sectionWrapper, subtitle, title } from "..";
 interface Props {
   certifications: Certification[];
 }

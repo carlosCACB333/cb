@@ -59,3 +59,4 @@ export const deleteUser = async (id: string): Promise<Response<User>> => {
         } as any
     })
 }
+

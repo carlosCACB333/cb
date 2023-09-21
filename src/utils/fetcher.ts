@@ -10,16 +10,12 @@ export const axFront = axios.create({
     headers: {
         Accept: "application/json",
         "x-api-key": "go123",
-        Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTQ3NzYzMzgsInVzZXJfaWQiOjJ9.NwKmmJoK8FcgCRvbV190ItpDI2AWvgmQ4E4v_6dbc6E",
     }
 })
 
 export const axBack = async () => {
     const a = auth();
     const token = await a.getToken();
-    console.log("token", token);
     return axios.create({
         baseURL: env.back.privateUrl,
         headers: {
@@ -28,4 +24,18 @@ export const axBack = async () => {
             "Authorization": "Bearer " + token
         }
     })
+}
+
+
+
+export const fetchBack = async (input: RequestInfo | URL, init?: RequestInit | undefined) => {
+    input = typeof input === "string" ? env.back.privateUrl + input : input;
+    init = init || {};
+    init.headers = {
+        ...init.headers,
+        "x-api-key": env.back.apiKey,
+        "Authorization": "Bearer " + await auth().getToken(),
+        "Content-Type": "application/json",
+    }
+    return fetch(input, init)
 }

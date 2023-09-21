@@ -1,41 +1,71 @@
 "use client";
 
 import { saveChatpdf } from "@/services";
-import React, { useCallback } from "react";
+import { CircularProgress } from "@nextui-org/react";
+import clsx from "clsx";
+import { useRouter } from "next/navigation";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { FaFilePdf, FaRegFilePdf } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export const DropFile = () => {
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("file", file);
-    const res = await saveChatpdf(formData);
-    console.log(res);
-  }, []);
+  const { refresh } = useRouter();
+  const [loading, setLoading] = useState(false);
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      setLoading(true);
+      const file = acceptedFiles[0];
+      if (!file) return;
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await saveChatpdf(formData);
+      setLoading(false);
+      refresh();
+      toast(res.message, {
+        type: res.status,
+      });
+    },
+    [refresh]
+  );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     maxFiles: 1,
     accept: {
       "application/pdf": [".pdf"],
-      "text/plain": [".txt"],
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        [".docx"],
-      "application/msword": [".doc"],
     },
   });
 
   return (
     <div
       {...getRootProps({
-        className: "p-4 border-dashed border-2 border-gray-300 rounded-lg",
+        className: clsx(
+          "flex justify-center items-center flex-col w-full",
+          "p-4 border-dashed border-2 border-gray-300 rounded-lg",
+          "hover:border-primary hover:text-primary cursor-pointer",
+          {
+            "border-primary text-primary": isDragActive,
+          }
+        ),
       })}
     >
-      <input {...getInputProps()} />
-      {isDragActive ? (
-        <p>Sube tu archivo aquí ...</p>
+      <input {...getInputProps()} disabled={loading} />
+
+      {loading ? (
+        <>
+          Espere un momento...
+          <CircularProgress size="sm" />
+        </>
+      ) : isDragActive ? (
+        <>
+          Suelta el archivo aquí
+          <FaFilePdf className="text-4xl" />
+        </>
       ) : (
-        <p>Arrastra y suelta tu archivo aquí, o haz clic para seleccionar</p>
+        <>
+          Arrastra un archivo aquí
+          <FaRegFilePdf className="text-4xl" />
+        </>
       )}
     </div>
   );
