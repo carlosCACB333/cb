@@ -1,4 +1,5 @@
 "use client";
+import { env } from "@/utils";
 import { useAuth } from "@clerk/nextjs";
 import { CircularProgress } from "@nextui-org/react";
 import clsx from "clsx";
@@ -22,11 +23,11 @@ export const DropFile = () => {
         const formData = new FormData();
         formData.append("file", file, file.name);
 
-        const res = await fetch(process.env.NEXT_PUBLIC_BACK_URL + "/chatpdf", {
+        const res = await fetch(env.back.publicUrl + "/chatpdf", {
           method: "POST",
           body: formData,
           headers: {
-            "x-api-key": process.env.NEXT_PUBLIC_BACK_API_KEY!,
+            "x-api-key": env.back.publicApiKey,
             Authorization: "Bearer " + (await getToken()),
           },
         });

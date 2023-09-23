@@ -22,10 +22,10 @@ export const env = {
   },
   apiKey: process.env.API_KEY || "",
   back: {
-    publicUrl: process.env.NEXT_PUBLIC_BACK_URL || "",
+    publicUrl: process.env.NEXT_PUBLIC_BACK_URL || "https://back.carloscb.com/api/v1/public",
     privateUrl: process.env.BACK_URL!,
     apiKey: process.env.BACK_API_KEY!,
-    publicApiKey: process.env.NEXT_PUBLIC_BACK_API_KEY!,
+    publicApiKey: process.env.NEXT_PUBLIC_BACK_API_KEY || "55wsdw2sedfw",
   },
   ckerk: {
     webHookSecret: process.env.WEBHOOK_SECRET!
