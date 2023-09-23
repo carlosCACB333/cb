@@ -6,16 +6,15 @@ import (
 	"cb/users"
 	"cb/utils"
 
-	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
-func ApiKeyMiddleware() gin.HandlerFunc {
+func ApiKeyMiddleware(apiKey string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		xApiKey := c.Request.Header.Get("X-API-KEY")
-		if xApiKey != os.Getenv("X_API_KEY") {
+		if xApiKey != apiKey {
 			c.JSON(401, utils.Response(
 				"error",
 				"Unauthorized",

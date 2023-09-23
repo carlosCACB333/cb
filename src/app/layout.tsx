@@ -59,7 +59,6 @@ export default async function RootLayout({
                 routes={routes.routes}
               />
               {children}
-              <Footer />
             </div>
             <Cmdk />
           </ClerkProvider>

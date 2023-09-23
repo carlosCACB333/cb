@@ -12,6 +12,7 @@ import { CertificateSection } from "@/components/home/certificates-section";
 import { ContactSection } from "@/components/home/contact-section";
 import { Locale, Stage } from "@/generated/graphql";
 import { getSdk } from "@/utils/sdk";
+import { Footer } from "@/components/common/footer";
 
 export default async function Home() {
   const {
@@ -58,6 +59,7 @@ export default async function Home() {
       <ProjectSection projects={projects as any} />
       <CertificateSection certifications={certifications as any} />
       <ContactSection />
+      <Footer />
     </main>
   );
 }

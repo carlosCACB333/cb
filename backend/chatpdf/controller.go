@@ -20,9 +20,9 @@ func getUrl() string {
 }
 
 func CreateChat(c *gin.Context) {
-	c.Request.FormFile("file")
 	fileHeader, err := c.FormFile("file")
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(400, utils.Response(
 			"error", "Invalid file",
 			nil,
@@ -31,7 +31,7 @@ func CreateChat(c *gin.Context) {
 		return
 	}
 
-	if fileHeader.Size > 1025*1024*2 {
+	if fileHeader.Size > 1025*1024*10 {
 		c.JSON(400, utils.Response(
 			"error", "File size too large",
 			nil,
@@ -57,10 +57,11 @@ func CreateChat(c *gin.Context) {
 	user := c.MustGet("user").(*users.User)
 
 	chat := Chatpdf{
-		Model:  common.Model{ID: ID},
-		Name:   fileName,
-		Key:    fileKey,
-		UserID: user.ID,
+		Model:       common.Model{ID: ID},
+		Name:        fileName,
+		Key:         fileKey,
+		UserID:      user.ID,
+		ContentType: fileHeader.Header.Get("Content-Type"),
 	}
 
 	if err := libs.DBInit().Create(&chat).Error; err != nil {
@@ -158,29 +159,26 @@ func GetMessagesByChatId(c *gin.Context) {
 
 }
 func GetChatFile(c *gin.Context) {
-	key := c.Param("key")
+	chatId := c.Param("id")
+	user := c.MustGet("user").(*users.User)
+	var chat Chatpdf
+	if err := libs.DBInit().Where("id = ? AND user_id = ?", chatId, user.ID).First(&chat).Error; err != nil {
+		c.JSON(404, utils.ResponseMsg("Resource not found"))
+		return
+	}
 
-	object, err := utils.GetObject(os.Getenv("AWS_S3_BUCKET"), key)
+	object, err := utils.GetObject(os.Getenv("AWS_S3_BUCKET"), chat.Key)
 	if err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to fetch chat",
-			nil,
-			nil,
-		))
+		c.JSON(404, utils.ResponseMsg("Resource not found"))
 		return
 	}
 	fileBytes, err := io.ReadAll(object.Body)
 	if err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to fetch chat",
-			nil,
-			nil,
-		))
+		c.JSON(400, utils.ResponseMsg("Unable to fetch file"))
 		return
 	}
 	fmt.Println(object.Metadata["Content-Type"])
-
-	c.Data(200, "application/pdf", fileBytes)
+	c.Data(200, chat.ContentType, fileBytes)
 
 }
 

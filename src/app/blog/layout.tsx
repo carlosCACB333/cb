@@ -1,12 +1,12 @@
 import { subtitle } from "@/components";
 import { IMG } from "@/components/common/IMG";
+import { Footer } from "@/components/common/footer";
 import { Stage } from "@/generated/graphql";
 import { LayoutProps } from "@/interfaces";
 import { formatDate } from "@/utils";
 import { getSdk } from "@/utils/sdk";
 import { Link } from "@nextui-org/link";
 import { Metadata } from "next";
-import Image from "next/image";
 import NextLink from "next/link";
 import React from "react";
 
@@ -17,8 +17,13 @@ const Layout = async ({ children }: LayoutProps) => {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 container m-auto">
-      <div className="flex-1">{children}</div>
-      <div className=" w-full md:w-96 sticky top-16 scroll pr-2 lg:max-h-[calc(100vh-8rem)] p-6">
+      <div className="flex-1">
+        {children}
+
+        <br />
+        <Footer />
+      </div>
+      <div className="w-full md:w-96 sticky top-16 scroll pr-2 lg:max-h-[calc(100vh-6rem)] p-6">
         <h3 className={subtitle({ class: "text-foreground" })}>Categorías</h3>
         <ol>
           {categories.map((category) => (

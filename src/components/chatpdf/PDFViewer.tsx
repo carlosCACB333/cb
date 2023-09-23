@@ -1,6 +1,6 @@
 "use client";
 
-import { axFront } from "@/utils";
+import { getFile } from "@/services/chat-front";
 import { useAuth } from "@clerk/nextjs";
 import React, { FC, useEffect, useState } from "react";
 
@@ -12,23 +12,24 @@ export const PDFViewer: FC<Props> = ({ id }) => {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
-    const getFile = async () => {
-      try {
-        const res = await axFront.get(`/chatpdf/resource/${id}`, {
-          responseType: "blob",
-          headers: {
-            Authorization: `Bearer ${await getToken()}`,
-          },
-        });
-        const url = URL.createObjectURL(res.data);
-        setUrl(url);
-      } catch (err) {
-        console.log(err);
-      }
+    const fetch = async () => {
+      const token = await getToken();
+      if (!token) return;
+      const blob = await getFile(id, token);
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      setUrl(url);
     };
-    getFile();
-  }, [getToken, id]);
+    fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   if (!url) return null;
-  return <iframe className="h-full w-full" src={url} title="Tu pdf" />;
+  return (
+    <iframe
+      className="h-full min-h-[80vh] max-h-screen w-full"
+      src={url}
+      title="Tu pdf"
+    />
+  );
 };

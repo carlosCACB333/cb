@@ -4,6 +4,7 @@ import (
 	"cb/chatpdf"
 	"cb/middleware"
 	"cb/users"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -23,23 +24,35 @@ func SetupRouter() *gin.Engine {
 		AllowHeaders: []string{"Origin", "Content-Type", "Authorization", "x-api-key"},
 	}))
 
-	r.Use(middleware.ApiKeyMiddleware())
-	{
-		v1 := r.Group("/api/v1")
-		{
-			//PUBLIC ROUTES
-			users.AuthRoutes(v1.Group("/auth"))
-			users.UserRoutes(v1.Group("/user"))
-			v1.POST("/test/:id", chatpdf.Test)
+	{ // API V1
+		{ // CONECTION ONLY BACK TO BACK
+			v1Private := r.Group("/api/v1")
+			v1Private.Use(middleware.ApiKeyMiddleware(os.Getenv("X_API_KEY")))
+			{ //NOT REQUIRED AUTHENTICATION
+				users.UserRoutes(v1Private.Group("/user"))
+			}
+			{ //REQUIRED AUTHENTICATION
+				v1Private.Use(middleware.AuthMiddleware())
+				chatpdf.ChatPdfRoutes(v1Private.Group("/chatpdf"))
+				chatpdf.BootRoutesRoutes(v1Private.Group("/boot"))
+				chatpdf.MessagesRoutes(v1Private.Group("/message"))
+			}
 		}
 
-		{
-			//PRIVATE ROUTES
-			v1.Use(middleware.AuthMiddleware())
-			chatpdf.ChatPdfRoutes(v1.Group("/chatpdf"))
-			chatpdf.BootRoutesRoutes(v1.Group("/boot"))
-			chatpdf.MessagesRoutes(v1.Group("/message"))
+		{ // CONECTION BACK TO FRONT
+			v1Public := r.Group("/api/v1/public")
+			v1Public.Use(middleware.ApiKeyMiddleware(os.Getenv("X_API_KEY_PUBLIC")))
+			{ //NOT REQUIRED AUTHENTICATION
+				users.AuthRoutes(v1Public.Group("/auth"))
+			}
+			{ //REQUIRED AUTHENTICATION
+				v1Public.Use(middleware.AuthMiddleware())
+				v1Public.GET("/resource/:id", chatpdf.GetChatFile)
+				v1Public.POST("/chatpdf", chatpdf.CreateChat)
+
+			}
 		}
+
 	}
 
 	return r

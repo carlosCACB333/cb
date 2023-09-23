@@ -7,11 +7,12 @@ import (
 
 type Chatpdf struct {
 	common.Model
-	Name     string           `json:"name" gorm:"not null" validate:"required"`
-	Key      string           `json:"key" gorm:"not null" validate:"required"`
-	UserID   string           `json:"userId" gorm:"not null" validate:"required"`
-	User     users.User       `json:"user" validate:"-"`
-	Messages []ChatpdfMessage `json:"messages" validate:"-"`
+	Name        string           `json:"name" gorm:"not null" validate:"required"`
+	Key         string           `json:"key" gorm:"not null" validate:"required"`
+	UserID      string           `json:"userId" gorm:"not null" validate:"required"`
+	ContentType string           `json:"contentType" validate:"-"`
+	User        users.User       `json:"user" validate:"-"`
+	Messages    []ChatpdfMessage `json:"messages" validate:"-"`
 }
 
 type ChatpdfMessage struct {

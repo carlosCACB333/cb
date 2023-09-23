@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { IMG } from "../common/IMG";
 import { Link } from "@nextui-org/react";
 import { Icon } from "../common/icon";
+import clsx from "clsx";
 
 interface Props {
   project: Project;
@@ -32,7 +33,11 @@ export const ProjectCarrousel: FC<Props> = ({ project }) => {
       >
         {project.pictures.map(({ id, url }, idx) => (
           <SwiperSlide key={id}>
-            <div className="flex flex-col items-center justify-center aspect-square md:aspect-video">
+            <div
+              className={clsx(
+                "flex flex-col items-center justify-center aspect-square md:aspect-video relative"
+              )}
+            >
               <IMG
                 src={url}
                 alt={project.title}
@@ -40,14 +45,20 @@ export const ProjectCarrousel: FC<Props> = ({ project }) => {
                 sizes={sizes.xl}
                 priority={idx === 0}
               />
+              <div
+                className={clsx(
+                  "absolute h-1/2 w-full bottom-0",
+                  "bg-gradient-to-t from-background dark:from-dark to-transparent"
+                )}
+              />
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-background dark:from-dark to-transparent w-full h-full flex flex-col justify-end z-10">
-        <div className="max-w-4xl mx-auto">
+      <div className="-mt-60 z-10 p-4 w-full h-full flex flex-col justify-end relative">
+        <div className="p-4 max-w-4xl mx-auto">
           <h1 className="text-2xl font-bold mb-4">{project.title}</h1>
-          <div className="p-4 rounded-lg my-4 italic">{project.abstract}</div>
+          <div className="rounded-lg my-4 italic">{project.abstract}</div>
           <div className="flex  flex-col md:flex-row gap-1">
             <Button
               color="primary"

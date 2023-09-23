@@ -1,18 +1,15 @@
 import { Response, User } from "@/interfaces";
-import { axBack } from "@/utils";
-import { AxiosError } from "axios";
+import { fetchBack } from "@/utils";
+
 
 export const createUser = async (user: Partial<User>): Promise<Response<User>> => {
-
-    return (await axBack()).post<Response<User>>("/user", user).then((res) => {
-        const data = res.data;
-        return data
-    }
-    ).catch((err: AxiosError) => {
-        const data = err.response?.data as Response<User>;
-        if (data) {
-            return data;
-        }
+    return fetchBack("/user", {
+        method: "POST",
+        body: JSON.stringify(user)
+    }).then((res) => {
+        return res.json();
+    }).catch((err) => {
+        console.log(err);
         return {
             data: null,
             status: 'error',
@@ -22,16 +19,13 @@ export const createUser = async (user: Partial<User>): Promise<Response<User>> =
 }
 
 export const updateUser = async (user: Partial<User>): Promise<Response<User>> => {
-
-    return (await axBack()).put<Response<User>>("/user", user).then((res) => {
-        const data = res.data;
-        return data
-    }
-    ).catch((err: AxiosError) => {
-        const data = err.response?.data as Response<User>;
-        if (data) {
-            return data;
-        }
+    return fetchBack("/user", {
+        method: "PUT",
+        body: JSON.stringify(user)
+    }).then((res) => {
+        return res.json();
+    }).catch((err) => {
+        console.log(err);
         return {
             data: null,
             status: 'error',
@@ -42,16 +36,12 @@ export const updateUser = async (user: Partial<User>): Promise<Response<User>> =
 
 
 export const deleteUser = async (id: string): Promise<Response<User>> => {
-
-    return (await axBack()).delete<Response<User>>("/user/" + id).then((res) => {
-        const data = res.data;
-        return data
-    }
-    ).catch((err: AxiosError) => {
-        const data = err.response?.data as Response<User>;
-        if (data) {
-            return data;
-        }
+    return fetchBack("/user/" + id, {
+        method: "DELETE",
+    }).then((res) => {
+        return res.json();
+    }).catch((err) => {
+        console.log(err);
         return {
             data: null,
             status: 'error',
@@ -59,4 +49,3 @@ export const deleteUser = async (id: string): Promise<Response<User>> => {
         } as any
     })
 }
-

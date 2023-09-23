@@ -76,24 +76,3 @@ func GetLastMessages(c *gin.Context) {
 	))
 
 }
-
-func Test(c *gin.Context) {
-	db := libs.DBInit()
-	chatId := c.Param("id")
-	var messages []ChatpdfMessage
-
-	if err := db.Where("chatpdf_id = ?", chatId).Order("created_at desc").Limit(5).Find(&messages).Error; err != nil {
-		c.JSON(400, utils.ResponseMsg("Unable to fetch messages"))
-		return
-	}
-
-	sort.Slice(messages, func(i, j int) bool {
-		return messages[i].CreatedAt.Before(messages[j].CreatedAt)
-	})
-
-	c.JSON(200, utils.Response(
-		"success", "Messages fetched successfully",
-		messages,
-		nil,
-	))
-}

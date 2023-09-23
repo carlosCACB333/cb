@@ -1,8 +1,15 @@
+import { Footer } from "@/components/common/footer";
 import { LayoutProps } from "@/interfaces";
 import { Metadata } from "next";
 
 const Layout = async ({ children }: LayoutProps) => {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <br />
+      <Footer />
+    </>
+  );
 };
 
 export default Layout;
