@@ -1,8 +1,7 @@
 import { OpenAI } from 'openai'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
 import { env } from "@/utils";
-import { auth } from '@clerk/nextjs';
-import { getLastChatpdfMessages, savePdfMessages } from '@/services/message';
+import { savePdfMessages } from '@/services/message';
 import { getContext } from '@/services/boot';
 
 
