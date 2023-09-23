@@ -19,7 +19,6 @@ export const Messages = ({ chatId, initialMessages }: Props) => {
   });
 
   const containerRef = React.useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     containerRef.current?.scrollTo({
       top: containerRef.current.scrollHeight,

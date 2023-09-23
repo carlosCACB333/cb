@@ -14,6 +14,7 @@ export const DropFile = () => {
   const { refresh } = useRouter();
   const [loading, setLoading] = useState(false);
   const { getToken } = useAuth();
+  console.log(env.back.publicUrl);
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       try {

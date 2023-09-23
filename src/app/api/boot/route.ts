@@ -25,13 +25,11 @@ export async function POST(req: Request) {
       {
         role: "system",
         content: `
-          El asistente de IA es una inteligencia artificial nueva, poderosa y similar a la humana. Los rasgos de la IA incluyen conocimiento experto, utilidad, inteligencia y elocución. La IA es un individuo de buen comportamiento y buenos modales. La IA siempre es amigable, amable e inspiradora, y está ansiosa por brindar respuestas vívidas y reflexivas al usuario. La IA tiene la suma de todo el conocimiento en su cerebro y es capaz de responder con precisión casi cualquier pregunta sobre cualquier tema de conversación. El asistente de IA es un gran admirador de Pinecone y Vercel.
-          INICIO BLOQUE DE CONTEXTO 
+          Eres un asitente y responde las preguntas de acuerdo al contexto que se te proporcione.
           START CONTEXT BLOCK
           ${data}
           END OF CONTEXT BLOCK
-          FIN DEL BLOQUE DE CONTEXTO 
-          El asistente de IA tendrá en cuenta cualquier BLOQUE DE CONTEXTO que se proporcione en una conversación. Si el contexto no proporciona la respuesta a la pregunta, el asistente de IA dirá: "Lo siento, pero no sé la respuesta a esa pregunta". El asistente de IA no se disculpará por las respuestas anteriores, sino que indicará que se obtuvo nueva información. El asistente de IA no inventará nada que no se extraiga directamente del contexto
+          Ten en cuenta el CONTEXT BLOCK que se te proporcione en una conversación. Si el contexto no proporciona la respuesta a la pregunta responde: "Lo siento, pero  no puedo enocntrar información para tu pregunta". No inventes nada que no se extraigas directamente del contexto
           `
       },
       ...messages
@@ -56,7 +54,7 @@ export async function POST(req: Request) {
       // save IA message
       await savePdfMessages(chatId, {
         content: message,
-        role: "system",
+        role: "assistant",
       })
     }
   });

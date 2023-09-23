@@ -25,7 +25,7 @@ const IALayout = async ({ children, ...rest }: LayoutProps) => {
           <DropFile />
           <br />
         </header>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 h-full">
           {data?.data?.map((chat) => {
             chat.createdAt = formatDate(chat.createdAt);
             return <ChatCard key={chat.id} chat={chat} />;

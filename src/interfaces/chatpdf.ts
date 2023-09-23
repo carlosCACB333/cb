@@ -19,7 +19,7 @@ export interface ChatpdfMsg extends Base {
     content: string;
     chatpdfId: string;
     chatpdf: Chatpdf;
-    role: "user" | "system";
+    role: "user" | "system" | "assistant"
 }
 
 export interface User extends Base {
