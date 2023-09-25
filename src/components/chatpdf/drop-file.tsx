@@ -32,10 +32,10 @@ export const DropFile = () => {
           },
         });
         const data = await res.json();
-        refresh();
         toast(data.message, {
           type: data.status,
         });
+        refresh();
       } catch (error) {
         toast("Error al subir el archivo", {
           type: "error",
