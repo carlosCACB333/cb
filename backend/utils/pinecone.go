@@ -122,3 +122,29 @@ func GetTopkMachesFromPinecone(embedding []float32, namespace string, topK int) 
 	json.Unmarshal(resBody, &qr)
 	return qr, nil
 }
+
+func DeleteVectorsByNamespace(namespace string) error {
+	url, apiKey := getPineconeCredentials("/vectors/delete")
+
+	jsonBody, _ := json.Marshal(map[string]any{
+		"namespace": namespace,
+		"deleteAll": true,
+	})
+	body := strings.NewReader(string(jsonBody))
+
+	req, _ := http.NewRequest("DELETE", url, body)
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("content-type", "application/json")
+	req.Header.Add("Api-Key", apiKey)
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	defer res.Body.Close()
+	resBody, _ := io.ReadAll(res.Body)
+	fmt.Println("line 149", string(resBody))
+
+	return nil
+}

@@ -16,13 +16,13 @@ func CreateMessage(c *gin.Context) {
 	db := libs.DBInit()
 	user := c.MustGet("user").(*users.User)
 	if err := db.Where("id = ? AND user_id = ?", chatId, user.ID).First(&chat).Error; err != nil {
-		c.JSON(404, utils.ResponseMsg("Chat not found"))
+		c.JSON(404, utils.ResponseMsg("error", "Chat not found"))
 		return
 	}
 
 	var message ChatpdfMessage
 	if err := c.ShouldBindJSON(&message); err != nil {
-		c.JSON(400, utils.ResponseMsg("Invalid request"))
+		c.JSON(400, utils.ResponseMsg("error", "Invalid request"))
 		return
 	}
 	message.ChatpdfID = chat.ID
@@ -36,7 +36,7 @@ func CreateMessage(c *gin.Context) {
 		return
 	}
 	if err := db.Create(&message).Error; err != nil {
-		c.JSON(400, utils.ResponseMsg("Unable to create message"))
+		c.JSON(400, utils.ResponseMsg("error", "Unable to create message"))
 		return
 	}
 	c.JSON(200, utils.Response(
@@ -56,12 +56,12 @@ func GetLastMessages(c *gin.Context) {
 
 	// validate if chat exists and belongs to user
 	if err := db.Where("id = ? AND user_id = ?", chatId, user.ID).First(&chat).Error; err != nil {
-		c.JSON(404, utils.ResponseMsg("Chat not found"))
+		c.JSON(404, utils.ResponseMsg("error", "Chat not found"))
 		return
 	}
 
 	if err := db.Where("chatpdf_id = ?", chat.ID).Order("created_at desc").Limit(6).Find(&messages).Error; err != nil {
-		c.JSON(400, utils.ResponseMsg("Unable to fetch messages"))
+		c.JSON(400, utils.ResponseMsg("error", "Unable to fetch messages"))
 		return
 	}
 

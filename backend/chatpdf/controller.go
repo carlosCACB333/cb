@@ -137,7 +137,7 @@ func GetAllChats(c *gin.Context) {
 
 }
 
-func GetMessagesByChatId(c *gin.Context) {
+func GetChatsById(c *gin.Context) {
 	id := c.Param("id")
 	user := c.MustGet("user").(*users.User)
 	var chats []Chatpdf
@@ -158,23 +158,50 @@ func GetMessagesByChatId(c *gin.Context) {
 	))
 
 }
+
+func DeleteChat(c *gin.Context) {
+	id := c.Param("id")
+	user := c.MustGet("user").(*users.User)
+	var chat Chatpdf
+	if err := libs.DBInit().Where("id = ? AND user_id = ?", id, user.ID).First(&chat).Error; err != nil {
+		c.JSON(404, utils.ResponseMsg("error", "Resource not found"))
+		return
+	}
+	if err := utils.DeleteObject(os.Getenv("AWS_S3_BUCKET"), chat.Key); err != nil {
+		c.JSON(400, utils.ResponseMsg("error", "Unable to delete file"))
+		return
+	}
+
+	if err := utils.DeleteVectorsByNamespace(chat.Key); err != nil {
+		c.JSON(400, utils.ResponseMsg("error", "Unable to delete vectors"))
+		return
+	}
+
+	if err := libs.DBInit().Select("Messages").Delete(&chat).Error; err != nil {
+		c.JSON(400, utils.ResponseMsg("error", "Unable to delete chat"))
+		return
+	}
+
+	c.JSON(200, utils.ResponseMsg("success", "Chat deleted successfully"))
+}
+
 func GetChatFile(c *gin.Context) {
 	chatId := c.Param("id")
 	user := c.MustGet("user").(*users.User)
 	var chat Chatpdf
 	if err := libs.DBInit().Where("id = ? AND user_id = ?", chatId, user.ID).First(&chat).Error; err != nil {
-		c.JSON(404, utils.ResponseMsg("Resource not found"))
+		c.JSON(404, utils.ResponseMsg("error", "Resource not found"))
 		return
 	}
 
 	object, err := utils.GetObject(os.Getenv("AWS_S3_BUCKET"), chat.Key)
 	if err != nil {
-		c.JSON(404, utils.ResponseMsg("Resource not found"))
+		c.JSON(404, utils.ResponseMsg("error", "Resource not found"))
 		return
 	}
 	fileBytes, err := io.ReadAll(object.Body)
 	if err != nil {
-		c.JSON(400, utils.ResponseMsg("Unable to fetch file"))
+		c.JSON(400, utils.ResponseMsg("error", "Unable to fetch file"))
 		return
 	}
 	fmt.Println(object.Metadata["Content-Type"])
@@ -192,13 +219,13 @@ func GetSimilarity(c *gin.Context) {
 	user := c.MustGet("user").(*users.User)
 	var chat Chatpdf
 	if err := libs.DBInit().Where("id = ? AND user_id = ?", chatID, user.ID).First(&chat).Error; err != nil {
-		c.JSON(400, utils.ResponseMsg("Unable to fetch chat"))
+		c.JSON(400, utils.ResponseMsg("error", "Unable to fetch chat"))
 		return
 	}
 
 	cxt, err := utils.GetContext(body.Query, chat.Key, 10)
 	if err != nil {
-		c.JSON(400, utils.ResponseMsg("Unable to fetch context"))
+		c.JSON(400, utils.ResponseMsg("error", "Unable to fetch context"))
 		return
 	}
 	c.JSON(200, utils.Response(

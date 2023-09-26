@@ -6,7 +6,8 @@ import (
 
 func ChatPdfRoutes(r *gin.RouterGroup) {
 	r.GET("", GetAllChats)
-	r.GET("/:id", GetMessagesByChatId)
+	r.GET("/:id", GetChatsById)
+	r.DELETE("/:id", DeleteChat)
 }
 func BootRoutesRoutes(r *gin.RouterGroup) {
 	r.POST("/:id", GetSimilarity)

@@ -16,7 +16,7 @@ const IALayout = async ({ children, ...rest }: LayoutProps) => {
       <aside
         className={clsx(
           "rounded-lg max-w-sm w-full scroll overflow-y-auto relative",
-          "px-4"
+          "px-4 flex flex-col gap-2"
         )}
       >
         <header className="sticky top-0 bg-background z-10">
@@ -25,7 +25,7 @@ const IALayout = async ({ children, ...rest }: LayoutProps) => {
           <DropFile />
           <br />
         </header>
-        <div className="flex flex-col gap-2 h-full">
+        <div className="flex flex-1 flex-col gap-2 h-full">
           {data?.data?.map((chat) => {
             chat.createdAt = formatDate(chat.createdAt);
             return <ChatCard key={chat.id} chat={chat} />;
