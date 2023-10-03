@@ -1,11 +1,11 @@
 package users
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func AuthRoutes(r *gin.RouterGroup) {
-	r.POST("/register", AuthRegister)
-	r.POST("/login", AuthLogin)
-	r.POST("/change-password", ChangePassword)
+func AuthRoutes(r fiber.Router) {
+	r.Post("/register", AuthRegister)
+	r.Post("/login", AuthLogin)
+	r.Post("/change-password", ChangePassword)
 }

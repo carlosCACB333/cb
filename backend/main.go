@@ -2,22 +2,37 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/template/django/v3"
 )
 
 func main() {
 
-	if os.Getenv("GIN_MODE") == "release" {
-		gin.SetMode(gin.ReleaseMode)
-	} else {
-		fmt.Println("Init migrations")
-		// InitMigrations()
-		gin.SetMode(gin.DebugMode)
+	if os.Getenv("STAGE") == "development" {
+		InitMigrations()
 	}
-	r := SetupRouter()
+
+	engine := django.New("./views", ".html")
+	app := fiber.New(fiber.Config{
+		CaseSensitive: true,
+		AppName:       "Chatbot API",
+		Views:         engine,
+	})
+	app.Use(logger.New())
+	app.Static("/public", "./public")
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3000,https://carloscb.com,https://www.carloscb.com",
+		AllowHeaders: "Origin, Content-Type, Authorization, x-api-key",
+	}))
+
+	SetupRouter(app)
 	fmt.Println("🚀 Starting server on port: " + os.Getenv("PORT"))
-	r.Run(":" + os.Getenv("PORT"))
+	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 
 }

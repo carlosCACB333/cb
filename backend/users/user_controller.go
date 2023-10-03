@@ -5,12 +5,16 @@ import (
 	"cb/libs"
 	"cb/utils"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func CreateUser(c *gin.Context) {
+func CreateUser(c *fiber.Ctx) error {
 	var userData SyncUserDTO
-	c.BindJSON(&userData)
+	if err := c.BodyParser(&userData); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Datos incorrectos",
+		))
+	}
 
 	user := User{
 		Model:     common.Model{ID: userData.ID},
@@ -28,41 +32,34 @@ func CreateUser(c *gin.Context) {
 		// update user
 		user.Status = "active"
 		if err := libs.DBInit().Model(&userFound).Updates(user).Error; err != nil {
-			c.JSON(400, utils.Response(
-				"error", "Unable to update user",
-				nil,
-				nil,
+			return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+				"error", "Error al actualizar usuario",
 			))
-			return
 		}
-		c.JSON(200, utils.Response(
-			"success", "User updated successfully",
-			nil,
-			nil,
+		return c.JSON(utils.ResponseMsg(
+			"success", "Usuario actualizado correctamente",
 		))
-		return
 	}
 
 	if err := libs.DBInit().Create(&user).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to create user",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al crear usuario",
 		))
-		return
 	}
 
-	c.JSON(200, utils.Response(
-		"success", "User created successfully",
-		nil,
-		nil,
+	return c.JSON(utils.ResponseMsg(
+		"success", "Usuario creado correctamente",
 	))
 
 }
 
-func UpdateUser(c *gin.Context) {
+func UpdateUser(c *fiber.Ctx) error {
 	var userData SyncUserDTO
-	c.BindJSON(&userData)
+	if err := c.BodyParser(&userData); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Datos incorrectos",
+		))
+	}
 
 	newUser := User{
 		Model:     common.Model{ID: userData.ID},
@@ -77,58 +74,45 @@ func UpdateUser(c *gin.Context) {
 	// get user
 	var user User
 	if err := libs.DBInit().Where("id = ?", newUser.ID).First(&user).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to get user",
-			nil,
-			nil,
+		return c.Status(fiber.StatusNotFound).JSON(utils.ResponseMsg(
+			"error", "Usuario no encontrado",
 		))
-		return
 	}
 
 	// update user
 	if err := libs.DBInit().Model(&user).Updates(newUser).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to update user",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al actualizar usuario",
 		))
-		return
+
 	}
 
-	c.JSON(200, utils.Response(
-		"success", "User updated successfully",
-		nil,
-		nil,
+	return c.JSON(utils.ResponseMsg(
+		"success", "Usuario actualizado correctamente",
 	))
 
 }
 
-func DeleUser(c *gin.Context) {
-	id := c.Param("id")
+func DeleUser(c *fiber.Ctx) error {
+	id := c.Params("id")
 
 	// get user
 	var user User
 	if err := libs.DBInit().Where("id = ?", id).First(&user).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to get user",
-			nil,
-			nil,
+
+		return c.Status(fiber.StatusNotFound).JSON(utils.ResponseMsg(
+			"error", "Usuario no encontrado",
 		))
-		return
+
 	}
 
 	// update status
 	if err := libs.DBInit().Model(&user).Updates(User{Status: "deleted"}).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to delete user",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al eliminar usuario",
 		))
-		return
 	}
-	c.JSON(200, utils.Response(
-		"success", "User deleted successfully",
-		nil,
-		nil,
+	return c.JSON(utils.ResponseMsg(
+		"success", "Usuario eliminado correctamente",
 	))
 }

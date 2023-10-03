@@ -5,26 +5,25 @@ import (
 	"cb/libs"
 	"cb/users"
 	"cb/utils"
+	"fmt"
 
 	"strings"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func ApiKeyMiddleware(apiKey string) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		xApiKey := c.Request.Header.Get("X-API-KEY")
-		if xApiKey != apiKey {
-			c.JSON(401, utils.Response(
+func ApiKeyMiddleware(apiKey string) fiber.Handler {
+
+	return func(c *fiber.Ctx) error {
+		xApiKey := c.Request().Header.Peek("x-api-key")
+		if string(xApiKey) != apiKey {
+			return c.Status(fiber.StatusUnauthorized).JSON(utils.ResponseMsg(
 				"error",
 				"Unauthorized",
-				nil,
-				nil,
 			))
-			c.Abort()
-			return
+
 		}
-		c.Next()
+		return c.Next()
 	}
 }
 
@@ -87,30 +86,25 @@ func validateMyToken(token string) *users.User {
 	return &user
 
 }
-func AuthMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		sessionToken := c.Request.Header.Get("Authorization")
-		sessionToken = strings.TrimPrefix(sessionToken, "Bearer ")
+func AuthMiddleware() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		fmt.Println("AuthMiddleware")
+		auth := c.Request().Header.Peek("Authorization")
+		sessionToken := (strings.TrimPrefix(string(auth), "Bearer "))
 		ClerkUser := validateClerkToken(sessionToken)
 		if ClerkUser == nil {
 			myUser := validateMyToken(sessionToken)
 			if myUser == nil {
-				c.JSON(401, utils.Response(
+				return c.Status(fiber.StatusUnauthorized).JSON(utils.ResponseMsg(
 					"error",
 					"Unauthorized",
-					nil,
-					nil,
 				))
-				c.Abort()
-				return
 			}
-			c.Set("user", myUser)
-			c.Next()
-			return
+			c.Locals("user", myUser)
+			return c.Next()
 		}
-
-		c.Set("user", ClerkUser)
-		c.Next()
+		c.Locals("user", ClerkUser)
+		return c.Next()
 
 	}
 }

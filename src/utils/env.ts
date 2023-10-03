@@ -13,7 +13,6 @@ export const env = {
     password: process.env.AUTHOR_PASSWORD || "",
   },
   revalidate: +(process.env.REVALIDATE || 60),
-  isProd: process.env.NODE_ENV === "production",
   mongo: {
     uri: process.env.MONGODB_URI || "",
   },
@@ -35,6 +34,3 @@ export const env = {
 export const ALLOWED_LOCALES = ["es", "en"];
 
 export const __PROD__ = process.env.NODE_ENV === "production";
-export const __DEV__ = process.env.NODE_ENV !== "production";
-export const __TEST__ = process.env.NODE_ENV === "test";
-export const __PREVIEW__ = process.env.IS_PREVIEW === "true";

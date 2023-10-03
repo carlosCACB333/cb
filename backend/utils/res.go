@@ -1,9 +1,11 @@
 package utils
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gofiber/fiber/v2"
+)
 
-func Response(status string, message string, data interface{}, others gin.H) gin.H {
-	res := gin.H{
+func Response(status string, message string, data interface{}, others fiber.Map) fiber.Map {
+	res := fiber.Map{
 		"status":  status,
 		"message": message,
 		"data":    data,
@@ -15,6 +17,6 @@ func Response(status string, message string, data interface{}, others gin.H) gin
 	return res
 }
 
-func ResponseMsg(status string, message string) gin.H {
+func ResponseMsg(status string, message string) fiber.Map {
 	return Response(status, message, nil, nil)
 }

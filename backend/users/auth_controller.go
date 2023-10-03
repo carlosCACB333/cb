@@ -4,23 +4,25 @@ import (
 	"cb/libs"
 	"cb/utils"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
 
-func AuthRegister(c *gin.Context) {
+func AuthRegister(c *fiber.Ctx) error {
 	var user User
-	c.BindJSON(&user)
-
+	if err := c.BodyParser(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Datos incorrectos",
+		))
+	}
 	// validate fields
 	errors := utils.ValidateFields(user)
 	if errors != nil {
-		c.JSON(400, utils.Response(
-			"error", "Invalid fields",
+		return c.Status(fiber.StatusBadRequest).JSON(utils.Response(
+			"error", "Campos invalido",
 			errors,
 			nil,
 		))
-		return
 	}
 
 	user.ID = uuid.New().String()
@@ -30,134 +32,118 @@ func AuthRegister(c *gin.Context) {
 
 	// create user
 	if err := libs.DBInit().Create(&user).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to create user",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al crear usuario",
 		))
-		return
 	}
 
-	c.JSON(200, user)
+	return c.JSON(utils.Response(
+		"success", "Usuario creado correctamente",
+		user,
+		nil,
+	))
 
 }
 
-func AuthLogin(c *gin.Context) {
+func AuthLogin(c *fiber.Ctx) error {
 	var login LoginDTO
 	var user User
 
-	c.BindJSON(&login)
+	if err := c.BodyParser(&login); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Datos incorrectos",
+		))
+	}
 
 	// validate fields
 	errors := utils.ValidateFields(login)
 	if errors != nil {
-		c.JSON(400, utils.Response(
-			"error", "Invalid fields",
+		return c.Status(fiber.StatusBadRequest).JSON(utils.Response(
+			"error", "Campos invalidos",
 			errors,
 			nil,
 		))
-		return
 	}
 
 	login.Email = utils.NormalizeEmail(login.Email)
 
 	// check if user exists
 	if err := libs.DBInit().Where("email = ?", login.Email).First(&user).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Invalid email",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Usuario no encontrado",
 		))
-		return
 	}
 
 	// check if password is correct
 	if !libs.CheckPassword(login.Password, user.Password) {
-		c.JSON(400, utils.Response(
-			"error", "Invalid password",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Contraseña incorrecta",
 		))
-		return
 	}
 
 	// generate token
 	token, tkerr := libs.GenerateToken(user.ID)
 	if tkerr != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to generate token",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al generar token",
 		))
 
-		return
 	}
 
-	c.JSON(400, utils.Response(
+	return c.JSON(utils.Response(
 		"success", "Login successful",
-		gin.H{"token": token, "user": user},
+		fiber.Map{"token": token, "user": user},
 		nil,
 	))
 
 }
 
-func ChangePassword(c *gin.Context) {
-	clearkUser := c.MustGet("user").(*User)
+func ChangePassword(c *fiber.Ctx) error {
+	clearkUser := c.Locals("user").(*User)
 	var reset ChangePasswordDTO
-	c.BindJSON(&reset)
+	if err := c.BodyParser(&reset); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Datos incorrectos",
+		))
+	}
 
 	// validate fields
 	if err := utils.ValidateFields(reset); err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Invalid fields",
+		return c.Status(fiber.StatusBadRequest).JSON(utils.Response(
+			"error", "Campos invalidos",
 			err,
 			nil,
 		))
-
-		return
 	}
 	if reset.NewPassword != reset.ConfirmPassword {
-		c.JSON(400, utils.Response(
-			"error", "Passwords do not match",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Las contraseñas no coinciden",
 		))
-		return
 	}
 	var user User
 	if err := libs.DBInit().Where("id = ?", clearkUser.ID).First(&user).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to fetch user",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Usuario no encontrado",
 		))
-		return
 	}
 
 	// check if old password is correct
 	if !libs.CheckPassword(reset.OldPassword, user.Password) {
-		c.JSON(400, utils.Response(
-			"error", "Invalid old password",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Contraseña antigua incorrecta",
 		))
-
-		return
 	}
 
 	// update password
 	user.Password = libs.HashPassword(reset.NewPassword)
 	if err := libs.DBInit().Save(&user).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to update password",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al actualizar contraseña",
 		))
-		return
 	}
 
-	c.JSON(200, utils.Response(
-		"success", "Password updated successfully",
+	return c.JSON(utils.Response(
+		"success", "Contraseña actualizada correctamente",
 		user,
 		nil,
 	))

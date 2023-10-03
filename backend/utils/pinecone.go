@@ -86,8 +86,7 @@ func SaveVectorOnPinacone(docs []schema.Document, embeds []openai.Embedding, nam
 		return err
 	}
 	defer res.Body.Close()
-	resBody, _ := io.ReadAll(res.Body)
-	fmt.Println("line 91", string(resBody))
+	io.ReadAll(res.Body)
 
 	return nil
 }

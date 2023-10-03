@@ -11,7 +11,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
 
@@ -19,25 +19,19 @@ func getUrl() string {
 	return "https://" + os.Getenv("AWS_S3_BUCKET") + ".s3.amazonaws.com/"
 }
 
-func CreateChat(c *gin.Context) {
+func CreateChat(c *fiber.Ctx) error {
 	fileHeader, err := c.FormFile("file")
 	if err != nil {
 		fmt.Println(err)
-		c.JSON(400, utils.Response(
-			"error", "Invalid file",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al obtener archivo",
 		))
-		return
 	}
 
 	if fileHeader.Size > 1025*1024*10 {
-		c.JSON(400, utils.Response(
-			"error", "File size too large",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "El archivo no puede ser mayor a 10MB",
 		))
-		return
 	}
 	fileName := fileHeader.Filename
 	ID := uuid.New().String()
@@ -46,15 +40,11 @@ func CreateChat(c *gin.Context) {
 
 	er := utils.PutObject(fileHeader, os.Getenv("AWS_S3_BUCKET"), fileKey)
 	if er != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to upload file",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al subir archivo",
 		))
-
-		return
 	}
-	user := c.MustGet("user").(*users.User)
+	user := c.Locals("user").(*users.User)
 
 	chat := Chatpdf{
 		Model:       common.Model{ID: ID},
@@ -65,22 +55,16 @@ func CreateChat(c *gin.Context) {
 	}
 
 	if err := libs.DBInit().Create(&chat).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to create chat",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al crear chat",
 		))
-		return
 	}
 	// VECTORIZE AND SAVE ON PINACONE
 	docs, err := utils.GetContentPDF(fileHeader)
 	if err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to process file",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al obtener contenido del archivo",
 		))
-		return
 	}
 
 	texts := []string{}
@@ -89,12 +73,9 @@ func CreateChat(c *gin.Context) {
 	}
 	embeddings, err := utils.GetEmbddingsPDF(texts)
 	if err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to create encodings",
-			nil,
-			nil,
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al obtener embeddings del archivo",
 		))
-		return
 	}
 
 	for i := 0; i < len(docs); i += 100 {
@@ -105,16 +86,14 @@ func CreateChat(c *gin.Context) {
 		utils.SaveVectorOnPinacone(docs[i:end], embeddings[i:end], fileKey)
 	}
 
-	c.JSON(200, utils.Response(
-		"success", "Chat created successfully",
-		chat,
-		gin.H{"url": getUrl()},
+	return c.JSON(utils.ResponseMsg(
+		"success", "Chat creado correctamente",
 	))
 
 }
 
-func GetAllChats(c *gin.Context) {
-	user := c.MustGet("user").(*users.User)
+func GetAllChats(c *fiber.Ctx) error {
+	user := c.Locals("user").(*users.User)
 	var chats []Chatpdf
 	res := libs.DBInit().
 		Order("created_at desc").
@@ -122,113 +101,124 @@ func GetAllChats(c *gin.Context) {
 		Where("user_id = ?", user.ID).
 		Find(&chats)
 	if res.Error != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to fetch chats",
-			nil,
-			nil,
+		return c.Status(fiber.StatusNotFound).JSON(utils.ResponseMsg(
+			"error", "Chats no encontrados",
 		))
-		return
 	}
-	c.JSON(200, utils.Response(
-		"success", "Chats fetched successfully",
+	return c.JSON(utils.Response(
+		"success", "Chats encontrados",
 		chats,
-		nil,
+		fiber.Map{"url": getUrl()},
 	))
 
 }
 
-func GetChatsById(c *gin.Context) {
-	id := c.Param("id")
-	user := c.MustGet("user").(*users.User)
+func GetChatsById(c *fiber.Ctx) error {
+	id := c.Params("id")
+	user := c.Locals("user").(*users.User)
 	var chats []Chatpdf
 
 	if err := libs.DBInit().Where("id = ? AND user_id = ?", id, user.ID).Find(&chats).Error; err != nil {
-		c.JSON(400, utils.Response(
-			"error", "Unable to fetch chat",
-			nil,
-			nil,
+		return c.Status(fiber.StatusNotFound).JSON(utils.ResponseMsg(
+			"error", "Chats no encontrados",
 		))
-		return
 	}
 
-	c.JSON(200, utils.Response(
-		"success", "Chat fetched successfully",
+	return c.JSON(utils.Response(
+		"success", "Chats encontrados",
 		chats,
-		gin.H{"url": getUrl()},
+		fiber.Map{"url": getUrl()},
 	))
 
 }
 
-func DeleteChat(c *gin.Context) {
-	id := c.Param("id")
-	user := c.MustGet("user").(*users.User)
+func DeleteChat(c *fiber.Ctx) error {
+	id := c.Params("id")
+	user := c.Locals("user").(*users.User)
 	var chat Chatpdf
 	if err := libs.DBInit().Where("id = ? AND user_id = ?", id, user.ID).First(&chat).Error; err != nil {
-		c.JSON(404, utils.ResponseMsg("error", "Resource not found"))
-		return
+		return c.Status(fiber.StatusNotFound).JSON(utils.ResponseMsg(
+			"error", "Chat no encontrado",
+		))
 	}
 	if err := utils.DeleteObject(os.Getenv("AWS_S3_BUCKET"), chat.Key); err != nil {
-		c.JSON(400, utils.ResponseMsg("error", "Unable to delete file"))
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al eliminar archivo",
+		))
 	}
 
 	if err := utils.DeleteVectorsByNamespace(chat.Key); err != nil {
-		c.JSON(400, utils.ResponseMsg("error", "Unable to delete vectors"))
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al eliminar vectores",
+		))
 	}
 
 	if err := libs.DBInit().Select("Messages").Delete(&chat).Error; err != nil {
-		c.JSON(400, utils.ResponseMsg("error", "Unable to delete chat"))
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al eliminar chat",
+		))
 	}
 
-	c.JSON(200, utils.ResponseMsg("success", "Chat deleted successfully"))
+	return c.JSON(utils.ResponseMsg(
+		"success", "Chat eliminado correctamente",
+	))
 }
 
-func GetChatFile(c *gin.Context) {
-	chatId := c.Param("id")
-	user := c.MustGet("user").(*users.User)
+func GetChatFile(c *fiber.Ctx) error {
+	chatId := c.Params("id")
+	user := c.Locals("user").(*users.User)
 	var chat Chatpdf
 	if err := libs.DBInit().Where("id = ? AND user_id = ?", chatId, user.ID).First(&chat).Error; err != nil {
-		c.JSON(404, utils.ResponseMsg("error", "Resource not found"))
-		return
+		return c.Status(fiber.StatusNotFound).JSON(utils.ResponseMsg(
+			"error", "Chat no encontrado",
+		))
 	}
 
 	object, err := utils.GetObject(os.Getenv("AWS_S3_BUCKET"), chat.Key)
 	if err != nil {
-		c.JSON(404, utils.ResponseMsg("error", "Resource not found"))
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al obtener archivo",
+		))
 	}
 	fileBytes, err := io.ReadAll(object.Body)
 	if err != nil {
-		c.JSON(400, utils.ResponseMsg("error", "Unable to fetch file"))
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al obtener archivo",
+		))
 	}
-	fmt.Println(object.Metadata["Content-Type"])
-	c.Data(200, chat.ContentType, fileBytes)
+	fmt.Println(chat.ContentType)
+	c.Response().Header.Set("Content-Type", chat.ContentType)
+	return c.Send(fileBytes)
 
 }
 
-func GetSimilarity(c *gin.Context) {
+func GetSimilarity(c *fiber.Ctx) error {
 	type Body struct {
 		Query string `json:"query"`
 	}
 	var body Body
-	c.BindJSON(&body)
-	chatID := c.Param("id")
-	user := c.MustGet("user").(*users.User)
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Datos incorrectos",
+		))
+	}
+
+	chatID := c.Params("id")
+	user := c.Locals("user").(*users.User)
 	var chat Chatpdf
 	if err := libs.DBInit().Where("id = ? AND user_id = ?", chatID, user.ID).First(&chat).Error; err != nil {
-		c.JSON(400, utils.ResponseMsg("error", "Unable to fetch chat"))
-		return
+		return c.Status(fiber.StatusNotFound).JSON(utils.ResponseMsg(
+			"error", "Chat no encontrado",
+		))
 	}
 
 	cxt, err := utils.GetContext(body.Query, chat.Key, 10)
 	if err != nil {
-		c.JSON(400, utils.ResponseMsg("error", "Unable to fetch context"))
-		return
+		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
+			"error", "Error al obtener contexto",
+		))
 	}
-	c.JSON(200, utils.Response(
+	return c.JSON(utils.Response(
 		"success", "Context fetched successfully",
 		cxt,
 		nil,

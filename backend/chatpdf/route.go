@@ -1,19 +1,19 @@
 package chatpdf
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func ChatPdfRoutes(r *gin.RouterGroup) {
-	r.GET("", GetAllChats)
-	r.GET("/:id", GetChatsById)
-	r.DELETE("/:id", DeleteChat)
+func ChatPdfRoutes(r fiber.Router) {
+	r.Get("", GetAllChats)
+	r.Get("/:id", GetChatsById)
+	r.Delete("/:id", DeleteChat)
 }
-func BootRoutesRoutes(r *gin.RouterGroup) {
-	r.POST("/:id", GetSimilarity)
+func BootRoutesRoutes(r fiber.Router) {
+	r.Post("/:id", GetSimilarity)
 }
 
-func MessagesRoutes(r *gin.RouterGroup) {
-	r.POST("/:id/new", CreateMessage)
-	r.GET("/:id/last", GetLastMessages)
+func MessagesRoutes(r fiber.Router) {
+	r.Post("/:id/new", CreateMessage)
+	r.Get("/:id/last", GetLastMessages)
 }

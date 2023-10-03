@@ -44,7 +44,7 @@ jobs:
 
           echo "BACK_PORT=8080" >> .env
           echo "FRONT_PORT=3000" >> .env
-          echo "NODE_ENV=production" >> .env
+          echo "STAGE=production" >> .env
           echo "BACK_HOST=cb_back" >> .env
           echo "FRONT_IMAGE=carloscb8080/cb-front:${{ steps.version.outputs.version }}" >> .env
           echo "BACK_IMAGE=carloscb8080/cb-back:${{ steps.version.outputs.version }}" >> .env

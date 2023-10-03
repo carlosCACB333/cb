@@ -1,11 +1,11 @@
 package users
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func UserRoutes(r *gin.RouterGroup) {
-	r.POST("/", CreateUser)
-	r.PUT("/", UpdateUser)
-	r.DELETE("/:id", DeleUser)
+func UserRoutes(r fiber.Router) {
+	r.Post("/", CreateUser)
+	r.Put("/", UpdateUser)
+	r.Delete("/:id", DeleUser)
 }

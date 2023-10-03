@@ -69,10 +69,6 @@ export const AboutSection = () => {
                 <TableCell>Edad</TableCell>
                 <TableCell>{age}</TableCell>
               </TableRow>
-              <TableRow key={4}>
-                <TableCell>Celular</TableCell>
-                <TableCell>{author.phone}</TableCell>
-              </TableRow>
               <TableRow key={5}>
                 <TableCell>Profesión</TableCell>
                 <TableCell>{author.profession?.toString()}</TableCell>
