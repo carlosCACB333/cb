@@ -30,7 +30,7 @@ func main() {
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost:3000,https://carloscb.com,https://www.carloscb.com",
-		AllowHeaders: "Origin, Content-Type, Authorization, x-api-key",
+		AllowHeaders: "*",
 	}))
 
 	SetupRouter(app)

@@ -115,8 +115,9 @@ func CreateChat(c *fiber.Ctx) error {
 	fmt.Println("Time: ", time.Since(start))
 
 	return c.JSON(utils.NewBody(utils.Body{
-		Data:   chat,
-		Others: fiber.Map{"url": getUrl()},
+		Data:    chat,
+		Others:  fiber.Map{"url": getUrl()},
+		Message: "Chat creado correctamente",
 	}))
 
 }
