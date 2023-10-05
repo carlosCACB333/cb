@@ -9,11 +9,11 @@ import (
 	"github.com/tmc/langchaingo/textsplitter"
 )
 
-func GetContentPDF(fileHeader *multipart.FileHeader) ([]schema.Document, error) {
+func GetContentPDF(fileHeader *multipart.FileHeader) []schema.Document {
 
 	file, err := fileHeader.Open()
 	if err != nil {
-		return nil, err
+		return nil
 	}
 	defer file.Close()
 	pdf := documentloaders.NewPDF(file, fileHeader.Size)
@@ -22,8 +22,8 @@ func GetContentPDF(fileHeader *multipart.FileHeader) ([]schema.Document, error) 
 		ChunkSize:  100,
 	})
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
-	return doc, nil
+	return doc
 }

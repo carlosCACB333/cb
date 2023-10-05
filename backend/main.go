@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cb/utils"
 	"fmt"
 	"log"
 	"os"
@@ -14,7 +15,7 @@ import (
 func main() {
 
 	if os.Getenv("STAGE") == "development" {
-		InitMigrations()
+		// InitMigrations()
 	}
 
 	engine := django.New("./views", ".html")
@@ -22,6 +23,7 @@ func main() {
 		CaseSensitive: true,
 		AppName:       "Chatbot API",
 		Views:         engine,
+		ErrorHandler:  utils.ErrorHandler,
 	})
 	app.Use(logger.New())
 	app.Static("/public", "./public")

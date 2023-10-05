@@ -11,18 +11,12 @@ import (
 func AuthRegister(c *fiber.Ctx) error {
 	var user User
 	if err := c.BodyParser(&user); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Datos incorrectos",
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Datos incorrectos", nil)
 	}
 	// validate fields
 	errors := utils.ValidateFields(user)
 	if errors != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.Response(
-			"error", "Campos invalido",
-			errors,
-			nil,
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Campos invalidos", errors)
 	}
 
 	user.ID = uuid.New().String()
@@ -31,17 +25,14 @@ func AuthRegister(c *fiber.Ctx) error {
 	user.Status = "active"
 
 	// create user
-	if err := libs.DBInit().Create(&user).Error; err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Error al crear usuario",
-		))
+	if resp := libs.DBInit().Create(&user); resp.Error != nil {
+		return utils.NewError(fiber.StatusBadRequest, "Error al crear usuario", nil)
 	}
 
-	return c.JSON(utils.Response(
-		"success", "Usuario creado correctamente",
-		user,
-		nil,
-	))
+	return c.JSON(utils.NewBody(utils.Body{
+		Message: "Usuario creado correctamente",
+		Data:    user,
+	}))
 
 }
 
@@ -50,51 +41,36 @@ func AuthLogin(c *fiber.Ctx) error {
 	var user User
 
 	if err := c.BodyParser(&login); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Datos incorrectos",
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Datos incorrectos", nil)
 	}
 
 	// validate fields
 	errors := utils.ValidateFields(login)
 	if errors != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.Response(
-			"error", "Campos invalidos",
-			errors,
-			nil,
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Campos invalidos", errors)
 	}
 
 	login.Email = utils.NormalizeEmail(login.Email)
 
 	// check if user exists
 	if err := libs.DBInit().Where("email = ?", login.Email).First(&user).Error; err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Usuario no encontrado",
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Usuario no encontrado", nil)
 	}
 
 	// check if password is correct
 	if !libs.CheckPassword(login.Password, user.Password) {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Contraseña incorrecta",
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Contraseña incorrecta", nil)
 	}
 
 	// generate token
 	token, tkerr := libs.GenerateToken(user.ID)
 	if tkerr != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Error al generar token",
-		))
-
+		return utils.NewError(fiber.StatusBadRequest, "Error al generar token", nil)
 	}
-
-	return c.JSON(utils.Response(
-		"success", "Login successful",
-		fiber.Map{"token": token, "user": user},
-		nil,
-	))
+	return c.JSON(utils.NewBody(utils.Body{
+		Message: "Login successful",
+		Data:    fiber.Map{"token": token, "user": user},
+	}))
 
 }
 
@@ -102,50 +78,35 @@ func ChangePassword(c *fiber.Ctx) error {
 	clearkUser := c.Locals("user").(*User)
 	var reset ChangePasswordDTO
 	if err := c.BodyParser(&reset); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Datos incorrectos",
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Datos incorrectos", nil)
 	}
 
 	// validate fields
 	if err := utils.ValidateFields(reset); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.Response(
-			"error", "Campos invalidos",
-			err,
-			nil,
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Campos invalidos", err)
 	}
 	if reset.NewPassword != reset.ConfirmPassword {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Las contraseñas no coinciden",
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Las contraseñas no coinciden", nil)
 	}
 	var user User
 	if err := libs.DBInit().Where("id = ?", clearkUser.ID).First(&user).Error; err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Usuario no encontrado",
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Usuario no encontrado", nil)
 	}
 
 	// check if old password is correct
 	if !libs.CheckPassword(reset.OldPassword, user.Password) {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Contraseña antigua incorrecta",
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Contraseña antigua incorrecta", nil)
 	}
 
 	// update password
 	user.Password = libs.HashPassword(reset.NewPassword)
 	if err := libs.DBInit().Save(&user).Error; err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(utils.ResponseMsg(
-			"error", "Error al actualizar contraseña",
-		))
+		return utils.NewError(fiber.StatusBadRequest, "Error al actualizar contraseña", nil)
 	}
 
-	return c.JSON(utils.Response(
-		"success", "Contraseña actualizada correctamente",
-		user,
-		nil,
-	))
+	return c.JSON(utils.NewBody(utils.Body{
+		Message: "Contraseña actualizada correctamente",
+		Data:    user,
+	}))
 
 }

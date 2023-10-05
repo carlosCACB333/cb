@@ -5,7 +5,6 @@ import (
 	"cb/libs"
 	"cb/users"
 	"cb/utils"
-	"fmt"
 
 	"strings"
 
@@ -17,11 +16,7 @@ func ApiKeyMiddleware(apiKey string) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		xApiKey := c.Request().Header.Peek("x-api-key")
 		if string(xApiKey) != apiKey {
-			return c.Status(fiber.StatusUnauthorized).JSON(utils.ResponseMsg(
-				"error",
-				"Unauthorized",
-			))
-
+			return utils.NewError(fiber.StatusUnauthorized, "Unauthorized", nil)
 		}
 		return c.Next()
 	}
@@ -37,12 +32,10 @@ func validateClerkToken(token string) *users.User {
 	}
 	ClerkUser, e := client.Users().Read(sessClaims.Claims.Subject)
 
-	if e != nil {
+	if e != nil || ClerkUser == nil {
 		return nil
 	}
-	if ClerkUser == nil {
-		return nil
-	}
+
 	user := users.User{
 		Model: common.Model{
 			ID: ClerkUser.ID,
@@ -70,7 +63,6 @@ func validateClerkToken(token string) *users.User {
 	if ClerkUser.Gender != nil {
 		user.Gender = *ClerkUser.Gender
 	}
-
 	return &user
 }
 
@@ -84,27 +76,33 @@ func validateMyToken(token string) *users.User {
 		return nil
 	}
 	return &user
-
 }
 func AuthMiddleware() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		fmt.Println("AuthMiddleware")
 		auth := c.Request().Header.Peek("Authorization")
 		sessionToken := (strings.TrimPrefix(string(auth), "Bearer "))
-		ClerkUser := validateClerkToken(sessionToken)
-		if ClerkUser == nil {
-			myUser := validateMyToken(sessionToken)
-			if myUser == nil {
-				return c.Status(fiber.StatusUnauthorized).JSON(utils.ResponseMsg(
-					"error",
-					"Unauthorized",
-				))
-			}
-			c.Locals("user", myUser)
-			return c.Next()
-		}
-		c.Locals("user", ClerkUser)
-		return c.Next()
+		resultChain := make(chan *users.User)
+		defer close(resultChain)
 
+		go func() {
+			resultChain <- validateClerkToken(sessionToken)
+		}()
+		go func() {
+			resultChain <- validateMyToken(sessionToken)
+		}()
+
+		var user *users.User
+		for i := 0; i < 2; i++ {
+			if user = <-resultChain; user != nil {
+				break
+			}
+		}
+
+		if user == nil {
+			return utils.NewError(fiber.StatusUnauthorized, "Unauthorized", nil)
+		}
+
+		c.Locals("user", user)
+		return c.Next()
 	}
 }
