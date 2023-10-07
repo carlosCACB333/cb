@@ -1,4 +1,4 @@
-FROM golang:1.21.1 as base
+FROM golang:1.21.2 as base
 
 
 FROM base as development
@@ -32,5 +32,5 @@ WORKDIR /root/
 ENV STAGE=production
 COPY --from=builder /app/main .
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/views ./views
+COPY --from=builder /app/view ./view
 CMD ["./main"]
