@@ -10,7 +10,6 @@ import { __PROD__ } from "@/utils";
 import { getAuthor, getCookie } from "@/action";
 import { Locale } from "@/generated/graphql";
 import { Navbar } from "@/components/common/navbar";
-import { Footer } from "@/components/common/footer";
 import { Cmdk } from "@/components/common/cmdk";
 import { serialize } from "next-mdx-remote/serialize";
 import { ClerkProvider } from "@clerk/nextjs";

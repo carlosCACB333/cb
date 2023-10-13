@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"cb/dto"
-	"cb/model"
-	"cb/server"
-	"cb/util"
+	"github.com/carlosCACB333/cb-back/dto"
+	"github.com/carlosCACB333/cb-back/model"
+	"github.com/carlosCACB333/cb-back/server"
+	"github.com/carlosCACB333/cb-back/util"
 
 	"github.com/gofiber/fiber/v2"
 )

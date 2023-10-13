@@ -7,7 +7,7 @@ services:
       target: ${STAGE}
     image: ${FRONT_IMAGE}
     depends_on:
-      - backend
+      - back-socket
     ports:
       - ${FRONT_PORT}:${FRONT_PORT}
     volumes:
@@ -17,29 +17,62 @@ services:
     environment:
       - TZ=GMT-5
     env_file:
-      - .env.front
-      - .env
+      - .env.cb-front
     networks:
       - cb-net
 
-  backend:
+  back-rest:
     build:
       context: .
       dockerfile: backend/Dockerfile
       target: ${STAGE}
     image: ${BACK_IMAGE}
     hostname: ${BACK_HOST}
+    depends_on:
+      - nats
+      # - es
     ports:
-      - ${BACK_PORT}:${BACK_PORT}
+      - "${BACK_PORT}:8081"
     volumes:
       - ./backend:/app
     environment:
       - TZ=GMT-5
     env_file:
-      - .env.back
+      - .env.cb-back
+    networks:
+      - cb-net
+
+  back-socket:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.socket
+      target: ${STAGE}
+    image: ${SOCKET_IMAGE}
+    hostname: ${SOCKET_HOST}
+    depends_on:
+      - back-rest
+    ports:
+      - "${SOCKET_PORT}:8081"
+    volumes:
+      - ./backend:/app
+    environment:
+      - TZ=GMT-5
+    env_file:
+      - .env.cb-back
       - .env
     networks:
       - cb-net
+
+  nats:
+    image: nats-streaming:alpine3.18
+    restart: always
+    hostname: ${NATS_HOST}
+    networks:
+      - cb-net
+
+volumes:
+  es:
+    driver: local
 
 networks:
   cb-net:

@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
 )
 
 type Error struct {
@@ -49,26 +48,5 @@ func ValidateFields(data interface{}) map[string]string {
 		messages[field] = err.Tag()
 	}
 	return messages
-
-}
-
-func ErrorHandler(c *fiber.Ctx, err error) error {
-	if e, ok := err.(*fiber.Error); ok {
-		return c.Status(e.Code).JSON(NewBody(Body{
-			Status:  "error",
-			Message: e.Message,
-		}))
-	} else if e, ok := err.(Error); ok {
-		return c.Status(e.Code).JSON(NewBody(Body{
-			Message: e.Message,
-			Status:  "error",
-			Data:    e.Data,
-		}))
-
-	}
-	return c.Status(fiber.StatusInternalServerError).JSON(NewBody(Body{
-		Status:  "error",
-		Message: "Error interno del servidor",
-	}))
 
 }

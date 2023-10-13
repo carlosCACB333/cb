@@ -33,3 +33,9 @@ func (hub *Hub) Broadcast(message any, exclude *Client) {
 		}
 	}
 }
+
+func (hub *Hub) Close() {
+	for _, client := range hub.clients {
+		client.Close()
+	}
+}

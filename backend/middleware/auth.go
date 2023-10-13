@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"cb/lib"
-	"cb/model"
-	"cb/server"
-	"cb/util"
+	"github.com/carlosCACB333/cb-back/lib"
+	"github.com/carlosCACB333/cb-back/model"
+	"github.com/carlosCACB333/cb-back/server"
+	"github.com/carlosCACB333/cb-back/util"
 
 	"strings"
 

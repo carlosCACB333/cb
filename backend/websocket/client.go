@@ -1,7 +1,7 @@
 package ws
 
 import (
-	"cb/model"
+	"github.com/carlosCACB333/cb-back/model"
 
 	"github.com/gofiber/contrib/websocket"
 )

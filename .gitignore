@@ -39,5 +39,5 @@ next-env.d.ts
 .contentlayer
 
 .env
-.env.back
-.env.front
+.env.cb-back
+.env.cb-front

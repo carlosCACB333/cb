@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  cb-front:
+    image: ${FRONT_IMAGE}
+    ports:
+      - "${FRONT_PORT}:3000"
+    env_file:
+      - .env.cb-front
+    depends_on:
+      - cb-back-rest
+      - cb-back-socket
+
+  cb-back-rest:
+    image: ${BACK_IMAGE}
+    ports:
+      - "${BACK_PORT}:8081"
+    env_file:
+      - .env.cb-back
+
+  cb-back-socket:
+    image: ${SOCKET_IMAGE}
+    ports:
+      - "${SOCKET_PORT}:8081"
+    env_file:
+      - .env.cb-back
+    depends_on:
+      - cb-back-rest
+
+  cb-nats:
+    image: nats-streaming:alpine3.18
+    restart: always
+    hostname: ${NATS_HOST}

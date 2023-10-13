@@ -1,9 +1,10 @@
 package util
 
 import (
-	"cb/lib"
 	"context"
 	"mime/multipart"
+
+	"github.com/carlosCACB333/cb-back/lib"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"

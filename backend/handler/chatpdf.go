@@ -1,19 +1,20 @@
 package handler
 
 import (
-	"cb/model"
-	"cb/server"
 	"fmt"
 	"strings"
 	"sync"
 	"time"
 
-	"cb/util"
+	"github.com/carlosCACB333/cb-back/model"
+	"github.com/carlosCACB333/cb-back/server"
+
 	"io"
 	"os"
 
+	"github.com/carlosCACB333/cb-back/util"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
 	"github.com/sashabaranov/go-openai"
 	"github.com/tmc/langchaingo/schema"
 )
@@ -36,7 +37,7 @@ func CreateChat(s *server.Server) fiber.Handler {
 		}
 
 		fileName := fileHeader.Filename
-		ID := uuid.New().String()
+		ID := util.NewID()
 		split := strings.Split(fileName, ".")
 		fileKey := ID + "." + split[len(split)-1]
 		user := c.Locals("user").(*model.User)

@@ -1,8 +1,9 @@
 package util
 
 import (
-	"cb/lib"
 	"context"
+
+	"github.com/carlosCACB333/cb-back/lib"
 
 	openai "github.com/sashabaranov/go-openai"
 )

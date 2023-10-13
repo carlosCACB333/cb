@@ -1,14 +1,15 @@
 package router
 
 import (
-	"cb/handler"
-	"cb/server"
+	"github.com/carlosCACB333/cb-back/handler"
+	"github.com/carlosCACB333/cb-back/server"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func AuthRoutes(s *server.Server, r fiber.Router) {
-	r.Post("/register", handler.AuthRegister(s))
-	r.Post("/login", handler.AuthLogin(s))
-	r.Post("/change-password", handler.ChangePassword(s))
+func AuthRouter(s *server.Server, r fiber.Router) {
+	h := handler.NewAuthHandler(s)
+	r.Post("/register", h.AuthRegister)
+	r.Post("/login", h.AuthLogin)
+	r.Post("/change-password", h.ChangePassword)
 }

@@ -1,13 +1,13 @@
 package handler
 
 import (
-	"cb/model"
-	"cb/server"
-	"cb/util"
 	"sort"
 
+	"github.com/carlosCACB333/cb-back/model"
+	"github.com/carlosCACB333/cb-back/server"
+	"github.com/carlosCACB333/cb-back/util"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
 )
 
 func CreateMessage(s *server.Server) fiber.Handler {
@@ -25,7 +25,7 @@ func CreateMessage(s *server.Server) fiber.Handler {
 			return util.NewError(fiber.StatusBadRequest, "Datos incorrectos", nil)
 		}
 		message.ChatpdfID = chat.ID
-		message.ID = uuid.New().String()
+		message.ID = util.NewID()
 		if err := util.ValidateFields(message); err != nil {
 			return util.NewError(fiber.StatusBadRequest, "Datos incorrectos", err)
 		}

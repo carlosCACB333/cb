@@ -7,5 +7,9 @@ func Migrate(DB *gorm.DB) {
 		&User{},
 		&Chatpdf{},
 		&ChatpdfMessage{},
+		&Tag{},
+		&Category{},
+		&Post{},
+		&Comment{},
 	)
 }

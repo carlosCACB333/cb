@@ -1,14 +1,15 @@
 package server
 
 import (
-	"cb/model"
-	ws "cb/websocket"
 	"context"
 	"fmt"
 	"log"
 
+	"github.com/carlosCACB333/cb-back/model"
+	ws "github.com/carlosCACB333/cb-back/websocket"
+	"github.com/nats-io/nats.go"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"gorm.io/gorm"
 )
@@ -20,6 +21,7 @@ type Config struct {
 	ApiKey       string
 	ApiKeyPublic string
 	JWTSecret    string
+	NatsUrl      string
 }
 
 type Server struct {
@@ -27,6 +29,7 @@ type Server struct {
 	hubs   map[string]*ws.Hub
 	config Config
 	db     *gorm.DB
+	nats   *nats.Conn
 }
 
 func (s *Server) Config() Config {
@@ -49,37 +52,55 @@ func (s *Server) App() *fiber.App {
 func (s *Server) DB() *gorm.DB {
 	return s.db
 }
-func (s *Server) initDB() {
+
+func (s *Server) Nats() *nats.Conn {
+	return s.nats
+}
+
+func (s *Server) InitDB() {
 	db, err := gorm.Open(s.config.Dialector, &gorm.Config{})
 	if err != nil {
 		panic(err.Error())
 	}
 	s.db = db
 }
+
+func (s *Server) initNats() {
+	nat, e := nats.Connect(s.config.NatsUrl)
+	if e != nil {
+		panic(e)
+	}
+	s.nats = nat
+}
+
 func (s *Server) Migrations() {
 	model.Migrate(s.db)
 }
 
 func New(_ context.Context, config Config) *Server {
+
 	app := fiber.New(config.Config)
-	return &Server{
+	s := &Server{
 		app:    app,
 		config: config,
 		hubs:   make(map[string]*ws.Hub),
 	}
+	s.InitDB()
+	s.initNats()
+	return s
 }
 
-func (s *Server) Start(setRouters func(server *Server)) {
+func (s *Server) Start(onStart func(server *Server)) {
 	s.app.Use(logger.New())
-	s.app.Static("/public", "./public")
-	s.app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:3000,https://carloscb.com,https://www.carloscb.com",
-		AllowHeaders: "*",
-	}))
-
-	s.initDB()
-
-	setRouters(s)
+	onStart(s)
 	fmt.Println("🚀 Starting server on port: " + s.config.Port)
 	log.Fatal(s.app.Listen(s.config.Port))
+}
+
+func (s *Server) Shutdown() {
+	for _, hub := range s.hubs {
+		hub.Close()
+	}
+	s.nats.Close()
+	s.app.Shutdown()
 }

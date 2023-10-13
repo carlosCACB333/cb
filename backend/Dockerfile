@@ -1,4 +1,4 @@
-FROM golang:1.21.2 as base
+FROM golang:1.21.3 as base
 
 
 FROM base as development
@@ -15,7 +15,7 @@ RUN go install -v github.com/uudashr/gopkgs/v2/cmd/gopkgs@latest
 RUN go get -u golang.org/x/lint/golint
 RUN go mod download
 COPY backend .
-CMD [ "air" ]
+CMD [ "air" ,"-c" ,".air.toml" ]
 
 
 FROM base as builder
@@ -23,7 +23,7 @@ WORKDIR /app
 COPY backend/go.mod backend/go.sum ./
 RUN go mod download
 COPY backend .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./rest-service
 
 
 FROM alpine:3.18.3 as production

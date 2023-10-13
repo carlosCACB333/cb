@@ -20,3 +20,9 @@ func NewBody(body Body) map[string]interface{} {
 	}
 	return res
 }
+
+func NewWSBody(body Body, t string) map[string]interface{} {
+	res := NewBody(body)
+	res["type"] = t
+	return res
+}
