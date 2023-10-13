@@ -26,8 +26,8 @@ jobs:
 
       - name: Create env file with secrets
         run: |
-          echo "" >>.env.back
-          echo "" >>.env.front
+          echo "" >>.env.cb-back
+          echo "" >>.env.cb-front
           echo "NEXT_PUBLIC_GRAPHCMS_URL=${{ secrets.NEXT_PUBLIC_GRAPHCMS_URL }}" >> .env
           echo "NEXT_PUBLIC_GRAPHCMS_KEY=${{ secrets.NEXT_PUBLIC_GRAPHCMS_KEY }}" >> .env
           echo "NEXT_PUBLIC_GRAPHCMS_TOKEN=${{ secrets.NEXT_PUBLIC_GRAPHCMS_TOKEN }}" >> .env
@@ -51,7 +51,7 @@ jobs:
           echo "SOCKET_HOST=cb-socket" >> .env
           echo "FRONT_IMAGE=carloscb8080/cb-front:${{ steps.version.outputs.version }}" >> .env
           echo "BACK_IMAGE=carloscb8080/cb-back:${{ steps.version.outputs.version }}" >> .env
-          echo "BACK_IMAGE=carloscb8080/cb-socket:${{ steps.version.outputs.version }}" >> .env
+          echo "SOCKET_IMAGE=carloscb8080/cb-socket:${{ steps.version.outputs.version }}" >> .env
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
