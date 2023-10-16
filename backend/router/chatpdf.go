@@ -15,6 +15,9 @@ func ChatPdfRouter(s *server.Server, r fiber.Router) {
 func BootRouter(s *server.Server, r fiber.Router) {
 	r.Post("/:id", handler.GetSimilarity(s))
 }
+func BootRouterWithoutAuth(s *server.Server, r fiber.Router) {
+	r.Post("/:id", handler.GetSimilarityWithoutAuth(s))
+}
 
 func MessagesRouter(s *server.Server, r fiber.Router) {
 	r.Post("/:id/new", handler.CreateMessage(s))

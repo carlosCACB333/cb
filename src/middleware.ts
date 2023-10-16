@@ -4,6 +4,7 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/api/sync",
+    "/api/assistant",
     "/api/revalidate",
     "/blog(/.*)?",
     "/project(/.*)?",

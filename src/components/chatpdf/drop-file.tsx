@@ -68,7 +68,11 @@ export const DropFile = () => {
       })}
     >
       <form>
-        <input {...getInputProps()} disabled={loading} />
+        <input
+          {...getInputProps()}
+          disabled={loading}
+          aria-label="input drop file"
+        />
       </form>
 
       {loading ? (

@@ -4,7 +4,7 @@ import { FaAws, FaDocker, FaGithub, FaPython, FaReact } from "react-icons/fa";
 import { IconCard } from "./Icon-card";
 import { SiIbmwatson } from "react-icons/si";
 import { BiLogoKubernetes } from "react-icons/bi";
-import { Icon } from "@/components/common/icon";
+import { GopherIcon, Icon } from "@/components/common/icon";
 import python from "@/assets/img/python.png";
 import Image from "next/image";
 
@@ -26,14 +26,11 @@ export const FloatingComponents: React.FC<{}> = () => {
 
         <Card
           isFooterBlurred
-          className="absolute -top-[260px] right-[100px] h-[120px] animate-[levitate_12s_ease_infinite_1s] z-0 max-w-fit"
+          className="absolute -top-[260px] right-[100px] animate-[levitate_12s_ease_infinite_1s] z-0 max-w-fit"
         >
           <CardBody>
             <Image src={python} alt="Python" />
           </CardBody>
-          <CardFooter className="border-1 overflow-hidden justify-between py-2 absolute before:rounded-xl rounded-xl bottom-1 w-[calc(100%_-_8px)] shadow-lg ml-1 z-10">
-            <p className="text-xs font-semibold">Python</p>
-          </CardFooter>
         </Card>
 
         <IconCard
@@ -45,14 +42,9 @@ export const FloatingComponents: React.FC<{}> = () => {
 
         <UserGitHubCard className="absolute left-[80px] -top-[50px] animate-[levitate_16s_ease_infinite] border-none" />
 
-        <Card
-          className="absolute right-[110px] -top-[60px] animate-[levitate_18s_ease_infinite] z-10 max-w-fit border-none"
-          shadow="lg"
-        >
-          <CardBody>
-            <Icon name="logo" height={70} width={70} className="fill-primary" />
-          </CardBody>
-        </Card>
+        <div className="absolute right-[110px] -top-[60px] animate-[levitate_18s_ease_infinite] z-10 max-w-fit border-none">
+          <GopherIcon height={100} width={100} />
+        </div>
 
         <div className="absolute z-10 -top-[40px] -right-[230px] animate-[levitate_14s_ease_infinite_1s]">
           <FaDocker size={50} className="text-primary" />

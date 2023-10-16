@@ -13,6 +13,7 @@ import { ContactSection } from "@/components/home/contact-section";
 import { Locale, Stage } from "@/generated/graphql";
 import { getSdk } from "@/utils/sdk";
 import { Footer } from "@/components/common/footer";
+import { ChatBoot } from "@/components/home/hero/ChatBoot";
 
 export default async function Home() {
   const {
@@ -60,6 +61,7 @@ export default async function Home() {
       <CertificateSection certifications={certifications as any} />
       <ContactSection />
       <Footer />
+      <ChatBoot />
     </main>
   );
 }

@@ -20,6 +20,7 @@ const SearcherComponent = ({ setSearch, ...rest }: Props) => {
       startContent={<Icon name="search" />}
       onValueChange={(v) => setValue(v || "")}
       value={value}
+      aria-label="Buscar"
       {...rest}
     />
   );

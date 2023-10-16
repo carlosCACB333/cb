@@ -21,7 +21,7 @@ const styles = tv({
     iconWrapper:
       "flex justify-center p-2 rounded-full items-center bg-primary text-primary-900",
     title: "text-base font-semibold",
-    description: "font-normal text-3xl text-center",
+    description: "font-bold text-3xl text-center",
   },
 });
 

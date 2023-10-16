@@ -51,7 +51,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
       })}
     >
       <VisuallyHidden>
-        <input {...getInputProps()} />
+        <input aria-label="theme switch" {...getInputProps()} />
       </VisuallyHidden>
       <div
         {...getWrapperProps()}

@@ -51,6 +51,7 @@ export const ChatCard: FC<Props> = ({ chat }) => {
           variant="light"
           onClick={handleDelete}
           disabled={isDeleting}
+          aria-label="Eliminar"
         >
           {isDeleting ? <CircularProgress size="sm" /> : <MdClose />}
         </Button>

@@ -168,6 +168,7 @@ export const Navbar: FC<NavbarProps> = ({
             className="hidden sm:flex"
             href="/auth/sign-in/"
             as={NextLink}
+            aria-label="botón de login"
           >
             Login
           </Button>

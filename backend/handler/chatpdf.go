@@ -271,3 +271,29 @@ func GetSimilarity(s *server.Server) fiber.Handler {
 
 	}
 }
+func GetSimilarityWithoutAuth(s *server.Server) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		type Body struct {
+			Query string `json:"query"`
+		}
+		var body Body
+		if err := c.BodyParser(&body); err != nil {
+			return util.NewError(fiber.StatusBadRequest, "Datos incorrectos", nil)
+		}
+
+		chatID := c.Params("id")
+		var chat model.Chatpdf
+		if err := s.DB().Where("id = ?", chatID).First(&chat).Error; err != nil {
+			return util.NewError(fiber.StatusNotFound, "Chat no encontrado", nil)
+		}
+
+		cxt, err := util.GetContext(body.Query, chat.Key, 10)
+		if err != nil {
+			return util.NewError(fiber.StatusBadRequest, "Error al obtener contexto", nil)
+		}
+		return c.JSON(util.NewBody(util.Body{
+			Data: cxt,
+		}))
+
+	}
+}

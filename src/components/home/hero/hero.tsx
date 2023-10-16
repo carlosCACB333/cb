@@ -7,7 +7,6 @@ import { FloatingComponents } from "./floating-components";
 import { title, subtitle } from "@/components";
 import { useAuthor } from "@/hooks";
 import { AiOutlineHeart, AiOutlinePaperClip } from "react-icons/ai";
-import clsx from "clsx";
 import { Feature, FeaturesGrid } from "@/components/common/features-grid";
 import { FC } from "react";
 
@@ -60,7 +59,7 @@ export const Hero: FC<Props> = ({ features }) => {
                 as={NextLink}
                 className="w-full md:w-auto"
                 color="primary"
-                aria-label="boton sobre mi"
+                aria-label="boton sobre mí"
                 endContent={
                   <AiOutlineHeart
                     className="group-data-[hover=true]:translate-x-0.5 outline-none transition-transform"

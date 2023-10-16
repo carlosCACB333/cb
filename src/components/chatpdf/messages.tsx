@@ -50,6 +50,7 @@ export const Messages = ({ chatId, initialMessages }: Props) => {
             onChange={handleInputChange}
             variant="underlined"
             placeholder="¿Qué quieres saber...?"
+            aria-label="input de mensaje para el chatbot"
           />
         </form>
       </footer>

@@ -142,6 +142,7 @@ export const ContactSection = () => {
                     endContent={
                       <FaUser className="text-foreground" size={20} />
                     }
+                    aria-label="Nombres"
                   />
                   <Input
                     {...getAttrs("email")}
@@ -150,6 +151,7 @@ export const ContactSection = () => {
                     endContent={
                       <MdAlternateEmail className="text-foreground" size={20} />
                     }
+                    aria-label="Email"
                   />
                   <Input
                     {...getAttrs("phone")}
@@ -159,6 +161,7 @@ export const ContactSection = () => {
                     endContent={
                       <AiFillPhone className="text-foreground" size={20} />
                     }
+                    aria-label="Teléfono"
                   />
                   <Input
                     {...getAttrs("affair")}
@@ -170,11 +173,13 @@ export const ContactSection = () => {
                         size={20}
                       />
                     }
+                    aria-label="asunto"
                   />
                   <Textarea
                     {...getAttrs("message")}
                     label="Mensaje"
                     placeholder="Escribe tu mensaje"
+                    aria-label="Mensaje"
                   />
                   <Button
                     type="submit"
