@@ -32,14 +32,17 @@ export const ContactSection = () => {
   const { errors, isValid, isSubmitting } = formState;
 
   const onSubmit = async (data: Contact) => {
-    const { ok, message } = await sendMail(data);
-
-    if (ok) {
-      reset();
-      toast.success(message);
-      return;
+    try {
+      const { ok, message } = await sendMail(data);
+      if (ok) {
+        reset();
+        toast.success(message);
+        return;
+      }
+      toast.error(message);
+    } catch (error) {
+      toast.error("Ocurrió un error al enviar el mensaje");
     }
-    toast.error(message);
   };
 
   const getAttrs = (name: keyof Contact) => {

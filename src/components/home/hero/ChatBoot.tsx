@@ -5,17 +5,18 @@ import { useChat } from "ai/react";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { BiSend, BiUser } from "react-icons/bi";
-import { BsRobot } from "react-icons/bs";
 import { MdMessage } from "react-icons/md";
 
 import { motion } from "framer-motion";
+import { FaRobot } from "react-icons/fa";
 
 export const ChatBoot = () => {
   const [isOpenTooltip, setIsopenTooltip] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { input, handleInputChange, handleSubmit, messages } = useChat({
-    api: "/api/assistant",
-  });
+  const { input, handleInputChange, handleSubmit, messages, isLoading } =
+    useChat({
+      api: "/api/assistant",
+    });
 
   const containerRef = React.useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -28,7 +29,7 @@ export const ChatBoot = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsopenTooltip(true);
-    }, 500);
+    }, 1500);
   }, []);
 
   return (
@@ -95,8 +96,12 @@ export const ChatBoot = () => {
                 role: "assistant",
               }}
             />
-            {messages.map((m) => (
-              <MessageItem key={m.id} message={m} />
+            {messages.map((m, i) => (
+              <MessageItem
+                key={m.id}
+                message={m}
+                isTyping={isLoading && i === messages.length - 1}
+              />
             ))}
           </div>
           <footer>
@@ -130,14 +135,20 @@ export const ChatBoot = () => {
   );
 };
 
-const MessageItem = ({ message }: { message: Message }) => {
+const MessageItem = ({
+  message,
+  isTyping = false,
+}: {
+  message: Message;
+  isTyping?: boolean;
+}) => {
   return (
     <div
       key={message.id}
       className={clsx(
         "flex gap-1 items-end justify-end my-2",
-        { "flex-row": message.role === "user" },
-        { "flex-row-reverse": message.role !== "user" }
+        { "flex-row ml-6": message.role === "user" },
+        { "flex-row-reverse mr-6": message.role !== "user" }
       )}
     >
       <span
@@ -150,11 +161,15 @@ const MessageItem = ({ message }: { message: Message }) => {
         {message.content}
       </span>
 
-      <div className="text-xl">
+      <div className="text-2xl">
         {message.role === "user" ? (
           <BiUser className="text-primary-500" />
         ) : (
-          <BsRobot className="text-primary-500" />
+          <FaRobot
+            className={clsx("text-primary-500", {
+              "animate-bounce": isTyping,
+            })}
+          />
         )}
       </div>
     </div>

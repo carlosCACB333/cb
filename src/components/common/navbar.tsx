@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FC, ReactNode, use } from "react";
+import { useState, FC, ReactNode } from "react";
 import {
   link,
   Navbar as NextUINavbar,
@@ -61,7 +61,7 @@ export const Navbar: FC<NavbarProps> = ({
       aria-label="Buscar"
       className="text-sm font-normal"
       endContent={
-        <Kbd className="py-0.5 px-2" keys={commandKey}>
+        <Kbd className="py-0.5 px-2 bg-background" keys={commandKey}>
           K
         </Kbd>
       }

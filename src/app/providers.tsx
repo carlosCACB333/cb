@@ -30,7 +30,12 @@ const ProvidersChild = ({ children }: { children: ReactNode }) => {
   const { theme } = useTheme();
   return (
     <>
-      <ToastContainer theme={theme as any} />
+      <ToastContainer
+        theme={theme as any}
+        toastStyle={{
+          background: theme === "dark" ? "#0f121a" : "#eaf5ff",
+        }}
+      />
       {children}
     </>
   );

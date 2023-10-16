@@ -1,4 +1,3 @@
-import { subtitle } from "@/components";
 import { ChatCard } from "@/components/chatpdf/chat-card";
 import { DropFile } from "@/components/chatpdf/drop-file";
 import { Footer } from "@/components/common/footer";
