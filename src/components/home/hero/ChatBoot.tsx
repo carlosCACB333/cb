@@ -35,7 +35,7 @@ export const ChatBoot = () => {
     <div className="fixed bottom-[1rem] right-[1rem] z-40 ">
       <div className="relative">
         <Button
-          className="z-50"
+          className="z-50 shadow-2xl"
           isIconOnly
           color="primary"
           radius="full"
@@ -80,7 +80,7 @@ export const ChatBoot = () => {
               },
             },
           }}
-          className="absolute bg-content1 bottom-full right-0 mb-2 rounded-md"
+          className="absolute bg-content1 bottom-full right-0 mb-2 rounded-md shadow-2xl"
         >
           <div className="h-8 bg-content1 rounded-md"></div>
           <div
@@ -142,8 +142,9 @@ const MessageItem = ({ message }: { message: Message }) => {
     >
       <span
         className={clsx("px-4 py-3 rounded-xl inline-block", {
-          "rounded-br-none bg-primary-500": message.role === "user",
-          "rounded-bl-none bg-primary-100": message.role !== "user",
+          "rounded-br-none bg-primary": message.role === "user",
+          "rounded-bl-none bg-primary-900 dark:bg-primary-100":
+            message.role !== "user",
         })}
       >
         {message.content}
