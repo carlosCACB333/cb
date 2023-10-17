@@ -54,6 +54,7 @@ export const CertificateSection = ({ certifications }: Props) => {
                 <ArrowRightIcon
                   className="group-data-[hover=true]:translate-x-0.5 outline-none transition-transform"
                   strokeWidth={2}
+                  aria-label="Ver más certificaciones"
                 />
               }
               aria-label="Ver más certificaciones"

@@ -74,11 +74,10 @@ const Codeblock = forwardRef<HTMLPreElement, CodeblockProps>(
             >
               {tokens.map((line, i) => {
                 const lineProps = getLineProps({ line, key: i });
-
                 return (
                   <div
                     key={`${i}-${getUniqueID("line-wrapper")}`}
-                    {...lineProps}
+                    // {...lineProps}
                     className={clsx(
                       lineProps.className,
                       removeIndent ? "pr-4" : "px-4",
@@ -97,13 +96,16 @@ const Codeblock = forwardRef<HTMLPreElement, CodeblockProps>(
                         {i + 1}
                       </span>
                     )}
-                    {line.map((token, key) => (
-                      <span
-                        key={`${key}-${getUniqueID("line")}`}
-                        {...getTokenProps({ token, key })}
-                        className={className}
-                      />
-                    ))}
+                    {line.map((token, key) => {
+                      const { key: _, ...p } = getTokenProps({ token, key });
+                      return (
+                        <span
+                          key={`${key}-${getUniqueID("line")}`}
+                          {...p}
+                          className={className}
+                        />
+                      );
+                    })}
                   </div>
                 );
               })}

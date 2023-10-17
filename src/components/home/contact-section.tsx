@@ -91,7 +91,12 @@ export const ContactSection = () => {
                         color="foreground"
                         aria-label="Facebook"
                       >
-                        <Icon name="facebook" className="mr-2 " /> Facebook
+                        <Icon
+                          name="facebook"
+                          className="mr-2 "
+                          aria-label="Facebook"
+                        />
+                        Facebook
                       </Link>
                     )}
                     {author.linkedin && (
@@ -101,7 +106,12 @@ export const ContactSection = () => {
                         color="foreground"
                         aria-label="Linkedin"
                       >
-                        <Icon name="linkedin" className="mr-2 " /> Linkedin
+                        <Icon
+                          name="linkedin"
+                          className="mr-2 "
+                          aria-label="linkedin"
+                        />
+                        Linkedin
                       </Link>
                     )}
                     {author.phone && (
@@ -111,7 +121,12 @@ export const ContactSection = () => {
                         color="foreground"
                         aria-label="WhatsApp"
                       >
-                        <Icon name="whatsapp" className="mr-2 " /> WhatsApp
+                        <Icon
+                          name="whatsapp"
+                          className="mr-2 "
+                          aria-label="Whatsapp"
+                        />
+                        WhatsApp
                       </Link>
                     )}
                     {author.email && (
@@ -121,7 +136,12 @@ export const ContactSection = () => {
                         color="foreground"
                         aria-label="Email"
                       >
-                        <Icon name="email" className="mr-2 " /> Email
+                        <Icon
+                          name="email"
+                          className="mr-2 "
+                          aria-label="email"
+                        />
+                        Email
                       </Link>
                     )}
                     {author.github && (
@@ -131,7 +151,12 @@ export const ContactSection = () => {
                         color="foreground"
                         aria-label="GitHub"
                       >
-                        <Icon name="git" className="mr-2 " /> GitHub
+                        <Icon
+                          name="git"
+                          className="mr-2 "
+                          aria-label="github"
+                        />
+                        GitHub
                       </Link>
                     )}
                   </div>
@@ -151,6 +176,7 @@ export const ContactSection = () => {
                     {...getAttrs("email")}
                     label="Email"
                     placeholder="Ingresa tu email"
+                    type="email"
                     endContent={
                       <MdAlternateEmail className="text-foreground" size={20} />
                     }
@@ -159,7 +185,7 @@ export const ContactSection = () => {
                   <Input
                     {...getAttrs("phone")}
                     label="Teléfono"
-                    type="number"
+                    type="phone"
                     placeholder="Ingresa tu teléfono"
                     endContent={
                       <AiFillPhone className="text-foreground" size={20} />

@@ -2,60 +2,21 @@
 import { clsx } from "@nextui-org/shared-utils";
 import * as Components from "@nextui-org/react";
 import { Language } from "prism-react-renderer";
-import NextImage from "next/image";
 import Codeblock from "../common/codeblock";
 import { Blockquote } from "../common/blockquote";
-import { FC } from "react";
-import { MDXRemote, MDXRemoteProps } from "next-mdx-remote";
+import { FC, HTMLAttributes, Key } from "react";
 import { VirtualAnchor, virtualAnchorEncode } from "../common/virtual-anchor";
+import Markdown from "react-markdown";
+import rehypeSlug from "rehype-slug";
+import remarkUnwrapImages from "remark-unwrap-images";
+import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
+import rehypeKatex from "rehype-katex";
+import remarkBreaks from "remark-breaks";
 
-const Table: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-  return (
-    <div className="overflow-x-auto overflow-y-hidden">
-      <table className="border-collapse border-spacing-0 w-full">
-        {children}
-      </table>
-    </div>
-  );
-};
-
-const Thead: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-  return (
-    <thead
-      className={clsx(
-        "[&>tr]:h-12",
-        "[&>tr>th]:py-0",
-        "[&>tr>th]:align-middle",
-        "[&>tr>th]:bg-default-400/20",
-        "dark:[&>tr>th]:bg-default-600/10",
-        "[&>tr>th]:text-default-600 [&>tr>th]:text-xs",
-        "[&>tr>th]:text-left [&>tr>th]:pl-2",
-        "[&>tr>th:first-child]:rounded-l-lg",
-        "[&>tr>th:last-child]:rounded-r-lg"
-      )}
-    >
-      {children}
-    </thead>
-  );
-};
-const Trow: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-  return <tr>{children}</tr>;
-};
-
-const Tcol: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-  return (
-    <td className="text-sm p-2 max-w-[200px] overflow-auto whitespace-normal break-normal">
-      {children}
-    </td>
-  );
-};
-
-export interface LinkedHeadingProps {
+export interface LinkedHeadingProps extends HTMLAttributes<HTMLHeadElement> {
   as: keyof JSX.IntrinsicElements;
-  id?: string;
   linked?: boolean;
-  children?: React.ReactNode;
-  className?: string;
 }
 
 const linkedLevels: Record<string, number> = {
@@ -70,48 +31,39 @@ const LinkedHeading: React.FC<LinkedHeadingProps> = ({
   linked = true,
   id: idProp,
   className,
-  ...props
+  children,
 }) => {
   const Component = as;
 
   const level = linkedLevels[as] || 1;
 
-  let id = idProp || virtualAnchorEncode(props.children as string);
+  let id = idProp || virtualAnchorEncode(children as string);
 
   return (
     <Component
       className={clsx({ "linked-heading": linked }, linked ? {} : className, {
-        "text-2xl": level === 1,
-        "text-xl": level === 2,
-        "text-lg": level === 3,
-        "text-base": level === 4,
+        "text-2xl mt-6": level === 1,
+        "text-xl mt-5": level === 2,
+        "text-lg mt-4": level === 3,
+        "text-base mt-3": level === 4,
       })}
       data-id={id}
       data-level={level}
-      data-name={props.children}
+      data-name={children}
       id={id}
-      {...props}
     >
       {linked ? (
-        <VirtualAnchor id={id}>{props.children}</VirtualAnchor>
+        <VirtualAnchor id={id}>{children}</VirtualAnchor>
       ) : (
-        <>{props.children}</>
+        <>{children}</>
       )}
     </Component>
   );
 };
 
-const List: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-  return (
-    <ul className="list-disc flex flex-col gap-2 ml-4 mt-2 [&>li>strong]:text-pink-500 dark:[&>li>strong]:text-cyan-600">
-      {children}
-    </ul>
-  );
-};
-
 const InlineCode = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <Components.Code className="font-normal bg-transparent px-0 py-0 text-code-mdx">
+    <Components.Code color="primary" size="sm">
       {children}
     </Components.Code>
   );
@@ -181,50 +133,98 @@ const Link = ({
   );
 };
 
-export const MDXContent: FC<MDXRemoteProps> = (props) => {
+export const MDXContent: FC<{ children?: string }> = ({ children }) => {
   return (
-    <MDXRemote
+    <Markdown
+      remarkPlugins={[remarkBreaks, remarkUnwrapImages, remarkMath, remarkGfm]}
+      rehypePlugins={[rehypeSlug, rehypeKatex]}
       components={{
-        NextImage,
-        // ...Icons,
-        h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+        h1: ({ ...props }) => (
           <LinkedHeading as="h1" linked={false} {...props} />
         ),
-        h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-          <LinkedHeading as="h2" {...props} />
-        ),
-        h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-          <LinkedHeading as="h3" {...props} />
-        ),
-        h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-          <LinkedHeading as="h4" {...props} />
-        ),
-        strong: (props: React.HTMLAttributes<HTMLElement>) => (
-          <strong {...props} />
-        ),
-        table: Table,
-        thead: Thead,
-        tr: Trow,
-        td: Tcol,
-        code: Code,
-        ul: List,
-        a: (props: React.HTMLAttributes<HTMLAnchorElement>) => (
-          <Link {...props} />
-        ),
-        blockquote: (
-          props: Omit<React.HTMLAttributes<HTMLElement>, "color">
-        ) => <Blockquote {...props} />,
-        kbd: (props: React.HTMLAttributes<HTMLElement>) => (
-          <Components.Kbd {...props} className="py-0.5 px-1.5" />
-        ),
-        Steps: ({ ...props }) => (
-          <div
-            className="[&>h3]:step [&>h3>a]:pt-0.5 mb-12 ml-4 relative border-l border-default-100 pl-[1.625rem] [counter-reset:step]"
+        h2: ({ ...props }) => <LinkedHeading as="h2" {...props} />,
+        h3: ({ ...props }) => <LinkedHeading as="h3" {...props} />,
+        h4: ({ ...props }) => <LinkedHeading as="h4" {...props} />,
+        strong: ({ ...props }) => <strong {...props} />,
+        table: ({ className, ...props }) => (
+          <table
+            className={"border-collapse border-spacing-0 w-full " + className}
             {...props}
           />
         ),
+        thead: ({ className, ...props }) => (
+          <thead
+            className={clsx(
+              "[&>tr]:h-12",
+              "[&>tr>th]:py-0",
+              "[&>tr>th]:align-middle",
+              "[&>tr>th]:bg-default-400/20",
+              "dark:[&>tr>th]:bg-default-600/10",
+              "[&>tr>th]:text-default-600 [&>tr>th]:text-xs",
+              "[&>tr>th]:text-left [&>tr>th]:pl-2",
+              "[&>tr>th:first-child]:rounded-l-lg",
+              "[&>tr>th:last-child]:rounded-r-lg",
+              className
+            )}
+            {...props}
+          />
+        ),
+
+        tr: ({ className, ...props }) => (
+          <tr
+            className={clsx(
+              "[&>td]:border-b border-default-100 dark:[&>td]:border-default-600/10",
+              className
+            )}
+            {...props}
+          />
+        ),
+
+        td: ({ className, ...props }) => (
+          <td
+            className={clsx(
+              "text-sm p-2 max-w-[200px] overflow-auto whitespace-normal break-normal",
+              className
+            )}
+            {...props}
+          />
+        ),
+
+        code: ({ children, className }) => (
+          <Code className={className}>{children}</Code>
+        ),
+        ul: ({ className, ...props }) => (
+          <ul
+            className={clsx(`ml-4 [&>li>strong]:text-cyan-600`, className)}
+            {...props}
+          />
+        ),
+        ol: ({ className, ...props }) => (
+          <ul
+            className={clsx(`ml-4 [&>li>strong]:text-cyan-600`, className)}
+            {...props}
+          />
+        ),
+
+        li: ({ className, ...props }) => (
+          <li
+            className={clsx(
+              "relative",
+              "before:absolute before:content[''] before:bg-cyan-600 before:inline-block ",
+              "before:w-1.5  before:h-1.5 before:rounded-full before:mr-1 before:self-center",
+              "before:right-full before:top-2.5",
+              className
+            )}
+            {...props}
+          />
+        ),
+        a: ({ ...props }) => <Link {...props} />,
+        blockquote: ({ ...props }) => (
+          <Blockquote color={"primary" as any} {...props} />
+        ),
       }}
-      {...props}
-    />
+    >
+      {children}
+    </Markdown>
   );
 };

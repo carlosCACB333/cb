@@ -11,7 +11,6 @@ import { getAuthor, getCookie } from "@/action";
 import { Locale } from "@/generated/graphql";
 import { Navbar } from "@/components/common/navbar";
 import { Cmdk } from "@/components/common/cmdk";
-import { serialize } from "next-mdx-remote/serialize";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 
@@ -21,7 +20,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const author = await getAuthor(Locale.Es);
-  const bio = await serialize(author?.bio?.toString() || "");
   const defaultTheme = getCookie("theme", "dark");
   const isDark = defaultTheme === "dark";
   return (
@@ -36,7 +34,7 @@ export default async function RootLayout({
       >
         <Providers
           themeProps={{ attribute: "class", defaultTheme }}
-          author={{ ...author, bio } as any}
+          author={author as any}
         >
           <ClerkProvider
             appearance={{
@@ -73,6 +71,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const author = await getAuthor(Locale.Es);
   const authorName = author?.firstName + " " + author?.lastName;
   return {
+    metadataBase: new URL(siteConfig.siteUrl),
     title: {
       default: authorName,
       template: `${authorName} | %s`,
@@ -81,14 +80,13 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: [
       {
         name: authorName,
-        url: siteConfig.siteUrl,
+        url: "/",
       },
     ],
     keywords: author?.keywords || [],
     creator: authorName,
-
     themeColor: [
-      { media: "(prefers-color-scheme: light)", color: "white" },
+      { media: "(prefers-color-scheme: light)", color: "#eef6ff" },
       { media: "(prefers-color-scheme: dark)", color: "#07090e" },
     ],
     icons: {
@@ -99,5 +97,20 @@ export async function generateMetadata(): Promise<Metadata> {
     manifest: "/manifest.json",
     viewport:
       "viewport-fit=cover, width=device-width, initial-scale=1, shrink-to-fit=no",
+    openGraph: {
+      type: "website",
+      locale: "es_PE",
+      siteName: "carloscb",
+      title: authorName,
+      description: author?.bio?.toString(),
+      images: [
+        {
+          url: "/banner.png",
+          width: 1540,
+          height: 806,
+          alt: authorName,
+        },
+      ],
+    },
   };
 }

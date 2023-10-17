@@ -1,5 +1,6 @@
 "use client";
-import { Author } from "@/interfaces";
+
+import { Author } from "@/generated/graphql";
 import { createContext } from "react";
 
 interface AuthorContextProps {

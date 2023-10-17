@@ -32,37 +32,39 @@ export default async function Home() {
   );
 
   return (
-    <main className="container mx-auto max-w-7xl px-6 flex-grow">
-      <Hero
-        features={[
-          {
-            icon: <AiFillSafetyCertificate size={32} />,
-            title: "Certificaciones",
-            description: certificationsConnection?.aggregate?.count + "+",
-            href: "#home-certifications",
-          },
-          {
-            icon: <AiOutlineFundProjectionScreen size={32} />,
-            title: "Proyectos",
-            description: projectsConnection?.aggregate?.count + "+",
-            href: "#home-projects",
-          },
-          {
-            icon: <BsFillPostcardFill size={32} />,
-            title: "Publicaciones",
-            description: postsConnection?.aggregate?.count + "+",
-            href: "/blog",
-          },
-        ]}
-      />
-      <AboutSection />
-      <SkillSection categories={categories as any} />
-      <ProjectSection projects={projects as any} />
-      <CertificateSection certifications={certifications as any} />
-      <ContactSection />
+    <div className="container mx-auto max-w-7xl px-6 flex-grow">
+      <main>
+        <Hero
+          features={[
+            {
+              icon: <AiFillSafetyCertificate size={32} />,
+              title: "Certificaciones",
+              description: certificationsConnection?.aggregate?.count + "+",
+              href: "#home-certifications",
+            },
+            {
+              icon: <AiOutlineFundProjectionScreen size={32} />,
+              title: "Proyectos",
+              description: projectsConnection?.aggregate?.count + "+",
+              href: "#home-projects",
+            },
+            {
+              icon: <BsFillPostcardFill size={32} />,
+              title: "Publicaciones",
+              description: postsConnection?.aggregate?.count + "+",
+              href: "/blog",
+            },
+          ]}
+        />
+        <AboutSection />
+        <SkillSection categories={categories as any} />
+        <ProjectSection projects={projects as any} />
+        <CertificateSection certifications={certifications as any} />
+        <ContactSection />
+      </main>
       <Footer />
       <ChatBoot />
-    </main>
+    </div>
   );
 }
 

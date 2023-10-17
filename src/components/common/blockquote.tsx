@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, HTMLAttributes } from "react";
 import { tv, VariantProps } from "tailwind-variants";
 
 const blockquoteStyles = tv({
@@ -20,11 +20,8 @@ const blockquoteStyles = tv({
   },
 });
 
-type BlockquoteVariantProps = VariantProps<typeof blockquoteStyles>;
-
-export interface BlockquoteProps extends BlockquoteVariantProps {
-  children?: React.ReactNode;
-  className?: string;
+export interface BlockquoteProps extends HTMLAttributes<HTMLQuoteElement> {
+  color: VariantProps<typeof blockquoteStyles>["color"];
 }
 
 export const Blockquote: FC<BlockquoteProps> = ({

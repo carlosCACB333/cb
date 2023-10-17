@@ -29,11 +29,11 @@ export const ChatBoot = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsopenTooltip(true);
-    }, 1500);
+    }, 4000);
   }, []);
 
   return (
-    <div className="fixed bottom-[1rem] right-[1rem] z-40 ">
+    <aside className="fixed bottom-[1rem] right-[1rem] z-40 ">
       <div className="relative">
         <Button
           className="z-50 shadow-2xl"
@@ -114,11 +114,12 @@ export const ChatBoot = () => {
                 placeholder="¿Qué quieres saber...?"
                 width="100%"
                 variant="underlined"
+                autoComplete="off"
                 endContent={
                   <Button
                     isIconOnly
                     radius="full"
-                    className="text-xl"
+                    className="text-xl text-foreground"
                     size="sm"
                     type="submit"
                     aria-label="Enviar mensaje"
@@ -131,7 +132,7 @@ export const ChatBoot = () => {
           </footer>
         </motion.div>
       </div>
-    </div>
+    </aside>
   );
 };
 

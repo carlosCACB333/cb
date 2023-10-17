@@ -1,12 +1,10 @@
 import { sizes } from "@/assets";
 import { title } from "@/components";
 import { IMG } from "@/components/common/IMG";
-import { TableOfContent } from "@/components/common/TableOfContent";
 import { MDXContent } from "@/components/md/MDXContent";
 import { Stage } from "@/generated/graphql";
 import { PageProps } from "@/interfaces";
 import { env, formatDate } from "@/utils";
-import { mdxSerializer } from "@/utils/mdx";
 import { getSdk } from "@/utils/sdk";
 import { Button } from "@nextui-org/button";
 import { Metadata, ResolvedMetadata } from "next";
@@ -22,10 +20,10 @@ const BlogPage = async ({ params, searchParams }: PageProps) => {
   });
 
   if (!post) return notFound();
-  const { mdx, toc } = await mdxSerializer(post.content);
+
   return (
-    <div>
-      <div className="relative aspect-square md:aspect-video">
+    <>
+      <section className="relative aspect-square md:aspect-video">
         <IMG src={post.banner.url} alt={post.title} sizes={sizes.lg} priority />
         <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-background dark:from-dark to-transparent w-full h-full flex flex-col justify-end">
           <div className="max-w-4xl mx-auto">
@@ -43,12 +41,11 @@ const BlogPage = async ({ params, searchParams }: PageProps) => {
             </Button>
           </div>
         </div>
-      </div>
-      <div className="max-w-4xl mx-auto p-6">
-        <TableOfContent toc={toc} />
-        <MDXContent {...mdx} />
-      </div>
-    </div>
+      </section>
+      <section className="max-w-4xl mx-auto p-6">
+        <MDXContent>{post.content}</MDXContent>
+      </section>
+    </>
   );
 };
 
@@ -72,9 +69,26 @@ export async function generateMetadata(
     slug: params.slug,
     stage: Stage.Published,
   });
+
+  const postTitle = post?.title || "Contenido no encontrado";
   return {
-    title: post?.title || "Contedido no encontrado",
+    title: postTitle,
     description: post?.summary || "",
     keywords: post?.summary.split(" ") || [],
+    openGraph: {
+      type: "website",
+      locale: "es_PE",
+      siteName: "carloscb",
+      title: postTitle,
+      description: post?.summary || "",
+      images: [
+        {
+          url: post?.banner.url || "/banner.png",
+          width: post?.banner.height || 1540,
+          height: post?.banner.width || 806,
+          alt: postTitle,
+        },
+      ],
+    },
   };
 }

@@ -6,7 +6,7 @@ import { ThemeProviderProps } from "next-themes/dist/types";
 import { AuthorProvider } from "@/context";
 import { ToastContainer } from "react-toastify";
 import { ReactNode } from "react";
-import { Author } from "@/interfaces";
+import { Author } from "@/generated/graphql";
 
 export interface ProvidersProps {
   children: ReactNode;

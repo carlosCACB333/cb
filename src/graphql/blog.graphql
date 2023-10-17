@@ -17,6 +17,8 @@ fragment PostsField on Post {
   updatedAt
   banner {
     url
+    height
+    width
   }
 
   createdBy {

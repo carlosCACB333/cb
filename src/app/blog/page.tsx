@@ -14,11 +14,11 @@ const BlogsHome = async () => {
     .slice(0, 4);
 
   return (
-    <div className="p-6">
+    <main className="p-6">
       <PostList posts={firstPosts as any} />
       <CategoryList categories={sortedCategories as any} />
       <PostPaginated />
-    </div>
+    </main>
   );
 };
 

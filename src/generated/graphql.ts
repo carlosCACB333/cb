@@ -8624,7 +8624,7 @@ export type GetAuthorQueryVariables = Exact<{
 
 export type GetAuthorQuery = { __typename?: 'Query', author?: { __typename?: 'Author', id: string, bio?: string | null, birth: any, email: string, firstName: string, lastName: string, phone: string, profession?: string | null, university: string, cycle?: string | null, detail: string, facebook?: string | null, linkedin?: string | null, github?: string | null, keywords: Array<string>, address: string, cv?: { __typename?: 'Asset', url: string } | null, photos: Array<{ __typename?: 'Asset', url: string }> } | null };
 
-export type PostsFieldFragment = { __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null };
+export type PostsFieldFragment = { __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string, height?: number | null, width?: number | null }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null };
 
 export type CategoryFieldFragment = { __typename?: 'Category', id: string, slug: string, name: string, icon?: string | null, img?: { __typename?: 'Asset', url: string } | null, posts: Array<{ __typename?: 'Post', id: string }> };
 
@@ -8633,14 +8633,14 @@ export type BlogsLayoutQueryVariables = Exact<{
 }>;
 
 
-export type BlogsLayoutQuery = { __typename?: 'Query', firstPosts: Array<{ __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null }>, categories: Array<{ __typename?: 'Category', id: string, slug: string, name: string, icon?: string | null, img?: { __typename?: 'Asset', url: string } | null, posts: Array<{ __typename?: 'Post', id: string }> }>, skills: Array<{ __typename?: 'Skill', id: string, name: string }> };
+export type BlogsLayoutQuery = { __typename?: 'Query', firstPosts: Array<{ __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string, height?: number | null, width?: number | null }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null }>, categories: Array<{ __typename?: 'Category', id: string, slug: string, name: string, icon?: string | null, img?: { __typename?: 'Asset', url: string } | null, posts: Array<{ __typename?: 'Post', id: string }> }>, skills: Array<{ __typename?: 'Skill', id: string, name: string }> };
 
 export type BlogsPageQueryVariables = Exact<{
   stage: Stage;
 }>;
 
 
-export type BlogsPageQuery = { __typename?: 'Query', firstPosts: Array<{ __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null }>, categories: Array<{ __typename?: 'Category', id: string, slug: string, name: string, icon?: string | null, img?: { __typename?: 'Asset', url: string } | null, posts: Array<{ __typename?: 'Post', id: string }> }> };
+export type BlogsPageQuery = { __typename?: 'Query', firstPosts: Array<{ __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string, height?: number | null, width?: number | null }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null }>, categories: Array<{ __typename?: 'Category', id: string, slug: string, name: string, icon?: string | null, img?: { __typename?: 'Asset', url: string } | null, posts: Array<{ __typename?: 'Post', id: string }> }> };
 
 export type PostsSlugQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8653,7 +8653,7 @@ export type PostBySlugQueryVariables = Exact<{
 }>;
 
 
-export type PostBySlugQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null } | null };
+export type PostBySlugQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string, height?: number | null, width?: number | null }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null } | null };
 
 export type SearchPostsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -8663,7 +8663,7 @@ export type SearchPostsQueryVariables = Exact<{
 }>;
 
 
-export type SearchPostsQuery = { __typename?: 'Query', postsConnection: { __typename?: 'PostConnection', edges: Array<{ __typename?: 'PostEdge', node: { __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null } } };
+export type SearchPostsQuery = { __typename?: 'Query', postsConnection: { __typename?: 'PostConnection', edges: Array<{ __typename?: 'PostEdge', node: { __typename?: 'Post', id: string, title: string, priority: number, slug: string, summary: string, updatedAt: any, content: string, tags: Array<{ __typename?: 'Skill', id: string, icon?: string | null, name: string }>, categories: Array<{ __typename?: 'Category', id: string, name: string, icon?: string | null }>, banner: { __typename?: 'Asset', url: string, height?: number | null, width?: number | null }, createdBy?: { __typename?: 'User', id: string, name: string, picture?: string | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null } } };
 
 export type GetCategoriesSlugQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8689,7 +8689,7 @@ export type SearchCertificationsQueryVariables = Exact<{
 
 export type SearchCertificationsQuery = { __typename?: 'Query', certificationsConnection: { __typename?: 'CertificationConnection', edges: Array<{ __typename?: 'CertificationEdge', cursor: string, node: { __typename?: 'Certification', id: string, name: string, picture: { __typename?: 'Asset', url: string } } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, pageSize?: number | null } } };
 
-export type ProjectFieldsFragment = { __typename?: 'Project', id: string, slug: string, title: string, abstract: string, gitHub?: string | null, webSide?: string | null, pictures: Array<{ __typename?: 'Asset', id: string, url: string }>, skills: Array<{ __typename?: 'Skill', id: string, name: string, icon?: string | null }> };
+export type ProjectFieldsFragment = { __typename?: 'Project', id: string, slug: string, title: string, abstract: string, gitHub?: string | null, webSide?: string | null, pictures: Array<{ __typename?: 'Asset', id: string, url: string, width?: number | null, height?: number | null }>, skills: Array<{ __typename?: 'Skill', id: string, name: string, icon?: string | null }> };
 
 export type GetHomeDataQueryVariables = Exact<{
   locales: Array<Locale> | Locale;
@@ -8697,7 +8697,7 @@ export type GetHomeDataQueryVariables = Exact<{
 }>;
 
 
-export type GetHomeDataQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', icon?: string | null, id: string, name: string, detail: string, skills: Array<{ __typename?: 'Skill', id: string, name: string, detail: string, icon?: string | null, updatedAt: any }> }>, projects: Array<{ __typename?: 'Project', id: string, slug: string, title: string, abstract: string, gitHub?: string | null, webSide?: string | null, pictures: Array<{ __typename?: 'Asset', id: string, url: string }>, skills: Array<{ __typename?: 'Skill', id: string, name: string, icon?: string | null }> }>, certifications: Array<{ __typename?: 'Certification', id: string, name: string, picture: { __typename?: 'Asset', url: string } }>, certificationsConnection: { __typename?: 'CertificationConnection', aggregate: { __typename?: 'Aggregate', count: number } }, projectsConnection: { __typename?: 'ProjectConnection', aggregate: { __typename?: 'Aggregate', count: number } }, postsConnection: { __typename?: 'PostConnection', aggregate: { __typename?: 'Aggregate', count: number } } };
+export type GetHomeDataQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', icon?: string | null, id: string, name: string, detail: string, skills: Array<{ __typename?: 'Skill', id: string, name: string, detail: string, icon?: string | null, updatedAt: any }> }>, projects: Array<{ __typename?: 'Project', id: string, slug: string, title: string, abstract: string, gitHub?: string | null, webSide?: string | null, pictures: Array<{ __typename?: 'Asset', id: string, url: string, width?: number | null, height?: number | null }>, skills: Array<{ __typename?: 'Skill', id: string, name: string, icon?: string | null }> }>, certifications: Array<{ __typename?: 'Certification', id: string, name: string, picture: { __typename?: 'Asset', url: string } }>, certificationsConnection: { __typename?: 'CertificationConnection', aggregate: { __typename?: 'Aggregate', count: number } }, projectsConnection: { __typename?: 'ProjectConnection', aggregate: { __typename?: 'Aggregate', count: number } }, postsConnection: { __typename?: 'PostConnection', aggregate: { __typename?: 'Aggregate', count: number } } };
 
 export type ProjectBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -8705,7 +8705,7 @@ export type ProjectBySlugQueryVariables = Exact<{
 }>;
 
 
-export type ProjectBySlugQuery = { __typename?: 'Query', project?: { __typename?: 'Project', detail: string, id: string, slug: string, title: string, abstract: string, gitHub?: string | null, webSide?: string | null, pictures: Array<{ __typename?: 'Asset', id: string, url: string }>, skills: Array<{ __typename?: 'Skill', id: string, name: string, icon?: string | null }> } | null };
+export type ProjectBySlugQuery = { __typename?: 'Query', project?: { __typename?: 'Project', detail: string, id: string, slug: string, title: string, abstract: string, gitHub?: string | null, webSide?: string | null, pictures: Array<{ __typename?: 'Asset', id: string, url: string, width?: number | null, height?: number | null }>, skills: Array<{ __typename?: 'Skill', id: string, name: string, icon?: string | null }> } | null };
 
 export type ProjectsSlugQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8720,7 +8720,7 @@ export type SearchProjectsQueryVariables = Exact<{
 }>;
 
 
-export type SearchProjectsQuery = { __typename?: 'Query', projectsConnection: { __typename?: 'ProjectConnection', edges: Array<{ __typename?: 'ProjectEdge', node: { __typename?: 'Project', id: string, slug: string, title: string, abstract: string, gitHub?: string | null, webSide?: string | null, pictures: Array<{ __typename?: 'Asset', id: string, url: string }>, skills: Array<{ __typename?: 'Skill', id: string, name: string, icon?: string | null }> } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null } } };
+export type SearchProjectsQuery = { __typename?: 'Query', projectsConnection: { __typename?: 'ProjectConnection', edges: Array<{ __typename?: 'ProjectEdge', node: { __typename?: 'Project', id: string, slug: string, title: string, abstract: string, gitHub?: string | null, webSide?: string | null, pictures: Array<{ __typename?: 'Asset', id: string, url: string, width?: number | null, height?: number | null }>, skills: Array<{ __typename?: 'Skill', id: string, name: string, icon?: string | null }> } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null } } };
 
 export type GetSearchMetaQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8773,6 +8773,8 @@ export const PostsFieldFragmentDoc = gql`
   updatedAt
   banner {
     url
+    height
+    width
   }
   createdBy {
     id
@@ -8807,6 +8809,8 @@ export const ProjectFieldsFragmentDoc = gql`
   pictures {
     id
     url
+    width
+    height
   }
   skills {
     id

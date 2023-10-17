@@ -20,6 +20,7 @@ export const FloatingComponents: React.FC<{}> = () => {
         <IconCard
           className="absolute -top-[130px] -right-[120px] animate-[levitate_10s_ease_infinite]"
           color={colors.blue[500]}
+          aria-label="ts"
         >
           <span className="font-extrabold">TS</span>
         </IconCard>
@@ -36,6 +37,7 @@ export const FloatingComponents: React.FC<{}> = () => {
         <IconCard
           className="absolute left-[170px] -top-[160px] animate-[levitate_17s_ease_infinite_1s]"
           color={colors.green[500]}
+          aria-label="python"
         >
           <FaGithub size={30} />
         </IconCard>
@@ -53,6 +55,7 @@ export const FloatingComponents: React.FC<{}> = () => {
         <IconCard
           className="absolute left-[200px] top-[160px] max-w-fit animate-[levitate_14s_ease_infinite_0.5s]"
           color={colors.yellow[500]}
+          aria-label="k8s"
         >
           <BiLogoKubernetes size={50} />
         </IconCard>
@@ -66,7 +69,7 @@ export const FloatingComponents: React.FC<{}> = () => {
           className="absolute right-[60px] top-[100px] animate-[levitate_12s_ease_infinite_1s] z-0 max-w-fit"
         >
           <CardBody>
-            <FaAws size={100} />
+            <FaAws aria-label="aws" size={100} />
           </CardBody>
         </Card>
       </>

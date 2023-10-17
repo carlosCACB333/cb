@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       ...messages
 
     ],
-    max_tokens: 100,
+    max_tokens: 200,
     temperature: 0.2,
     top_p: 1,
     frequency_penalty: 1,

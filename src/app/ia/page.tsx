@@ -4,7 +4,7 @@ import { FaRobot } from "react-icons/fa";
 
 export default async function IAPage() {
   return (
-    <div className="lg:h-[calc(100vh-4rem)] flex flex-col p-6">
+    <div className="lg:h-[calc(100vh-4rem)] max-w-7xl mx-auto flex flex-col p-6">
       <main className="flex-1 flex flex-col justify-center items-center">
         <h1 className="max-w-2xl">
           <span className={title({ color: "blue" })}>

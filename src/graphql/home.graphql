@@ -8,6 +8,8 @@ fragment ProjectFields on Project {
   pictures {
     id
     url
+    width
+    height
   }
   skills {
     id

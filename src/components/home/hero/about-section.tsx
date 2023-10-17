@@ -48,9 +48,14 @@ export const AboutSection = () => {
             </div>
           </div>
           <div className={subtitle({ fullWidth: true })}>
-            <MDXContent {...author.bio} />
+            <MDXContent>{author.bio?.toString()}</MDXContent>
           </div>
-          <Table hideHeader removeWrapper isCompact>
+          <Table
+            hideHeader
+            removeWrapper
+            isCompact
+            aria-label="Tabla de información personal"
+          >
             <TableHeader>
               <TableColumn> </TableColumn>
               <TableColumn> </TableColumn>

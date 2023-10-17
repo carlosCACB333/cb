@@ -16,14 +16,13 @@ const Layout = async ({ children }: LayoutProps) => {
   });
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 container m-auto">
+    <main className="flex flex-col lg:flex-row gap-8 lg:gap-16 container m-auto">
       <div className="flex-1">
         {children}
-
         <br />
         <Footer />
       </div>
-      <div className="w-full md:w-96 sticky top-16 scroll pr-2 lg:max-h-[calc(100vh-6rem)] p-6">
+      <aside className="w-full md:w-96 sticky top-16 scroll pr-2 lg:max-h-[calc(100vh-6rem)] p-6">
         <h3 className={subtitle({ class: "text-foreground" })}>Categorías</h3>
         <ol>
           {categories.map((category) => (
@@ -80,8 +79,8 @@ const Layout = async ({ children }: LayoutProps) => {
             </div>
           ))}
         </div>
-      </div>
-    </div>
+      </aside>
+    </main>
   );
 };
 

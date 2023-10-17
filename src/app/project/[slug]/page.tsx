@@ -1,13 +1,12 @@
-import { PostContent } from "@/components/post/PostContent";
 import { Project, Stage } from "@/generated/graphql";
 import { PageProps } from "@/interfaces";
 import { env } from "@/utils";
 import { Metadata, ResolvedMetadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
-import { mdxSerializer } from "@/utils/mdx";
 import { ProjectCarrousel } from "@/components/project/ProjectCarrousel";
 import { getSdk } from "@/utils/sdk";
+import { MDXContent } from "@/components/md/MDXContent";
 
 const ProjectPage = async ({ params, searchParams }: PageProps) => {
   const { project } = await getSdk().projectBySlug({
@@ -18,17 +17,16 @@ const ProjectPage = async ({ params, searchParams }: PageProps) => {
   if (!project) {
     notFound();
   }
-  const { mdx, toc } = await mdxSerializer(project.detail);
-  await new Promise((resolve) => setTimeout(resolve, 10000));
+
   return (
-    <div>
+    <>
       <div className="relative -mt-16">
         <ProjectCarrousel project={project as Project} />
       </div>
-      <div className="max-w-4xl mx-auto p-6">
-        <PostContent content={mdx} />
-      </div>
-    </div>
+      <main className="max-w-4xl mx-auto p-6">
+        <MDXContent>{project?.detail}</MDXContent>
+      </main>
+    </>
   );
 };
 
@@ -52,9 +50,25 @@ export async function generateMetadata(
     slug: params.slug,
     stage: Stage.Published,
   });
+  const projectTitle = project?.title || "Contenido no encontrado";
   return {
     title: project?.title || "Proyecto",
     description: project?.abstract || "",
     keywords: project?.abstract.split(" ") || [],
+    openGraph: {
+      type: "website",
+      locale: "es_PE",
+      siteName: "carloscb",
+      title: projectTitle,
+      description: project?.abstract || "",
+      images: [
+        {
+          url: project?.pictures[0].url || "/banner.png",
+          width: project?.pictures[0].height || 1540,
+          height: project?.pictures[0].width || 806,
+          alt: projectTitle,
+        },
+      ],
+    },
   };
 }

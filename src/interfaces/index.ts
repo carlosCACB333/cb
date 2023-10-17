@@ -1,11 +1,8 @@
 export * from "./contact";
 export * from "./chatpdf";
 
-import { Locale, Author as A } from "@/generated/graphql";
-import { MDXRemoteSerializeResult } from "next-mdx-remote";
-export interface Author extends Omit<A, "bio"> {
-  bio: MDXRemoteSerializeResult;
-}
+import { Locale } from "@/generated/graphql";
+
 export interface PageProps {
   params: {
     locale: Locale;
