@@ -153,11 +153,14 @@ const MessageItem = ({
       )}
     >
       <span
-        className={clsx("px-4 py-3 rounded-xl inline-block", {
+        className={clsx("px-4 py-3 rounded-xl inline-block ", {
           "rounded-br-none bg-primary": message.role === "user",
           "rounded-bl-none bg-primary-900 dark:bg-primary-100":
             message.role !== "user",
         })}
+        style={{
+          overflowWrap: "anywhere",
+        }}
       >
         {message.content}
       </span>

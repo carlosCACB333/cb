@@ -2,15 +2,20 @@ package main
 
 import (
 	"context"
+	"net"
 	"os"
 	"time"
 
+	grpcServer "github.com/carlosCACB333/cb-back/grpc-service"
 	"github.com/carlosCACB333/cb-back/middleware"
+	pb "github.com/carlosCACB333/cb-back/proto"
 	"github.com/carlosCACB333/cb-back/router"
 	"github.com/carlosCACB333/cb-back/server"
+	"google.golang.org/grpc"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/django/v3"
+	"google.golang.org/grpc/reflection"
 	"gorm.io/driver/postgres"
 )
 
@@ -37,7 +42,20 @@ func main() {
 		})
 	// server.Migrations()
 
-	s.Start(router.SetupRouter)
+	go func() {
+		s.Start(router.OnStart)
+		s.Shutdown()
+	}()
 
-	s.Shutdown()
+	listener, err := net.Listen("tcp", ":"+os.Getenv("GRPC_PORT"))
+	if err != nil {
+		panic(err)
+	}
+
+	g := grpc.NewServer()
+	pb.RegisterPostServiceServer(g, grpcServer.NewPostServiceServer(s))
+	reflection.Register(g)
+
+	g.Serve(listener)
+
 }

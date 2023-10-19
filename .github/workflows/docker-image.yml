@@ -45,6 +45,7 @@ jobs:
           echo "BACK_PORT=8081" >> .env
           echo "SOCKET_PORT=8082" >> .env
           echo "FRONT_PORT=3000" >> .env
+          echo "GRPC_PORT=8085" >> .env
           echo "STAGE=production" >> .env
           echo "BACK_HOST=cb-back" >> .env
           echo "NATS_HOST=cb-nats" >> .env

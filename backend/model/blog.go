@@ -2,16 +2,16 @@ package model
 
 type Post struct {
 	Model
-	Slug       string   `json:"slug" gorm:"not null;unique" validate:"required"`
-	Title      string   `json:"title" gorm:"not null" validate:"required"`
-	Summary    string   `json:"summary" gorm:"not null" validate:"required"`
-	Content    string   `json:"content" gorm:"not null" validate:"required"`
-	Banner     string   `json:"banner" gorm:"not null" validate:"required"`
-	AuthorId   string   `json:"authorId" gorm:"not null" validate:"required"`
-	CategoryId string   `json:"categoryId" gorm:"not null" validate:"required"`
-	Author     User     `json:"author" gorm:"not null" validate:"-"`
-	Category   Category `json:"category" gorm:"not null" validate:"-"`
-	Tags       []*Tag   `json:"tags" gorm:"many2many:post_tags" validate:"required"`
+	Slug       string    `json:"slug" gorm:"not null;unique" validate:"required"`
+	Title      string    `json:"title" gorm:"not null" validate:"required"`
+	Summary    string    `json:"summary" gorm:"not null" validate:"required"`
+	Content    string    `json:"content" gorm:"not null" validate:"required"`
+	Banner     string    `json:"banner" gorm:"not null" validate:"required"`
+	AuthorId   string    `json:"authorId" gorm:"not null" validate:"required"`
+	CategoryId string    `json:"categoryId" gorm:"not null" validate:"required"`
+	Author     User      `json:"author" gorm:"not null" validate:"-"`
+	Category   *Category `json:"category" gorm:"not null" validate:"-"`
+	Tags       []*Tag    `json:"tags" gorm:"many2many:post_tags" validate:"required"`
 }
 
 type Category struct {

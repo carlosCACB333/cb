@@ -19,6 +19,7 @@ Mis gustos por las tecnologías de desarrollo de software son las siguientes:
 - Para desplegar mis aplicaciones en la nube utilizo aws.
 - Me gusta trabajar con bases de datos relacionales como postgresql y mysql.
 - Me gusta trabajar con bases de datos no relacionales como mongodb.
+- Conozco un poco de php pero, no me gustaría trabajar con él.
 - Siempre estoy a la vanguardia de las nuevas tecnologías y novedades de la industria para así estar actualizados y en contante aprendizaje
 
 ### Datos personales
@@ -30,14 +31,14 @@ Mis gustos por las tecnologías de desarrollo de software son las siguientes:
 - **Ciudad de residencia:** _Huaraz, Ancash, Perú_
 - **Estado civil:** _Soltero_
 - **Estatura:** _1.73 m_
-- **Peso:** _68s kg_
+- **Peso(estatura):** _68s kg_
 
 ### Datos de contacto
 
-- **Email:** *carloscb8080@gmail.com*
-- **LinkedIn:** *https://www.linkedin.com/in/carloscastilloblas/*
-- **GitHub:** *https://github.com/carlosCACB333*
-- **Citio web** _https://carloscb.com_
+- **mi correo o Email:** *carloscb8080@gmail.com*
+- **mi LinkedIn:** *https://www.linkedin.com/in/carloscastilloblas/*
+- **mi GitHub:** *https://github.com/carlosCACB333*
+- **mi página web** _https://carloscb.com_
 
 ### Habilidades técnicas
 
@@ -67,28 +68,25 @@ Mis hablidades blandas son las siguientes: Trabajo colaborativo,Perseverancia,Au
 
 ### Logros
 
-- soy Becario del PRONABEC.
-- soy Estudiante del quinto superior en la UNASAM.
-- Tengo Nivel legend en PLATZI.
+mis logros y meritos son los siguientes: Becario del PRONABEC, soy Estudiante del quinto superior en la UNASAM y Tengo Nivel legend en PLATZI.
 
 ### Idiomas
 
-- Español: Nativo
-- Inglés: Básico
+Mi lengua nativa es el español y mi tengo inglés básico.
 
 ### Educación
 
-- Ingeniería de sistemas e informática en la universidad Santiago Antúnez de Mayolo(2018-2023) - Huaraz, Ancash, Perú.
+- He estudiado Ingeniería de sistemas e informática en la universidad Santiago Antúnez de Mayolo(2018-2023) - Huaraz, Ancash, Perú.
 
-- Programa educativo de Oracle Next Education (ONE)(2023) con la especialización de programador backend de manera virtual.
+- He cursado el Programa educativo de Oracle Next Education (ONE)(2023) con la especialización de programador backend de manera virtual.
 
-- Aprendizaje autodiacta en Udemy(2020-actualidad) Online.
+- de manera autodiacta he estudiado en Udemy(2020-actualidad) Online.
 
-- Aprendizaje autodiacta en Platzi(2020-actualidad) Online.
+- de manera autodiacta he estudiado en Platzi(2020-actualidad) Online.
 
 ### Experiencia laboral
 
-- Desarrollador backend jr en Netdreams (febrero 2023 - actualidad) Desarrollo de backend para aplicaciones móviles.
+- estoy trabajando como Desarrollador backend jr en Netdreams (febrero 2023 - actualidad) haciendo Desarrollo backend para aplicaciones móviles.
 
 ### Proyectos personales
 
@@ -100,104 +98,138 @@ Mis hablidades blandas son las siguientes: Trabajo colaborativo,Perseverancia,Au
 
 ### Certificaciones y cursos
 
-- Estos son algunos de los cursos y las certificaciones que obtenido de ellas:
-- React Native: Aplicaciones nativas para IOS y Android
-- Next.js: El framework de React para producción
-- Curso de Backend con Node.js: API REST con Express.js
-- Audiocurso de Fundamentos de Web3
-- Audiocurso de Historia de Bitcoin y Criptomonedas
-- Cómo y Por Qué Aprender Data Science e Inteligencia Artificial
-- Curso Básico de Cálculo Diferencial para Data Science e Inteligencia Artificial
-- Curso Básico de Django
-- Curso Básico de GraphQL
-- Curso Básico de JavaScript
-- Curso Básico de Manipulación y Transformación de Datos con Pandas y NumPy
-- Curso Básico de Material UI con React
-- Curso Básico de PHP: Arreglos, Funciones y Estructuras de Control
-- Curso Básico de PHP: Instalación, Fundamentos y Operadores
-- Curso Básico de Programación
-- Curso Básico de Python
-- Curso Básico de Visualización de Datos con Matplotlib y Seaborn
-- Curso de Análisis de Negocios para Ciencia de Datos
-- Curso de Análisis Exploratorio de Datos
-- Curso de Animaciones con CSS
-- Curso de Aplicaciones en Tiempo Real con Socket.io
-- Curso de Asincronismo con JavaScript
-- Curso de Backend con Node.js: API REST con Express.js
-- Curso de Backend con Node.js: Autenticación con Passport.js y JWT
-- Curso de Backend con Node.js: Base de Datos con PostgreSQL
-- Curso de Bitcoin Core y Script
-- Curso de Bitcoin para Developers
-- Curso de Bitcoin y Blockchain
-- Curso de Casos de Uso de Smart Contracts
-- Curso de Configuración Profesional de Entorno de Trabajo para Ciencia de Datos
-- Curso de CSS Grid Básico
-- Curso de Django Intermedio: Testing, Static Files, Django Admin
-- Curso de Economía Digital: Bitcoin y Criptomonedas
-- Curso de Entorno de Trabajo para Ciencia de Datos con Jupyter Notebooks y Anaconda
-- Curso de Ethereum para Developers
-- Curso Definitivo de HTML y CSS
-- Curso de Frontend Developer
-- Curso de Funciones Matemáticas para Data Science e Inteligencia Artificial
-- Curso de Fundamentos de Álgebra Lineal con Python
-- Curso de Fundamentos de Bases de Datos
-- Curso de Fundamentos de Matemáticas
-- Curso de Fundamentos de Redes Neuronales con Python y Keras
-- Curso de Fundamentos de TypeScript
-- Curso de Fundamentos Prácticos de Machine Learning
-- Curso de Inglés Básico: Escritura
-- Curso de Introducción a Excel
-- Curso de Introducción a Java SE
-- Curso de Introducción a la Terminal y Línea de Comandos
-- Curso de Introducción al Desarrollo Backend
-- Curso de Introducción al Desarrollo Blockchain: Smart Contracts
-- Curso de Introducción a Librerías UI con React
-- Curso de Introducción al Pensamiento Computacional con Python
-- Curso de Introducción a Machine Learning por MindsDB
-- Curso de Introducción a React.js
-- Curso de Introducción a Solidity
-- Curso de Introducción a Tokens en Ethereum
-- Curso de Java SE Orientado a Objetos
-- Curso de Java SE Persistencia de Datos
-- Curso de Manipulación y Análisis de Datos con Pandas y Python
-- Curso de Matemáticas para Data Science: Estadística Descriptiva
-- Curso de Matemáticas para Data Science: Probabilidad
-- Curso de Next.js
-- Curso de Next.js con GraphQL
-- Curso de Next.js: Internacionalización de Aplicaciones Web con i18n
-- Curso de Next.js: Optimización y Deploy a Producción
-- Curso de Next.js: Optimización y Manejo de Grandes Datasets
-- Curso de Next.js: Sitios Estáticos y Jamstack
-- Curso de Node.js: Base de Datos con MongoDB y WebSockets
-- Curso de Node.js: GraphQL con Apollo Server y Prisma
-- Curso de Pensamiento Lógico: Algoritmos y Diagramas de Flujo
-- Curso de Pensamiento Lógico: Manejo de Datos, Estructuras y Funciones
-- Curso de PostgreSQL
-- Curso de PostgreSQL Aplicado a Ciencia de Datos
-- Curso de Prework: Configuración de Entorno de Desarrollo en Windows
-- Curso de Prework para Desarrollo de Aplicaciones Blockchain
-- Curso de React Avanzado
-- Curso de React.js: Manejo Profesional del Estado
-- Curso de React.js: Patrones de Render y Composición
-- Curso de React Native CLI
-- Curso de React Router 5 y Redux
-- Curso de Regresión Lineal con Python y scikit-learn
-- Curso de Single Page Application con JavaScript Vanilla
-- Curso de State Machines en React.js
-- Curso de TensorFlow.js
-- Curso de Transformaciones y Transiciones en CSS
-- Curso de TypeScript: Programación Orientada a Objetos y Asincronismo
-- Curso de TypeScript: Tipos Avanzados y Funciones
-- Curso de UX para DeFi: Diseñando los Servicios Financieros del Futuro
-- Curso de Vite.js
-- Curso de Webpack
-- Curso para Crear tus Proyectos de Ciencia de Datos
-- Curso Práctico de Frontend Developer
-- Curso Práctico de HTML y CSS
-- Curso Práctico de JavaScript
-- Curso Práctico de Maquetación en CSS
-- Curso Práctico de React.js
-- Curso Profesional de Machine Learning con Scikit-Learn
-- Curso Profesional de Next.js
-- Curso Profesional de React Hooks
-- Curso Profesional de React.js y Redux
+certificado en el curso de React Native: Aplicaciones nativas para IOS y Android
+certificado en el curso de Next.js: El framework de React para producción
+certificado en el Curso de Backend con Node.js: API REST con Express.js
+certificado en el curso de Audiocurso de Fundamentos de Web3
+certificado en el curso de Audiocurso de Historia de Bitcoin y Criptomonedas
+certificado en el curso de Cómo y Por Qué Aprender Data Science e Inteligencia Artificial
+certificado en el Curso Básico de Cálculo Diferencial para Data Science e Inteligencia Artificial
+certificado en el Curso Básico de Django
+certificado en el Curso Básico de GraphQL
+certificado en el Curso Básico de JavaScript
+certificado en el Curso Básico de Manipulación y Transformación de Datos con Pandas y NumPy
+certificado en el Curso Básico de Material UI con React
+certificado en el Curso Básico de PHP: Arreglos, Funciones y Estructuras de Control
+certificado en el Curso Básico de PHP: Instalación, Fundamentos y Operadores
+certificado en el Curso Básico de Programación
+certificado en el Curso Básico de Python
+certificado en el Curso Básico de Visualización de Datos con Matplotlib y Seaborn
+certificado en el Curso de Análisis de Negocios para Ciencia de Datos
+certificado en el Curso de Análisis Exploratorio de Datos
+certificado en el Curso de Animaciones con CSS
+certificado en el Curso de Aplicaciones en Tiempo Real con Socket.io
+certificado en el Curso de Asincronismo con JavaScript
+certificado en el Curso de Backend con Node.js: API REST con Express.js
+certificado en el Curso de Backend con Node.js: Autenticación con Passport.js y JWT
+certificado en el Curso de Backend con Node.js: Base de Datos con PostgreSQL
+certificado en el Curso de Bitcoin Core y Script
+certificado en el Curso de Bitcoin para Developers
+certificado en el Curso de Bitcoin y Blockchain
+certificado en el Curso de Casos de Uso de Smart Contracts
+certificado en el Curso de Configuración Profesional de Entorno de Trabajo para Ciencia de Datos
+certificado en el Curso de CSS Grid Básico
+certificado en el Curso de Django Intermedio: Testing, Static Files, Django Admin
+certificado en el Curso de Economía Digital: Bitcoin y Criptomonedas
+certificado en el Curso de Entorno de Trabajo para Ciencia de Datos con Jupyter Notebooks y Anaconda
+certificado en el Curso de Ethereum para Developers
+certificado en el Curso Definitivo de HTML y CSS
+certificado en el Curso de Frontend Developer
+certificado en el Curso de Funciones Matemáticas para Data Science e Inteligencia Artificial
+certificado en el Curso de Fundamentos de Álgebra Lineal con Python
+certificado en el Curso de Fundamentos de Bases de Datos
+certificado en el Curso de Fundamentos de Matemáticas
+certificado en el Curso de Fundamentos de Redes Neuronales con Python y Keras
+certificado en el Curso de Fundamentos de TypeScript
+certificado en el Curso de Fundamentos Prácticos de Machine Learning
+certificado en el Curso de Inglés Básico: Escritura
+certificado en el Curso de Introducción a Excel
+certificado en el Curso de Introducción a Java SE
+certificado en el Curso de Introducción a la Terminal y Línea de Comandos
+certificado en el Curso de Introducción al Desarrollo Backend
+certificado en el Curso de Introducción al Desarrollo Blockchain: Smart Contracts
+certificado en el Curso de Introducción a Librerías UI con React
+certificado en el Curso de Introducción al Pensamiento Computacional con Python
+certificado en el Curso de Introducción a Machine Learning por MindsDB
+certificado en el Curso de Introducción a React.js
+certificado en el Curso de Introducción a Solidity
+certificado en el Curso de Introducción a Tokens en Ethereum
+certificado en el Curso de Java SE Orientado a Objetos
+certificado en el Curso de Java SE Persistencia de Datos
+certificado en el Curso de Manipulación y Análisis de Datos con Pandas y Python
+certificado en el Curso de Matemáticas para Data Science: Estadística Descriptiva
+certificado en el Curso de Matemáticas para Data Science: Probabilidad
+certificado en el Curso de Next.js
+certificado en el Curso de Next.js con GraphQL
+certificado en el Curso de Next.js: Internacionalización de Aplicaciones Web con i18n
+certificado en el Curso de Next.js: Optimización y Deploy a Producción
+certificado en el Curso de Next.js: Optimización y Manejo de Grandes Datasets
+certificado en el Curso de Next.js: Sitios Estáticos y Jamstack
+certificado en el Curso de Node.js: Base de Datos con MongoDB y WebSockets
+certificado en el Curso de Node.js: GraphQL con Apollo Server y Prisma
+certificado en el Curso de Pensamiento Lógico: Algoritmos y Diagramas de Flujo
+certificado en el Curso de Pensamiento Lógico: Manejo de Datos, Estructuras y Funciones
+certificado en el Curso de PostgreSQL
+certificado en el Curso de PostgreSQL Aplicado a Ciencia de Datos
+certificado en el Curso de Prework: Configuración de Entorno de Desarrollo en Windows
+certificado en el Curso de Prework para Desarrollo de Aplicaciones Blockchain
+certificado en el Curso de React Avanzado
+certificado en el Curso de React.js: Manejo Profesional del Estado
+certificado en el Curso de React.js: Patrones de Render y Composición
+certificado en el Curso de React Native CLI
+certificado en el Curso de React Router 5 y Redux
+certificado en el Curso de Regresión Lineal con Python y scikit-learn
+certificado en el Curso de Single Page Application con JavaScript Vanilla
+certificado en el Curso de State Machines en React.js
+certificado en el Curso de TensorFlow.js
+certificado en el Curso de Transformaciones y Transiciones en CSS
+certificado en el Curso de TypeScript: Programación Orientada a Objetos y Asincronismo
+certificado en el Curso de TypeScript: Tipos Avanzados y Funciones
+certificado en el Curso de UX para DeFi: Diseñando los Servicios Financieros del Futuro
+certificado en el Curso de Vite.js
+certificado en el Curso de Webpack
+certificado en el Curso para Crear tus Proyectos de Ciencia de Datos
+certificado en el Curso Práctico de Frontend Developer
+certificado en el Curso Práctico de HTML y CSS
+certificado en el Curso Práctico de JavaScript
+certificado en el Curso Práctico de Maquetación en CSS
+certificado en el Curso Práctico de React.js
+certificado en el Curso Profesional de Machine Learning con Scikit-Learn
+certificado en el Curso Profesional de Next.js
+certificado en el Curso Profesional de React Hooks
+certificado en el Curso Profesional de React.js y Redux
+
+certificado en el Nuevo Curso Gratis de Programación Básica
+certificado en el curso de Full Stack Developer con JavaScript
+certificado en el curso de Frontend con React.js
+certificado en el curso de React PRO: Lleva tus bases al siguiente nivel
+certificado en el curso de Nest: Desarrollo backend escalable con Node
+certificado en el Curso Profesional de Scrum
+certificado en el Curso Básico de Programación en Go
+certificado en el Curso Práctico de Go: Creación de un Servidor Web
+certificado en el Curso de Go Intermedio: Programación Orientada a Objetos y Concurrencia
+certificado en el Curso de Introducción a AWS: Fundamentos de Cloud Computing
+certificado en el Curso de Expresiones Regulares
+certificado en el Curso de ECMAScript: Historia y Versiones de JavaScript
+certificado en el Curso de Python: Comprehensions, Funciones y Manejo de Errores
+certificado en el Curso de Python: PIP y Entornos Virtuales
+certificado en el Curso de Introducción a AWS: Cómputo, Almacenamiento y Bases de Datos
+certificado en el Curso Práctico de AWS: Roles y Seguridad con IAM
+certificado en el Curso Práctico de AWS: Cómputo con EC2
+certificado en el curso de Fundamentos de Ingeniería de Software
+certificado en el Curso Práctico de AWS Cloud
+certificado en el Curso Práctico de Cloud Computing con AWS
+certificado en el Curso de Docker
+certificado en el Curso Práctico de Bases de Datos en AWS
+certificado en el Curso Práctico de Storage en AWS
+certificado en el curso de Networking y Content Delivery en AWS
+certificado en el curso de Amazon Web Services
+certificado en el curso de Introducción a Serverless, Lambdas y Api Gateway con AWS
+certificado en el curso de AWS Lambda y API Gateway
+certificado en el curso de Docker - Guía práctica de uso para desarrolladores
+certificado en el curso de desarrollo backend - oracle next education
+certificado en el curso de Inteligencia Artificial y Deep Learning desde cero en Python
+certificado en el Curso de Go Avanzado: Concurrencia y Patrones de Diseño
+certificado en el Curso de Go Avanzado: REST y WebSockets
+certificado en el curso de Unit Testing en Go
+certificado del Curso de Go Avanzado: Protobuffers y gRPC

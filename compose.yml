@@ -33,6 +33,7 @@ services:
       # - es
     ports:
       - "${BACK_PORT}:8081"
+      - "${GRPC_PORT}:${GRPC_PORT}"
     volumes:
       - ./backend:/app
     environment:

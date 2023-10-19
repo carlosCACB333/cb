@@ -10,7 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
-func SetupRouter(s *server.Server) {
+func OnStart(s *server.Server) {
 
 	s.App().Static("/public", "./public")
 	s.App().Use(cors.New(cors.Config{
@@ -37,7 +37,7 @@ func setupPrivatev1Router(s *server.Server, parent fiber.Router) {
 	r := parent.Group("/", middleware.ApiKeyMiddleware(s.Config().ApiKey))
 	{ //NOT REQUIRED AUTHENTICATION
 		UserRouter(s, r.Group("/user"))
-		BootRouterWithoutAuth(s,r.Group("/bootWithout"))
+		BootRouterWithoutAuth(s, r.Group("/bootWithout"))
 	}
 	{ //REQUIRED AUTHENTICATION
 		r.Use(middleware.AuthMiddleware(s))
