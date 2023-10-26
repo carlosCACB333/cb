@@ -6,7 +6,7 @@ import { PostCard } from "./PostCard";
 import { Pagination } from "../common/Pagination";
 
 export const PostPaginated = () => {
-  const { data, onSearch, onChangePage } = usePagination(searchPosts, 9);
+  const { data, onSearch, onChangePage } = usePagination(searchPosts, "", 9);
   return (
     <div>
       <div className="max-w-lg mx-auto ">

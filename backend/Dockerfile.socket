@@ -30,4 +30,5 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 ENV STAGE=production
 COPY --from=builder /app/main .
+EXPOSE 8082
 CMD ["./main"]

@@ -33,13 +33,37 @@ services:
       # - es
     ports:
       - "${BACK_PORT}:8081"
-      - "${GRPC_PORT}:${GRPC_PORT}"
+      # - "${GRPC_PORT}:${GRPC_PORT}"
     volumes:
       - ./backend:/app
     environment:
       - TZ=GMT-5
     env_file:
       - .env.cb-back
+    networks:
+      - cb-net
+
+  back-grpc:
+    build:
+      context: .
+      dockerfile: back-grpc/Dockerfile
+      target: ${STAGE}
+    image: ${GRPC_IMAGE}
+    hostname: ${GRPC_HOST}
+    expose:
+      - "${GRPC_GW_PORT}"
+      - "${GRPC_PORT}"
+    ports:
+      - "${GRPC_PORT}:${GRPC_PORT}"
+      - "${GRPC_GW_PORT}:${GRPC_GW_PORT}"
+    volumes:
+      - ./back-grpc:/app
+    environment:
+      - TZ=GMT-5
+    env_file:
+      - .env.cb-back-grpc
+    depends_on:
+      - redis
     networks:
       - cb-net
 
@@ -68,11 +92,25 @@ services:
     image: nats-streaming:alpine3.18
     restart: always
     hostname: ${NATS_HOST}
+    volumes:
+      - nats-data:/data
+    networks:
+      - cb-net
+  redis:
+    image: redis:7-alpine
+    restart: always
+    hostname: ${REDIS_HOST}
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
     networks:
       - cb-net
 
 volumes:
-  es:
+  redis-data:
+    driver: local
+  nats-data:
     driver: local
 
 networks:

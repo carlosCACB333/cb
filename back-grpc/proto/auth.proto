@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package pb;
+
+import "user.proto";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/carlosCACB333/cb-grpc/pb";
+
+message SignupReq{
+    string username  =2;
+    string firstName =3;
+    string lastName  =4;
+    string email     =5;
+    string gender    =6;
+    string password  =7;
+    string photo     =8;
+    string phone     =9;
+}
+
+message Session{
+    string  id         =1;
+    string   userId    =2;  
+    string token       =3;
+    string userAgent   =4;
+    string  ip         =5; 
+    google.protobuf.Timestamp ExpiresAt  =6;
+    bool isBlocked   =7;
+    google.protobuf.Timestamp  createdAt  =8;
+    google.protobuf.Timestamp  updatedAt  =9;
+}
+
+message SignupRes{
+    User user =1;
+}
+
+message LoginReq{
+    string email    =1;
+    string password =2;
+}
+
+message LoginRes{
+    User user    =1;
+    Session session =2;
+}
+
+service AuthService{
+    rpc Signup(SignupReq) returns (SignupRes){
+        option (google.api.http) = {
+            post: "/api/v1/auth/signup"
+            body: "*"
+        };
+    };
+    rpc Login(LoginReq) returns (LoginRes){
+        option (google.api.http) = {
+            post: "/api/v1/auth/login"
+            body: "*"
+        };
+    };
+}

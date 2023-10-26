@@ -41,4 +41,5 @@ ENV STAGE=production
 COPY --from=builder /app/main .
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/view ./view
+EXPOSE 8081
 CMD ["./main"]

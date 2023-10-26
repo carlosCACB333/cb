@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/carlosCACB333/cb-grpc/pb";
+
+
+message Tag{
+    string id = 1;
+    string name = 2;
+    string icon = 3;
+    google.protobuf.Timestamp createdAt = 4;
+    google.protobuf.Timestamp updatedAt = 5;
+}
+
+message Category{
+    string id = 1;
+    string Slug = 2;
+    string name = 3;
+    string Detail=4; 
+    string Img   =5;
+    string icon = 6;
+    google.protobuf.Timestamp createdAt = 7;
+    google.protobuf.Timestamp updatedAt = 8;
+    
+}
+
+message Post{
+    string id = 1;
+    string slug = 2;   
+    string title =3;    
+    string summary =4;  
+    string content =5;  
+    string banner =6;   
+    string authorId =7; 
+    string categoryId =8;
+    repeated Tag tags =9;  
+    Category Category =10;
+    google.protobuf.Timestamp createdAt = 11;
+    google.protobuf.Timestamp updatedAt = 12;
+}
+
+message PostReq{
+    string id = 1;
+}
+
+message PostRes{
+    Post post = 1;
+}
+
+
+message AddTagReq{
+    string postId = 1;
+    string tagId = 2;
+}
+
+message AddTagRes{
+    string status = 1;
+    int32 success = 2;
+    int32 failed = 3;
+}
+
+
+service PostService{
+    rpc Create(Post) returns (PostRes);
+    rpc Read(PostReq) returns (PostRes);
+    rpc Update(Post) returns (PostRes);
+    rpc Delete(PostReq) returns (PostRes);
+    rpc List(google.protobuf.Empty) returns (stream PostRes);
+    rpc AddTag(stream AddTagReq) returns (AddTagRes);
+}

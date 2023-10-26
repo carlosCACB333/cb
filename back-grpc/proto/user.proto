@@ -1,0 +1,23 @@
+
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/carlosCACB333/cb-grpc/pb";
+
+message User{
+    string Id       =1;
+    string Username  =2;
+    string FirstName =3;
+    string LastName  =4;
+    string Email     =5;
+    string Gender    =6;
+    string Password  =7;
+    string Photo     =8;
+    string Phone     =9;
+    string Status    =10;
+    google.protobuf.Timestamp createdAt = 11;
+    google.protobuf.Timestamp updatedAt = 12;
+ }

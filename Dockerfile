@@ -23,4 +23,5 @@ COPY --from=build /app/public ./public
 COPY --from=build /app/next.config.js ./next.config.js
 COPY --from=build /app/LICENSE ./LICENSE
 COPY --from=build /app/README.md ./README.md
+EXPOSE 3000
 CMD [ "yarn" , "start" ]

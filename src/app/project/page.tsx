@@ -9,7 +9,7 @@ import { usePagination } from "@/hooks";
 import { env } from "@/utils";
 
 const ProjectPage = () => {
-  const { data, onSearch, onChangePage } = usePagination(searchProjects, 4);
+  const { data, onSearch, onChangePage } = usePagination(searchProjects, "", 4);
 
   return (
     <div className="container mx-auto mt-20 p-6">
